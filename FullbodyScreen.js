@@ -137,11 +137,14 @@ constructor(props) {
               />
 
 
+             
               <Button
                 style={{fontSize: 18, color: 'white',fontFamily:'Exo2-Medium',paddingBottom:3}}
                 containerStyle={{width:'90%',height:50,borderRadius:6,backgroundColor:'#161718',justifyContent:'center',marginTop:35,marginLeft:'5%'}}>
                 Start Workout
               </Button>
+
+
 
 
             </View>
