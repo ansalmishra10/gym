@@ -62,7 +62,7 @@ else if(this.state.otp == GLOBAL.otp) {
 
    buttonClickListener = () => {
      this.showLoading()
- fetch('http://139.59.76.223/gym/webservices/otp', {
+ fetch('http://pumpfit.in/admin/webservices/otp', {
 method: 'POST',
 headers: {
 'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
