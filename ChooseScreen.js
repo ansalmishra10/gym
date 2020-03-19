@@ -51,7 +51,7 @@ const GLOBAL = require('./Global');
 
 
       this.showLoading()
-      fetch('http://139.59.76.223/gym/webservices/signUp', {
+      fetch('http://pumpfit.in/admin/webservices/signUp', {
         method: 'POST',
        headers: {
            'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
@@ -79,7 +79,7 @@ const GLOBAL = require('./Global');
 
 
 
-               AsyncStorage.setItem('userID', responseJson.user);
+
 
 
 

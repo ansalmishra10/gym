@@ -15,17 +15,21 @@ import {
   FlatList,
   Dimensions,
   AsyncStorage,
-
+Modal
 
 
 
   } from 'react-native';
+
 
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 const GLOBAL = require('./Global');
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PulseIndicator } from 'react-native-indicators';
+import VideoPlayer from 'react-native-video-controls';
+import NoteScreen from './NoteScreen.js';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class VideoScreen extends React.Component {
   constructor(props) {
@@ -36,12 +40,16 @@ class VideoScreen extends React.Component {
        button_two:0,
        button_three:0,
        showimage: true,
+       modalVisible: false,
+
      }
   }
 
 
 
-
+  setModalVisible=(visible)=> {
+      this.setState({modalVisible: visible});
+    }
 
   manageImageVisibility= () => {
     this.setState({ showimage: !this.state.showimage });
@@ -71,49 +79,400 @@ class VideoScreen extends React.Component {
 
   }
 
+  componentDidMount(){
+    this.setState({button_one:1})
+     alert(JSON.stringify(GLOBAL.image))
+
+  }
+
 
   render() {
+
+    if(this.state.button_two){
+      return(
+        <SafeAreaProvider>
+        <View style={{flex:1,backgroundColor:'white'}}>
+
+
+
+          <View style={{width:'100%',height:Dimensions.get('window').height/2,backgroundColor:'white'}}>
+          <VideoPlayer
+              source={{ uri:GLOBAL.video }}
+              navigator={ this.props.navigator }
+              onBack={()=>this.props.navigation.goBack()}
+          />
+          </View>
+
+
+{/*              <TouchableOpacity style={{alignSelf:'flex-end',marginTop:20,marginRight:20}}
+             onPress={this.manageImageVisibility}>
+             <Image source={(this.state.showimage) ?   require('./whitelike.png') : require('./redheart.png')}
+              style={{width:24,height:22,resizeMode:'contain'}}/>
+              </TouchableOpacity>
+
+              <Image source={require('./youtube1.png')}
+               style={{width:54,height:38,resizeMode:'contain',marginTop:110,alignSelf:'center'}}/>
+*/}
+
+{this.state.button_two ==1&&(
+
+ <View style={{flexDirection:'row',marginLeft:'5%',width:'90%',alignItems:'center',justifyContent:'space-between',marginTop:16}}>
+ <TouchableOpacity style={{flexDirection:'row',height:42,width:'48%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+
+   <Image source={require('./dolle.png')}
+    style={{width:21,height:22,resizeMode:'contain',marginLeft:8}}/>
+
+    <View style={{flexDirection:'column',marginLeft:24,textAlign:'left'}}>
+    <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'white'}}>Body Parts</Text>
+    <Text style={{fontSize:13,fontFamily:'Exo2-Regular',color:'#FFFFFF66',marginTop:-2}}>{GLOBAL.parts}</Text>
+    </View>
+ </TouchableOpacity>
+
+ <TouchableOpacity style={{flexDirection:'row',height:42,width:'48%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+
+ <Image source={require('./dumbbel.png')}
+  style={{width:24,height:13,resizeMode:'contain',marginLeft:9}}/>
+
+  <View style={{flexDirection:'column',marginLeft:24,textAlign:'left'}}>
+  <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'white'}}>You Need</Text>
+  <Text style={{fontSize:13,fontFamily:'Exo2-Regular',color:'#FFFFFF66',marginTop:-3}}>{GLOBAL.needs}</Text>
+  </View>
+
+ </TouchableOpacity>
+ </View>
+
+)}
+
+           <View style={{flexDirection:'row',marginLeft:'5%',width:'90%',alignItems:'center',justifyContent:'space-between',marginTop:25}}>
+
+
+            { this.state.button_one == 0 && (
+
+            <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#16171866',alignItems:'center',borderRadius:6}}
+            onPress={()=>this.onChangeButton1()}>
+
+               <Image source={require('./gallery.png')}
+                style={{height:16,width:16,resizeMode:'contain',marginLeft:8}} />
+
+                <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>IMAGE</Text>
+            </TouchableOpacity>
+
+            )}
+
+
+            { this.state.button_one == 1 && (
+
+              <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+
+                 <Image source={require('./gallery.png')}
+                  style={{height:16,width:16,resizeMode:'contain',marginLeft:8}} />
+
+                  <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>IMAGE</Text>
+              </TouchableOpacity>
+
+            )}
+
+
+
+
+
+            { this.state.button_two == 0 && (
+
+            <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#16171866',alignItems:'center',borderRadius:6}}
+            onPress={()=>this.onChangeButton2()}>
+
+            <Image source={require('./youtube2.png')}
+             style={{height:22,width:16,resizeMode:'contain',marginLeft:8}} />
+
+             <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>VIDEO</Text>
+
+            </TouchableOpacity>
+
+            )}
+
+            { this.state.button_two == 1 && (
+              <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+
+              <Image source={require('./youtube2.png')}
+               style={{height:22,width:16,resizeMode:'contain',marginLeft:8}} />
+
+               <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>VIDEO</Text>
+
+              </TouchableOpacity>
+            )}
+
+
+
+
+
+            { this.state.button_three == 0 && (
+            <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#16171866',alignItems:'center',borderRadius:6}}
+            onPress={()=>{ this.onChangeButton3(); }}>
+
+            <Image source={require('./note.png')}
+             style={{height:17,width:16,resizeMode:'contain',marginLeft:8}} />
+
+             <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>NOTE</Text>
+
+             </TouchableOpacity>
+
+             )}
+
+             { this.state.button_three == 1 && (
+
+               <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+
+               <Image source={require('./note.png')}
+                style={{height:17,width:16,resizeMode:'contain',marginLeft:8}} />
+
+                <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>NOTE</Text>
+
+                </TouchableOpacity>
+
+             )}
+
+
+           </View>
+{/*
+           <Button
+             style={{fontSize: 19, color: '#FFFFFF',fontFamily:'Exo2-Medium'}}
+             containerStyle={{height:50,width:'90%',borderRadius:6,backgroundColor:'#161718',justifyContent:'center',position:'absolute',left:'5%',bottom:40}}>
+             Download Video
+           </Button>
+*/}
+
+
+
+        </View>
+        </SafeAreaProvider>
+
+      )
+    }
+
+  else if(this.state.button_three){
+    return (        <SafeAreaProvider>
+              <KeyboardAwareScrollView style={{backgroundColor:'white'}}>
+
+                 <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginTop:20,width:'90%',marginLeft:'5%'}}>
+
+                   <Text style={{fontSize:17, fontFamily:'Exo2-SemiBold', color:'#242B37'}}>Instructions:</Text>
+
+                   <TouchableOpacity style={{marginRight:5}}
+                   onPress={()=> this.setModalVisible(true)}>
+                   <Image source={require('./note1.png')}
+                    style={{height:22,width:22,resizeMode:'contain'}} />
+                   </TouchableOpacity>
+
+                 </View>
+
+                 <Text style={{fontSize:16,fontFamily:'Exo2-Medium',color:'#242B3780',marginTop:10,marginLeft:'5%',width:'90%',textAlign:'left'}}>{GLOBAL.description}</Text>
+                 
+
+
+
+                 <View style={{flexDirection:'row',marginLeft:'5%',width:'90%',alignItems:'center',justifyContent:'space-between',marginTop:25, marginBottom:10}}>
+
+
+                  { this.state.button_one == 0 && (
+
+                  <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#16171866',alignItems:'center',borderRadius:6}}
+                  onPress={()=>this.onChangeButton1()}>
+
+                     <Image source={require('./gallery.png')}
+                      style={{height:16,width:16,resizeMode:'contain',marginLeft:8}} />
+
+                      <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>IMAGE</Text>
+                  </TouchableOpacity>
+
+                  )}
+
+
+                  { this.state.button_one == 1 && (
+
+                    <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+
+                       <Image source={require('./gallery.png')}
+                        style={{height:16,width:16,resizeMode:'contain',marginLeft:8}} />
+
+                        <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>IMAGE</Text>
+                    </TouchableOpacity>
+
+                  )}
+
+
+
+
+
+                  { this.state.button_two == 0 && (
+
+                  <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#16171866',alignItems:'center',borderRadius:6}}
+                  onPress={()=>this.onChangeButton2()}>
+
+                  <Image source={require('./youtube2.png')}
+                   style={{height:22,width:16,resizeMode:'contain',marginLeft:8}} />
+
+                   <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>VIDEO</Text>
+
+                  </TouchableOpacity>
+
+                  )}
+
+                  { this.state.button_two == 1 && (
+                    <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+
+                    <Image source={require('./youtube2.png')}
+                     style={{height:22,width:16,resizeMode:'contain',marginLeft:8}} />
+
+                     <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>VIDEO</Text>
+
+                    </TouchableOpacity>
+                  )}
+
+
+
+
+
+                  { this.state.button_three == 0 && (
+                  <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#16171866',alignItems:'center',borderRadius:6}}
+                  onPress={()=>{ this.onChangeButton3(); }}>
+
+                  <Image source={require('./note.png')}
+                   style={{height:17,width:16,resizeMode:'contain',marginLeft:8}} />
+
+                   <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>NOTE</Text>
+
+                   </TouchableOpacity>
+
+                   )}
+
+                   { this.state.button_three == 1 && (
+
+                     <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+
+                     <Image source={require('./note.png')}
+                      style={{height:17,width:16,resizeMode:'contain',marginLeft:8}} />
+
+                      <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#FFFFFF',marginLeft:18}}>NOTE</Text>
+
+                      </TouchableOpacity>
+
+                   )}
+
+
+                 </View>
+                 <Modal
+                         animationType="slide"
+                         transparent={true}
+                         visible={this.state.modalVisible}
+                         onRequestClose={() => {
+              //             Alert.alert('Modal has been closed.');
+                           this.setModalVisible(!this.state.modalVisible)
+                         }}>
+                         <TouchableOpacity
+                          style={{
+                                   flex: 1,
+                                   flexDirection: 'column',
+                                   justifyContent: 'center',backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                   alignItems: 'center'}}
+                          activeOpacity={1}
+                          onPressOut={() => {this.setModalVisible(false)}}
+                        >
+                         <View style={{
+
+                                   flexDirection: 'column',
+                                   justifyContent: 'center',backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                   alignItems: 'center'}}>
+                             <View style={{
+                                     width: 300,backgroundColor: 'white',
+                                     height: 300}}>
+                                     <View style={{width: '95%', margin: 10}}>
+
+                                     <TextInput
+                                       style={{fontSize:17,fontFamily:'Exo2-Medium',color:'#242B3766',width:'98%',height:'auto'}}
+                                       placeholder="Your text here…"
+                                       placeholderTextColor="#242B3766"
+                                       keyboardType="numeric"
+                                       maxLength={12}
+                                       onChangeText={(text) => this.setState({phone: text})}
+                                       value={this.state.phone}
+                                       />
+
+
+                                    <View style={{borderBottomWidth:2,borderColor:'#0000004D',width:'98%',marginTop:'63%'}}>
+                                    </View>
+
+                                    <View style={{flexDirection:'row',width:'55%',alignItems:'center',justifyContent:'space-between',marginTop:17,alignSelf:'flex-end',marginRight:6}}>
+
+                                     <Button
+                                      style={{fontSize:17,fontFamily:'Exo2-Medium',color:'#242B37'}}>
+                                      CANCEL
+                                     </Button>
+
+                                     <Button
+                                      style={{fontSize:17,fontFamily:'Exo2-Medium',color:'#242B37'}}>
+                                      CONFIRM
+                                     </Button>
+
+                                     </View>
+
+                                    </View>
+
+
+                             </View>
+
+                         </View>
+                         </TouchableOpacity>
+                       </Modal>
+
+
+
+
+
+
+
+
+              </KeyboardAwareScrollView>
+            </SafeAreaProvider>
+)
+  }
+  else{
     return(
          <SafeAreaProvider>
          <View style={{flex:1,backgroundColor:'white'}}>
-            <ImageBackground source={require('./videoimg.png')}
-             style={{width:'100%',height:Dimensions.get('window').height/2,resizeMode:'cover',backgroundColor:'yellow'}}>
 
-              <TouchableOpacity style={{alignSelf:'flex-end',marginTop:20,marginRight:20}}
-              onPress={this.manageImageVisibility}>
-              <Image source={(this.state.showimage) ?   require('./whitelike.png') : require('./redheart.png')}
-               style={{width:24,height:22,resizeMode:'contain'}}/>
-               </TouchableOpacity>
 
-               <Image source={require('./youtube1.png')}
-                style={{width:54,height:38,resizeMode:'contain',marginTop:110,alignSelf:'center'}}/>
+        <Image source={{uri: GLOBAL.image}}
+          style={{width:'100%',height:Dimensions.get('window').height/2,marginTop:20,resizeMode:'contain'}}  />
 
-            </ImageBackground>
 
-            <View style={{flexDirection:'row',marginLeft:'5%',width:'90%',alignItems:'center',justifyContent:'space-between',marginTop:16}}>
-            <TouchableOpacity style={{flexDirection:'row',height:42,width:'48%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+{this.state.button_two ==1&&(
 
-              <Image source={require('./dolle.png')}
-               style={{width:21,height:22,resizeMode:'contain',marginLeft:8}}/>
+  <View style={{flexDirection:'row',marginLeft:'5%',width:'90%',alignItems:'center',justifyContent:'space-between',marginTop:16}}>
+  <TouchableOpacity style={{flexDirection:'row',height:42,width:'48%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
 
-               <View style={{flexDirection:'column',marginLeft:24,textAlign:'left'}}>
-               <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'white'}}>Body Parts</Text>
-               <Text style={{fontSize:13,fontFamily:'Exo2-Regular',color:'#FFFFFF66',marginTop:-2}}>Abs</Text>
-               </View>
-            </TouchableOpacity>
+    <Image source={require('./dolle.png')}
+     style={{width:21,height:22,resizeMode:'contain',marginLeft:8}}/>
 
-            <TouchableOpacity style={{flexDirection:'row',height:42,width:'48%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
+     <View style={{flexDirection:'column',marginLeft:24,textAlign:'left'}}>
+     <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'white'}}>Body Parts</Text>
+     <Text style={{fontSize:13,fontFamily:'Exo2-Regular',color:'#FFFFFF66',marginTop:-2}}>Abs</Text>
+     </View>
+  </TouchableOpacity>
 
-            <Image source={require('./dumbbel.png')}
-             style={{width:24,height:13,resizeMode:'contain',marginLeft:9}}/>
+  <TouchableOpacity style={{flexDirection:'row',height:42,width:'48%',backgroundColor:'#161718',alignItems:'center',borderRadius:6}}>
 
-             <View style={{flexDirection:'column',marginLeft:24,textAlign:'left'}}>
-             <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'white'}}>You Need</Text>
-             <Text style={{fontSize:13,fontFamily:'Exo2-Regular',color:'#FFFFFF66',marginTop:-3}}>Yoga Mat</Text>
-             </View>
+  <Image source={require('./dumbbel.png')}
+   style={{width:24,height:13,resizeMode:'contain',marginLeft:9}}/>
 
-            </TouchableOpacity>
-            </View>
+   <View style={{flexDirection:'column',marginLeft:24,textAlign:'left'}}>
+   <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'white'}}>You Need</Text>
+   <Text style={{fontSize:13,fontFamily:'Exo2-Regular',color:'#FFFFFF66',marginTop:-3}}>Yoga Mat</Text>
+   </View>
+
+  </TouchableOpacity>
+  </View>
+
+)}
 
             <View style={{flexDirection:'row',marginLeft:'5%',width:'90%',alignItems:'center',justifyContent:'space-between',marginTop:25}}>
 
@@ -179,7 +538,7 @@ class VideoScreen extends React.Component {
 
              { this.state.button_three == 0 && (
              <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#16171866',alignItems:'center',borderRadius:6}}
-             onPress={()=>{ this.onChangeButton3(); this.props.navigation.navigate('NoteScreen'); }}>
+             onPress={()=>{ this.onChangeButton3(); }}>
 
              <Image source={require('./note.png')}
               style={{height:17,width:16,resizeMode:'contain',marginLeft:8}} />
@@ -205,19 +564,22 @@ class VideoScreen extends React.Component {
 
 
             </View>
-
+{/*
             <Button
               style={{fontSize: 19, color: '#FFFFFF',fontFamily:'Exo2-Medium'}}
               containerStyle={{height:50,width:'90%',borderRadius:6,backgroundColor:'#161718',justifyContent:'center',position:'absolute',left:'5%',bottom:40}}>
               Download Video
             </Button>
-
+*/}
 
 
 
          </View>
          </SafeAreaProvider>
     );
+
+  }
+
   }
 }
 

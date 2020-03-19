@@ -25,6 +25,9 @@ import {
 import React, {Component} from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'react-native-button';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
+
+
 
 class LoginScreen extends React.Component {
   constructor() {
@@ -66,7 +69,7 @@ class LoginScreen extends React.Component {
        } else {
 
          this.showLoading()
-       fetch('http://139.59.76.223/gym/webservices/signIn', {
+       fetch('http://pumpfit.in/admin/webservices/signIn', {
          method: 'POST',
         headers: {
             'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
@@ -84,12 +87,13 @@ class LoginScreen extends React.Component {
     }).then((response) => response.json())
         .then((responseJson) => {
 
-              // alert(JSON.stringify(responseJson))
+               // alert(JSON.stringify(responseJson))
               this.hideLoading()
             if (responseJson.status == true) {
                 // this.setState({result: responseJson.user_detail })
 
                 GLOBAL.user_id = responseJson.user_id
+
 
                  AsyncStorage.setItem('userID', responseJson.user_id);
 
@@ -97,7 +101,7 @@ class LoginScreen extends React.Component {
                 // AsyncStorage.setItem('name', this.state.results.name);
                 // AsyncStorage.setItem('email', this.state.results.email);
                 // AsyncStorage.setItem('mobile', this.state.results.mobile);
-                this.props.navigation.navigate('ChooseScreen')
+                this.props.navigation.navigate('Tab')
             }
             else{
                 alert('Invalid Credentials!')
@@ -109,6 +113,68 @@ class LoginScreen extends React.Component {
 
        }
 
+
+}
+
+ componentDidMount() {
+  GoogleSignin.configure({
+          //It is mandatory to call this method before attempting to call signIn()
+          scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+          // Repleace with your webClientId generated from Firebase console
+          webClientId: '197048053260-k3s5vu42tq29ph770hmrs2imi5pjm5ie.apps.googleusercontent.com',
+        });
+ }
+
+    _signIn = async () => {
+       try {
+           await GoogleSignin.hasPlayServices();
+           const userInfo = await GoogleSignin.signIn();
+           // this.socialLogin(userInfo.user.name,userInfo.user.email,userInfo.user.photo,userInfo.user.id,"Gmail")
+
+        //   this.buttonClickListeners(userInfo.user.name,userInfo.user.email,"gmail")
+         //  this.buttonClickListeners(userInfo.user.name,userInfo.user.email)
+           this.setState({ userInfo: userInfo, loggedIn: true });
+       } catch (error) {
+         alert(error.message)
+
+           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+               // user cancelled the login flow
+           } else if (error.code === statusCodes.IN_PROGRESS) {
+               // operation (f.e. sign in) is in progress already
+           } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+               // play services not available or outdated
+           } else {
+               // some other error happened
+           }
+       }
+   };
+
+
+
+ getCurrentUserInfo = async () => {
+       try {
+           const userInfo = await GoogleSignin.signInSilently();
+           this.setState({ userInfo });
+       } catch (error) {
+           if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+               // user has not signed in yet
+               this.setState({ loggedIn: false });
+           } else {
+               // some other error
+               this.setState({ loggedIn: false });
+           }
+       }
+   };
+
+     google = () =>{
+ this._signIn()
+
+ // GoogleSignin.configure({
+ //      //It is mandatory to call this method before attempting to call signIn()
+ //      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+ //      // Repleace with your webClientId generated from Firebase console
+ //      webClientId: '434572582739-ue5gl6ocljuirlibv3d5cna0c9kla5vg.apps.googleusercontent.com',
+ //    });
 
 }
 
@@ -141,7 +207,7 @@ class LoginScreen extends React.Component {
          <Button
            style={{fontSize: 16, color: 'white',fontFamily:'Exo2-SemiBold'}}
            containerStyle={{alignSelf:'flex-end',marginTop:'14%',marginRight:'5%'}}
-           onPress={()=>this.props.navigation.navigate('ChooseScreen')}>
+           onPress={()=>this.props.navigation.navigate('SupportScreen')}>
              SKIP
          </Button>
 
@@ -212,8 +278,9 @@ class LoginScreen extends React.Component {
 
           <View style={{flexDirection:'row',marginTop:17,width:'90%',marginLeft:'5%',alignItems:'center',justifyContent:'space-between'}}>
 
-            <TouchableOpacity style={{backgroundColor:'rgba(255, 255, 255, 0.3)',height:50,width:'50%',borderTopLeftRadius:10,borderBottomLeftRadius:10,justifyContent:'center',borderRightWidth:1,borderColor:'rgba(255, 255, 255, 0.4)'}}>
-             <View style={{flexDirection:'row',width:'57%',alignItems:'center',justifyContent:'space-between',alignSelf:'center',}}>
+            <TouchableOpacity style={{backgroundColor:'rgba(255, 255, 255, 0.3)',height:50,width:'50%',borderTopLeftRadius:10,borderBottomLeftRadius:10,justifyContent:'center',borderRightWidth:1,borderColor:'rgba(255, 255, 255, 0.4)'}}
+             onPress= {()=>this.google()}>
+             <View style={{flexDirection:'row',width:'57%',alignItems:'center',justifyContent:'space-between',alignSelf:'center'}}>
               <Image source={require('./google.png')}
                 style={{height:18,width:18,resizeMode:'contain'}}/>
               <Text style={{fontSize:18,fontFamily:'Exo2-SemiBold',color:'white'}}>Google</Text>

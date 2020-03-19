@@ -22,18 +22,34 @@ import {
   } from 'react-native';
 
 import React, {Component} from 'react';
+const GLOBAL = require('./Global');
 
 class SplashScreen extends React.Component {
 
 
+  getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userID')
+      if(value !== null) {
+        // value previously stored
+        GLOBAL.user_id = value
+         this.props.navigation.navigate('Tab')
+      }else{
+          this.props.navigation.navigate('StyleScreen')
+
+      }
+    } catch(e) {
+      // error reading value
+    }
+  }
 
      componentDidMount () {
 
      this.timeoutCheck = setTimeout(() => {
+       this.getData()
+    //   this.props.navigation.navigate('StyleScreen')
 
-       this.props.navigation.navigate('StyleScreen')
-
-     }, 2000);
+  }, 1000);
 
    }
 

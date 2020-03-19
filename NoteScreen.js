@@ -67,7 +67,7 @@ class NoteScreen extends React.Component {
   render(){
     return(
         <SafeAreaProvider>
-          <View style={{flex:1,backgroundColor:'white'}}>
+          <View style={{backgroundColor:'white'}}>
 
              <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginTop:20,width:'90%',marginLeft:'5%'}}>
 
@@ -85,7 +85,9 @@ class NoteScreen extends React.Component {
              <Text style={{fontSize:16,fontFamily:'Exo2-Medium',color:'#242B3780',marginTop:10,marginLeft:'5%',width:'90%',textAlign:'left'}}>Execution exhale and press the handles up until your arms are extened. Lower, while keeping the weight stack in the air for resitance throughout the entire exercise, and repeat.</Text>
 
 
-             <View style={{flexDirection:'row',marginLeft:'5%',width:'90%',alignItems:'center',justifyContent:'space-between',marginTop:26}}>
+
+
+             <View style={{flexDirection:'row',marginLeft:'5%',width:'90%',alignItems:'center',justifyContent:'space-between',marginTop:25}}>
 
 
               { this.state.button_one == 0 && (
@@ -149,7 +151,7 @@ class NoteScreen extends React.Component {
 
               { this.state.button_three == 0 && (
               <TouchableOpacity style={{flexDirection:'row',height:34,width:'31.5%',backgroundColor:'#16171866',alignItems:'center',borderRadius:6}}
-              onPress={()=>{ this.onChangeButton3(); this.props.navigation.navigate('NoteScreen'); }}>
+              onPress={()=>{ this.onChangeButton3(); }}>
 
               <Image source={require('./note.png')}
                style={{height:17,width:16,resizeMode:'contain',marginLeft:8}} />
@@ -173,8 +175,8 @@ class NoteScreen extends React.Component {
 
                )}
 
-               </View>
 
+             </View>
 
 
 

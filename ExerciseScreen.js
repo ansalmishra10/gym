@@ -26,75 +26,78 @@ import Button from 'react-native-button';
 const GLOBAL = require('./Global');
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PulseIndicator } from 'react-native-indicators';
+import VideoPlayer from 'react-native-video-controls';
 
 class ExerciseScreen extends React.Component {
+
+  
+
+
   render() {
+     var str = GLOBAL.worklevel
+      var res = str.split(",");
+
+      const renderedButtons =  res.map((b, index) => {
+         return <Button
+                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
+                containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:12}}>
+                {b}
+                </Button>
+         
+       })
+
+
+      var str2 = GLOBAL.workgrp
+      var news = str2.split(",");
+
+      const renderedButton1 =  news.map((a, index) => {
+         return <Button
+                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
+                containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:12}}>
+                {a}
+                </Button>
+         
+       }) 
+
     return(
          <SafeAreaProvider>
             <View style={{backgroundColor:'white'}}>
 
-              <ImageBackground source={require('./chinup.png')}
-               style={{width:'100%',height:Dimensions.get('window').height/2-80,resizeMode:'contain'}}>
-
-               <TouchableOpacity style={{marginTop:22,marginLeft:'3%',width:22}}>
-               <Image source={require('./backimg.png')}
-                style={{height:22,width:30}} />
-               </TouchableOpacity>
-
-
-               <TouchableOpacity style={{marginLeft:'5%',width:100,marginTop:'46%'}}>
-
-                  <Image source={require('./play.png')}
-                   style={{width:100,height:46}}/>
-
-               </TouchableOpacity>
-
-              </ImageBackground>
+              
+             <View  style={{width:'100%',height:Dimensions.get('window').height/2-80,resizeMode:'contain'}}>
+               <VideoPlayer
+                source={{ uri:GLOBAL.workvideo }}
+                navigator={ this.props.navigator }
+                onBack={()=>this.props.navigation.goBack()}
+                />
+             </View>
 
 
-              <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'#000000',marginTop:13,marginLeft:'5%'}}>Hand Walks</Text>
 
-              <Text style={{fontSize:16,fontFamily:'Exo2-Medium',color:'#00000066',marginTop:5,marginLeft:'5%'}}>30 seconds</Text>
+               
+
+
+               
+
+              
+
+              <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'#000000',marginTop:13,marginLeft:'5%'}}>{GLOBAL.workname2}</Text>
+
+              <Text style={{fontSize:16,fontFamily:'Exo2-Medium',color:'#00000066',marginTop:5,marginLeft:'5%'}}>{GLOBAL.worktime} seconds</Text>
 
               <Text style={{fontSize:20,fontFamily:'Exo2-Medium',color:'#0000004D',marginTop:18,marginLeft:'5%'}}>Level</Text>
 
-              <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',width:'76%',marginTop:16,marginLeft:'5%'}}>
-
-              <Button
-                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center'}}>
-                INTERMEDIATE
-              </Button>
-
-              <Button
-                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center'}}>
-                ADVANCED
-              </Button>
-
-              <Button
-                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center'}}>
-                BEGINNER
-              </Button>
+              <View style={{flexDirection:'row',alignItems:'center',width:'80%',marginTop:16,marginLeft:7}}>
+               {renderedButtons}
+              
 
               </View>
 
               <Text style={{fontSize:20,fontFamily:'Exo2-Medium',color:'#0000004D',marginTop:20,marginLeft:'5%'}}>Muscle groups</Text>
 
-              <View style={{flexDirection:'row',alignItems:'center',width:'55%',marginTop:16,marginLeft:'5%'}}>
+              <View style={{flexDirection:'row',alignItems:'center',width:'90%',marginTop:16,marginLeft:7}}>
 
-              <Button
-                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center'}}>
-                TRICEPS
-              </Button>
-
-              <Button
-                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:11}}>
-                CHEST
-              </Button>
+                {renderedButton1}
 
               </View>
 
@@ -103,12 +106,13 @@ class ExerciseScreen extends React.Component {
               <Button
                 style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
                 containerStyle={{width:128,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:'5%',marginTop:16}}>
-                NO EQUIPMENT
+                {GLOBAL.workequip}
               </Button>
 
               <Button
                 style={{fontSize: 18, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:'90%',height:50,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginTop:90,marginLeft:'5%'}}>
+                containerStyle={{width:'90%',height:50,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginTop:90,marginLeft:'5%'}}
+                onPress={()=>this.props.navigation.goBack()}>
                 Next Exercise
               </Button>
 

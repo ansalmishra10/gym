@@ -42,6 +42,11 @@ class HomeScreen extends React.Component {
      this.setState({ is_rotated: 1 })
    }
 
+   setValue =(type) =>{
+     GLOBAL.category = type
+     this.props.navigation.navigate('PartScreen')
+   }
+
    onChange2=()=> {
     this.setState({ is_rotated: 0 })
    }
@@ -49,16 +54,39 @@ class HomeScreen extends React.Component {
     render() {
     return(
 
-         <SafeAreaProvider>
+      <SafeAreaProvider>
+                      
+
+                      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',justifyContent:'space-between'}}>
+
+
+
+                          <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:'Exo2-Bold',fontSize: 18,marginLeft:30}}>
+                            Home
+                          </Text>
+
+
+                          <View>
+                          <TouchableOpacity onPress= {()=>this.props.navigation.navigate('PremiumScreen')}>
+                              <Image
+                                  source={require('./prem.png')}
+                                  style={{width: 120, height: 40,marginLeft:20,marginTop:12,resizeMode:'contain'}}
+
+
+                              />
+                          </TouchableOpacity>
+                          </View>
+
+                      </View>
 
      { this.state.is_rotated == 0 && (
 
-         <View style={{flex:1,backgroundColor:'white'}}>
+         <View style={{backgroundColor:'white'}}>
 
 
 
 
-            <Image style={{width:'80%',height:'80%',marginTop:'10%',marginLeft:'10%'}} source={require('./front.jpeg')}>
+            <Image style={{width:'80%',height:'80%',marginTop:'8%',marginLeft:'10%'}} source={require('./front.jpeg')}>
             </Image>
 
             <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:'22%', left: '28%'}}/>
@@ -67,7 +95,7 @@ class HomeScreen extends React.Component {
             </View>
 
             <TouchableOpacity style={{position:'absolute',top:'21.3%',left:'6%'}}
-            onPress={()=> this.props.navigation.navigate('PartScreen')}>
+            onPress={()=> this.setValue('Shoulders')}>
             <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Shoulders</Text>
             </TouchableOpacity>
 
@@ -76,7 +104,8 @@ class HomeScreen extends React.Component {
             <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'33.8%',borderRadius:1,position:'absolute',top:'26.7%',left: '6%'}}>
             </View>
 
-            <TouchableOpacity style={{position:'absolute',top:'24.4%',left:'6%'}}>
+            <TouchableOpacity style={{position:'absolute',top:'24.4%',left:'6%'}}
+            onPress={()=> this.setValue('Chest')}>
             <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Chest</Text>
             </TouchableOpacity>
 
@@ -85,7 +114,8 @@ class HomeScreen extends React.Component {
             <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'23.8%',borderRadius:1,position:'absolute',top:'30.7%',right: '6%'}}>
             </View>
 
-            <TouchableOpacity style={{position:'absolute',top:'28.4%',right:'6%'}}>
+            <TouchableOpacity style={{position:'absolute',top:'28.4%',right:'6%'}}
+      onPress={()=> this.setValue('Biceps')}>
             <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Biceps</Text>
             </TouchableOpacity>
 
@@ -95,7 +125,8 @@ class HomeScreen extends React.Component {
             <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'21%',borderRadius:1,position:'absolute',top:'37.7%',left: '6%'}}>
             </View>
 
-            <TouchableOpacity style={{position:'absolute',top:'35.5%',left:'6%'}}>
+            <TouchableOpacity style={{position:'absolute',top:'35.5%',left:'6%'}}
+                onPress={()=> this.setValue('Forearm')}>
             <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Forearm</Text>
             </TouchableOpacity>
 
@@ -104,7 +135,8 @@ class HomeScreen extends React.Component {
             <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'38.6%',borderRadius:1,position:'absolute',top:'35.7%',right: '6%'}}>
             </View>
 
-            <TouchableOpacity style={{position:'absolute',top:'33.4%',right:'6%'}}>
+            <TouchableOpacity style={{position:'absolute',top:'33.4%',right:'6%'}}
+              onPress={()=> this.setValue('Abs')}>
             <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Abs</Text>
             </TouchableOpacity>
 
@@ -113,7 +145,8 @@ class HomeScreen extends React.Component {
             <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'33.7%',borderRadius:1,position:'absolute',top:'41.8%',left: '6%'}}>
             </View>
 
-            <TouchableOpacity style={{position:'absolute',top:'39.6%',left:'6%'}}>
+            <TouchableOpacity style={{position:'absolute',top:'39.6%',left:'6%'}}
+                  onPress={()=> this.setValue('Obliques')}>
             <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Obliques</Text>
             </TouchableOpacity>
 
@@ -123,33 +156,28 @@ class HomeScreen extends React.Component {
             </View>
 
 
-              <TouchableOpacity style={{position:'absolute',top:'50.4%',left:'6%'}}>
+              <TouchableOpacity style={{position:'absolute',top:'50.4%',left:'6%'}}
+                    onPress={()=> this.setValue('Quads')}>
               <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Quads</Text>
               </TouchableOpacity>
 
 
 
-            <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:'52%', right: '32%'}}/>
-
-            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'28%',borderRadius:1,position:'absolute',top:'53.7%',right: '6%'}}>
-            </View>
-
-            <TouchableOpacity style={{position:'absolute',top:'51.5%',right:'6%'}}>
-            <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Abductors</Text>
-            </TouchableOpacity>
+            
 
             <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:'56%', right: '42%'}}/>
 
             <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'37.8%',borderRadius:1,position:'absolute',top:'57.7%',right: '6%'}}>
             </View>
 
-            <TouchableOpacity style={{position:'absolute',top:'55.5%',right:'6%'}}>
+            <TouchableOpacity style={{position:'absolute',top:'55.5%',right:'6%'}}
+                    onPress={()=> this.setValue('Abductors')}>
             <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Abductors</Text>
             </TouchableOpacity>
 
 
 
-            <TouchableOpacity style={{alignSelf:'flex-end',marginTop:20,marginRight:32}}
+            <TouchableOpacity style={{alignSelf:'flex-end',marginRight:32}}
             onPress={()=>this.onChange()}>
              <Image source={require('./rotate.png')}
              style={{width:70,height:70,resizeMode:'contain'}}/>
@@ -167,9 +195,9 @@ class HomeScreen extends React.Component {
 
          { this.state.is_rotated == 1 && (
 
-           <View style={{flex:1,backgroundColor:'white'}}>
+           <View style={{backgroundColor:'white'}}>
 
-           <Image style={{width:'80%',height:'80%',marginTop:'10%',marginLeft:'10%'}} source={require('./back.jpeg')}>
+           <Image style={{width:'80%',height:'80%',marginTop:'7%',marginLeft:'10%'}} source={require('./back.jpeg')}>
            </Image>
 
            <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:'21.5%', left: '36%'}}/>
@@ -178,7 +206,7 @@ class HomeScreen extends React.Component {
            </View>
 
            <TouchableOpacity style={{position:'absolute',top:'21%',left:'6%'}}
-           onPress={()=> this.props.navigation.navigate('PartScreen')}>
+                    onPress={()=> this.setValue('Traps')}>
            <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Traps</Text>
            </TouchableOpacity>
 
@@ -187,7 +215,8 @@ class HomeScreen extends React.Component {
            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'25.8%',borderRadius:1,position:'absolute',top:'32.7%',left: '6%'}}>
            </View>
 
-           <TouchableOpacity style={{position:'absolute',top:'30.4%',left:'6%'}}>
+           <TouchableOpacity style={{position:'absolute',top:'30.4%',left:'6%'}}
+                          onPress={()=> this.setValue('Triceps')}>
            <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Triceps</Text>
            </TouchableOpacity>
 
@@ -196,7 +225,8 @@ class HomeScreen extends React.Component {
            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'29.5%',borderRadius:1,position:'absolute',top:'29.8%',right: '6%'}}>
            </View>
 
-           <TouchableOpacity style={{position:'absolute',top:'27.5%',right:'6%'}}>
+           <TouchableOpacity style={{position:'absolute',top:'27.5%',right:'6%'}}
+                    onPress={()=> this.setValue('Lats')}>
            <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Lats</Text>
            </TouchableOpacity>
 
@@ -208,7 +238,8 @@ class HomeScreen extends React.Component {
            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'39.4%',borderRadius:1,position:'absolute',top:'40.9%',right: '6%'}}>
            </View>
 
-           <TouchableOpacity style={{position:'absolute',top:'38.6%',right:'6%'}}>
+           <TouchableOpacity style={{position:'absolute',top:'38.6%',right:'6%'}}
+                onPress={()=> this.setValue('Lower Back')}>
            <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Lower Back</Text>
            </TouchableOpacity>
 
@@ -217,7 +248,8 @@ class HomeScreen extends React.Component {
            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'35.7%',borderRadius:1,position:'absolute',top:'57.7%',left: '6%'}}>
            </View>
 
-           <TouchableOpacity style={{position:'absolute',top:'55.4%',left:'6%'}}>
+           <TouchableOpacity style={{position:'absolute',top:'55.4%',left:'6%'}}
+                  onPress={()=> this.setValue('Hamstrings')}>
            <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Hamstrings</Text>
            </TouchableOpacity>
 
@@ -227,7 +259,8 @@ class HomeScreen extends React.Component {
            </View>
 
 
-             <TouchableOpacity style={{position:'absolute',top:'66.5%',left:'6%'}}>
+             <TouchableOpacity style={{position:'absolute',top:'66.5%',left:'6%'}}
+                  onPress={()=> this.props.navigation.navigate('PartScreen',"Calves")}>
              <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Calves</Text>
              </TouchableOpacity>
 
@@ -238,7 +271,8 @@ class HomeScreen extends React.Component {
            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'31.8%',borderRadius:1,position:'absolute',top:'48.8%',right: '6%'}}>
            </View>
 
-           <TouchableOpacity style={{position:'absolute',top:'46.6%',right:'6%'}}>
+           <TouchableOpacity style={{position:'absolute',top:'46.6%',right:'6%'}}
+                    onPress={()=> this.setValue('Glutes')}>
            <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Glutes</Text>
            </TouchableOpacity>
 
@@ -266,3 +300,32 @@ class HomeScreen extends React.Component {
 
 
 export default HomeScreen;
+const styles = StyleSheet.create({
+
+    container: {
+        flex:1,
+        backgroundColor :'white',
+
+    },
+    containers: {
+
+        backgroundColor :'white'
+    },
+    AndroidSafeArea: {
+       flex: 0,
+       backgroundColor:'black',
+       paddingTop: Platform.OS === "android" ? 0 : 0
+   },
+    loading: {
+        position: 'absolute',
+        left: window.width/2 - 30,
+
+        top: window.height/2,
+
+        opacity: 0.5,
+
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+})

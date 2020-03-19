@@ -26,56 +26,40 @@ import Button from 'react-native-button';
 const GLOBAL = require('./Global');
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PulseIndicator } from 'react-native-indicators';
+import Header from 'react-native-custom-headers';
 
 class LibraryScreen extends React.Component {
   constructor(props) {
     super(props)
      this.state={
        search:'',
-       FlatListItems: [
-    {"key": "#1",
-     "add": "BEGINNER",
-     "add2": "Pullover Technique Guide",
-     "add3": require('./thmb1.png'),
-     "image_type": 1,
-     "add4": require('./memlock.png'),
-    },
-    {"key": "#2",
-     "add": "BEGINNER",
-     "add2": "Handstand Technique Guide",
-     "add3": require('./thmb2.png'),
-     "image_type": 0,
-
-    },
-    {"key": "#3",
-     "add": "INTERMEDIATE",
-     "add2": "Muscle Up Technique Guide",
-     "add3": require('./thmb3.png'),
-     "image_type": 1,
-     "add4": require('./memlock.png'),
-    },
-    {"key": "#4",
-     "add": "INTERMEDIATE",
-     "add2": "Handstand Press",
-     "add3": require('./thmb4.png'),
-     "image_type": 0,
-
-    },
-
-
-
-  ],
+       FlatListItems: GLOBAL.packageall,
 }
   }
 
+  componentDidMount() {
+    // alert(JSON.stringify(this.state.FlatListItems))
+  }
+
+  navigate=(id, no_of_week)=> {
+  GLOBAL.weeks = no_of_week
+  GLOBAL.package_id = id
+   this.props.navigation.navigate('WeekScreen')
+  // console.log(GLOBAL.weeks)
+
+}
+
+
   renderItem=({item}) => {
+    console.log(item.no_of_week)
 return(
   <TouchableOpacity style={{width:'90%',marginTop:20,marginLeft:'5%'}}
-  onPress={()=>this.props.navigation.navigate('ExerciseScreen')}>
+   onPress={()=>this.navigate(item.id, item.no_of_week)}>
 
-    {item.image_type==1 && (
-     <ImageBackground source={item.add3}
-      style={{width:'100%',height:150,borderRadius:10}}>
+    {item.payment_status=='Paid' && (
+     <ImageBackground source={{uri: item.image}}
+      style={{width:'100%',height:150}}
+      imageStyle={{ borderRadius: 10 }}>
 
 
       <View style={{flexDirection:'row',width:'90%',marginLeft:'5%',marginTop:20,alignItems:'center',justifyContent:'space-between'}}>
@@ -83,36 +67,37 @@ return(
       <Button
         style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
         containerStyle={{width:78,height:24,borderRadius:3,backgroundColor:'white',justifyContent:'center'}}>
-        {item.add}
+        {item.package_type}
       </Button>
 
-      <Image source={ item.add4}
+      <Image source={require('./memlock.png')}
        style={{width:19,height:25}}/>
       </View>
 
-      <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'white',marginLeft:'5%',marginTop:40}}>{item.add2}</Text>
+      <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'white',marginLeft:'5.2%',marginTop:40}}>{item.package_name}</Text>
 
      </ImageBackground>
 
      )}
 
-     {item.image_type==0 && (
+     {item.payment_status=='Free' && (
 
-       <ImageBackground source={item.add3}
-        style={{width:'100%',height:150,borderRadius:10}}>
+       <ImageBackground source={{uri: item.image}}
+        style={{width:'100%',height:150,resizeMode:'contain'}}
+        imageStyle={{ borderRadius: 10 }}>
 
 
 
         <Button
           style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
           containerStyle={{width:78,height:24,borderRadius:3,backgroundColor:'white',justifyContent:'center',marginLeft:'5%',marginTop:20}}>
-          {item.add}
+          {item.package_type}
         </Button>
 
 
 
 
-        <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'white',marginLeft:'5%',marginTop:40}}>{item.add2}</Text>
+        <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'white',marginLeft:'5%',marginTop:40}}>{item.package_name}</Text>
 
        </ImageBackground>
 
@@ -132,6 +117,14 @@ _keyExtractor=(item, index)=>item.key;
   render() {
     return(
           <SafeAreaProvider>
+
+          <Header navigation={this.props.navigation}
+          showHeaderImage={false}
+          headerColor ={'#161718'}
+          backImagePath={require('./arrowlogo2.png')}
+          headerName={GLOBAL.maintitle}
+          headerTextStyle={{fontFamily:'Gilroy-Bold', color:'white',marginLeft:10}} />
+          
             <View style={{flex:1,backgroundColor:'white'}}>
 
             <View style={{flexDirection:'row',width:'90%',marginLeft:'5%',marginTop:29,alignItems:'center',justifyContent:'space-between'}}>

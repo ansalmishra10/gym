@@ -7,7 +7,7 @@
  */
  import 'react-native-gesture-handler';
  import React, {Component} from 'react';
- import {Platform, StyleSheet, Text, View} from 'react-native';
+ import {Platform, StyleSheet, Text, View, StatusBar} from 'react-native';
  import AppNavigator from './Navigator.js';
 
 
@@ -28,7 +28,10 @@
   render() {
    //StatusBar.setBarStyle('light-content', true);
     return (
+<>
+      <StatusBar backgroundColor="black" barStyle="light-content" />
         <AppNavigator/>
+        </>
     );
   }
  }

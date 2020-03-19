@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SplashScreen from './SplashScreen.js';
 import StyleScreen from './StyleScreen.js';
 import LoginScreen from './LoginScreen.js';
@@ -10,15 +11,98 @@ import SignupScreen from './SignupScreen.js';
 import ChooseScreen from './ChooseScreen.js';
 import PremiumScreen from './PremiumScreen.js';
 import SettingScreen from './SettingScreen.js';
+import HomeScreen from './HomeScreen.js';
+import ProfileScreen from './ProfileScreen.js';
+import EditScreen from './EditScreen.js';
+import PartScreen from './PartScreen.js';
+import VideoScreen from './VideoScreen.js';
+import NoteScreen from './NoteScreen.js';
+import WeekScreen from './WeekScreen.js';
+import WorkScreen from './WorkScreen.js';
+import FullbodyScreen from './FullbodyScreen.js';
+import ExerciseScreen from './ExerciseScreen.js';
+import LibraryScreen from './LibraryScreen.js';
+import ProgramScreen from './ProgramScreen.js';
+import MainScreen from './MainScreen.js';
+import SupportScreen from './SupportScreen.js';
+import FavouriteScreen from './FavouriteScreen.js';
+import Allexercises from './Allexercises.js';
+import PrivacyScreen from './PrivacyScreen.js';
+import AboutScreen from './AboutScreen.js';
+import TcScreen from './TcScreen.js';
+
+
+
+const Tab = createBottomTabNavigator();
+
+function Tabs() {
+  return (
+
+      <Tab.Navigator
+      screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'EXPLORE') {
+              iconName = focused
+              ? require('./explore.png')
+              : require('./explore1.png')
+            } else if(route.name === 'WORKOUT'){
+              iconName = focused
+              ? require('./gym.png')
+              : require('./gym1.png')
+            } else if(route.name === 'FAVOURITE'){
+              iconName = focused
+              ? require('./heart.png')
+              : require('./heart1.png')
+            } else if(route.name === 'SETTINGS'){
+              iconName = focused
+              ? require('./settings.png')
+              : require('./settings1.png')
+            }
+
+
+            // You can return any component that you like here!
+            return<Image
+                            source={iconName}
+                            style={{height:20, width:20, resizeMode:'contain'}}
+                        />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'white',
+          inactiveTintColor: 'gray',
+          activeBackgroundColor :'black',
+          inactiveBackgroundColor :'black',
+          tabStyle: {
+              marginTop:-10
+          },
+          labelStyle: {
+             fontSize:10,paddingBottom:10,margin:-2,fontFamily:'Exo2-Medium'
+          },
+          
+
+        }}
+      >
+        <Tab.Screen name="EXPLORE" component={HomeScreen} />
+        <Tab.Screen name="WORKOUT" component={ProgramScreen} />
+        <Tab.Screen name="FAVOURITE" component={FavouriteScreen} />
+        <Tab.Screen name="SETTINGS" component={SettingScreen} />
+
+      </Tab.Navigator>
+
+  );
+}
 
 
 const Stack = createStackNavigator();
-
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+
+
         <Stack.Screen
         name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="StyleScreen" component={StyleScreen} />
@@ -28,7 +112,32 @@ function App() {
         <Stack.Screen name="ChooseScreen" component={ChooseScreen} />
         <Stack.Screen name="PremiumScreen" component={PremiumScreen} />
         <Stack.Screen name="SettingScreen" component={SettingScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Stack.Screen name="EditScreen" component={EditScreen} />
+        <Stack.Screen name="PartScreen" component={PartScreen} />
+        <Stack.Screen name="VideoScreen" component={VideoScreen} />
+
+        <Stack.Screen name="NoteScreen" component={NoteScreen} />
+        <Stack.Screen name="WeekScreen" component={WeekScreen} />
+        <Stack.Screen name="WorkScreen" component={WorkScreen} />
+        <Stack.Screen name="FullbodyScreen" component={FullbodyScreen} />
+        <Stack.Screen name="ExerciseScreen" component={ExerciseScreen} />
+        <Stack.Screen name="LibraryScreen" component={LibraryScreen} />
+        <Stack.Screen name="ProgramScreen" component={ProgramScreen} />
+        <Stack.Screen name="MainScreen" component={MainScreen} />
+        <Stack.Screen name="SupportScreen" component={SupportScreen} />
+        <Stack.Screen name="Allexercises" component={Allexercises} />
+        <Stack.Screen name="FavouriteScreen" component={FavouriteScreen} />
+        <Stack.Screen name="PrivacyScreen" component={PrivacyScreen} />
+        <Stack.Screen name="AboutScreen" component={AboutScreen} />
+        <Stack.Screen name="TcScreen" component={TcScreen} />
+        <Stack.Screen name="Tab" component={Tabs} />
+
       </Stack.Navigator>
+
+
+
     </NavigationContainer>
   );
 }
