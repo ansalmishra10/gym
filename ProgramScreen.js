@@ -20,14 +20,14 @@ import {
 
 
   } from 'react-native';
-
+import RazorpayCheckout from 'react-native-razorpay';
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 const GLOBAL = require('./Global');
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PulseIndicator } from 'react-native-indicators';
 import Header from 'react-native-custom-headers';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 class ProgramScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -35,8 +35,9 @@ class ProgramScreen extends React.Component {
 
        FlatListItems: [],
        loading:'',
+       image:'',
 
-  
+
 }
   }
 
@@ -48,13 +49,6 @@ class ProgramScreen extends React.Component {
     this.setState({loading: false})
    }
 
-   navigate2=(title, all_package)=> {
-   GLOBAL.maintitle = title
-   GLOBAL.packageall = all_package
-   this.props.navigation.navigate('LibraryScreen')
-
-   }
-
 
   renderItem=({item}) => {
 return(
@@ -62,23 +56,23 @@ return(
 
     <View>
 
-         <View style={{flexDirection:'row',width:'90%',marginTop:12,marginLeft:'5%',alignItems:'center',justifyContent:'space-between'}}>
+         <View style={{flexDirection:'row',width:'92%',marginTop:12,marginLeft:'4%',alignItems:'center',justifyContent:'space-between'}}>
 
             <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718'}}>{item.title}</Text>
 
             <Button
-              style={{fontSize: 12, color: '#161718',fontFamily:'Exo2-Medium'}}
-              onPress={()=>this.navigate2(item.title, item.all_package)}>
-              View All
-            </Button>
+             style={{fontSize: 12, color: '#161718',fontFamily:'Exo2-Medium'}}
+             onPress={()=>this.navigate2(item.title, item.all_package)}>
+             View All
+           </Button>
 
             </View>
 
 
-    
 
-    
-            <View style={{marginLeft:10,marginTop:5}}>
+
+
+            <View style={{marginLeft:'3%',marginTop:12}}>
              <FlatList
               data={item.all_package}
               horizontal={true}
@@ -86,30 +80,87 @@ return(
               keyExtractor={this._keyExtractor2}
               renderItem={this.renderItem2}
               />
-             </View> 
+             </View>
    </View>
 </>
 
  )
 }
 
+
+navigate2=(title, all_package)=> {
+  // alert(JSON.stringify(all_package))
+
+   GLOBAL.maintitle = title
+   GLOBAL.packageall = all_package
+   this.props.navigation.navigate('LibraryScreen')
+
+   }
+
 _keyExtractor=(item, index)=>item.key;
 
-navigate=(no_of_week, id)=> {
+navigate=(no_of_week, id,item)=> {
   GLOBAL.weeks = no_of_week
   GLOBAL.package_id = id
-  this.props.navigation.navigate('WeekScreen')
+  GLOBAL.getPack = item
+  this.props.navigation.navigate('NewSubscription')
 
 }
 
 
+
+
+access = (item) =>{
+//  alert(JSON.stringify(item))
+
+var amount = parseInt(item.amount) * 100
+
+var d = `Order_Package_${GLOBAL.user_id}_${item.id}`
+
+   console.log(d)
+  var options = {
+      description: d,
+image: item.image,
+      currency: 'INR',
+      key: 'rzp_test_9FNVaaXL2WKZMI',
+      amount:amount,
+
+
+      name: 'varun',
+      prefill: {
+          email: 'varun.singhal78@gmail.com',
+          contact: '9896904632',
+          name: 'varun'
+      },
+      theme: {color: 'black'}
+  }
+
+  RazorpayCheckout.open(options).then((data) => {
+      var a = data.razorpay_payment_id
+      this.props.navigation.navigate('Thankyou')
+    //  this.capture(a,b,id);
+
+
+
+  }).catch((error) => {
+      // handle failure
+     // this.myPayments(s,error.description,'')
+
+  });
+  RazorpayCheckout.onExternalWalletSelection(data => {
+
+
+
+  });
+
+}
 renderItem2=({item}) => {
 return(
- 
-<> 
-{ item.payment_status== 'Free' && (
+
+<>
+
 <TouchableOpacity
-onPress={()=>this.navigate(item.no_of_week,item.id)}>
+onPress={()=>this.navigate(item.no_of_week,item.id,item)}>
  <ImageBackground source={{uri:item.image}}
   style={{width:220,height:120}}
   imageStyle={{ borderRadius: 10 }}>
@@ -121,8 +172,8 @@ onPress={()=>this.navigate(item.no_of_week,item.id)}>
     containerStyle={{width:76,height:23,borderRadius:3,backgroundColor:'white',justifyContent:'center'}}>
     {item.package_type}
   </Button>
-  
- 
+
+
 
   </View>
 
@@ -131,42 +182,20 @@ onPress={()=>this.navigate(item.no_of_week,item.id)}>
 
 </TouchableOpacity>
 
-)}
 
-{ item.payment_status== 'Paid' && (
-<TouchableOpacity
- onPress={()=>this.props.navigation.navigate('PremiumScreen')}>
- <ImageBackground source={{uri:item.image}}
-  style={{width:220,height:120}}>
 
-  <View style={{flexDirection:'row',width:'82%',marginLeft:'9%',marginTop:17,alignItems:'center',justifyContent:'space-between'}}>
 
-  <Button
-    style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
-    containerStyle={{width:76,height:23,borderRadius:3,backgroundColor:'white',justifyContent:'center'}}>
-    {item.package_type}
-  </Button>
-  
-  
-  <Image source={require('./memlock.png')}
-   style={{width:16,height:20,resizeMode:'contain'}}/>
-
-   
-
-  </View>
-
-  <Text style={{fontFamily:17,fontFamily:'Exo2-Medium',color:'white',marginTop:26,marginLeft:'9%',width:'75%'}}>{item.package_name}</Text>
- </ImageBackground>
-
-</TouchableOpacity>
-
-)}
  </>
 
 )
 }
 componentDidMount() {
-    
+
+
+
+
+
+     this._unsubscribe = this.props.navigation.addListener('focus', () => {
     this.showLoading()
        fetch('http://pumpfit.in/admin/webservices/getpackage', {
          method: 'POST',
@@ -180,19 +209,22 @@ componentDidMount() {
     }).then((response) => response.json())
         .then((responseJson) => {
 
-                // alert(JSON.stringify(responseJson))
+              //   alert(JSON.stringify(responseJson))
               this.hideLoading()
             if (responseJson.status == true) {
                 this.setState({FlatListItems: responseJson.workout })
-                
+                this.setState({image:responseJson.image})
+
             }
             else{
-                alert('Invalid Credentials!')
+              //  alert('Invalid Credentials!')
             }
         })
         .catch((error) => {
             console.error(error);
         });
+      }
+    )
 }
 
   _keyExtractor2=(item, index)=>item.key;
@@ -259,19 +291,41 @@ componentDidMount() {
 
   render() {
     return(
-         <SafeAreaProvider>
-          <Header navigation={this.props.navigation}
-          showHeaderImage={false}
-          headerColor ={'#161718'}
-          backImagePath={require('./arrowlogo2.png')}
-          headerName={'Workout'}
-          headerTextStyle={{fontFamily:'Gilroy-Bold', color:'white',marginLeft:10}} />
+      <SafeAreaProvider>
+                      <StatusBar backgroundColor="black" barStyle="light-content" />
+
+          <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                        <View>
+                        <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
+                            <Image
+                                source={require('./arrowlogo2.png')}
+                                style={{width: 18, height: 20,marginLeft:20,resizeMode:'contain'}}
 
 
-           <View style={{flex:1,backgroundColor:'white'}}>
+                            />
+                        </TouchableOpacity>
+                        </View>
 
-            
-            <View>
+
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                             Workout
+                        </Text>
+
+
+                        
+
+                    </View>
+
+
+
+           <KeyboardAwareScrollView style={{backgroundColor:'white'}}>
+
+           <Image
+                 source={{uri:this.state.image}}
+               style={{width: '94%', height: 200,marginTop:10,borderRadius:8,resizeMode:'cover',marginLeft:'3%'}}
+
+
+           />
             <FlatList
              data={this.state.FlatListItems}
              horizontal={false}
@@ -279,26 +333,49 @@ componentDidMount() {
              keyExtractor={this._keyExtractor}
              renderItem={this.renderItem}
              />
-             </View>
-
-
-             
-
-                <TouchableOpacity style={{marginTop:10,marginLeft:'5%',borderRadius:12}}
-                onPress={()=>this.props.navigation.navigate('MainScreen')}>
-                <ImageBackground source={require('./thmb4.png')}
-                 style={{height:147,width:355,justifyContent:'center',borderRadius:12}}>
-                 <Text style={{fontSize:24,fontFamily:'Exo2-Medium',color:'white',alignSelf:'center'}}>Exercises Library</Text>
-
-                </ImageBackground>
-                </TouchableOpacity>
 
 
 
-           </View>
+
+
+
+
+<Text style = {{height:10}}>
+</Text>
+
+           </KeyboardAwareScrollView>
          </SafeAreaProvider>
     );
   }
 }
 
 export default ProgramScreen;
+const styles = StyleSheet.create({
+
+    container: {
+        flex:1,
+        backgroundColor :'white',
+
+    },
+    containers: {
+
+        backgroundColor :'white'
+    },
+    AndroidSafeArea: {
+       flex: 0,
+       backgroundColor:'black',
+       paddingTop: Platform.OS === "android" ? 0 : 0
+   },
+    loading: {
+        position: 'absolute',
+        left: window.width/2 - 30,
+
+        top: window.height/2,
+
+        opacity: 0.5,
+
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+})

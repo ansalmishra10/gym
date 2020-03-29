@@ -20,46 +20,151 @@ import {
 
 
   } from 'react-native';
-
+import RazorpayCheckout from 'react-native-razorpay';
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 const GLOBAL = require('./Global');
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PulseIndicator } from 'react-native-indicators';
-import Header from 'react-native-custom-headers';
 
 class LibraryScreen extends React.Component {
   constructor(props) {
     super(props)
      this.state={
        search:'',
-       FlatListItems: GLOBAL.packageall,
+       FlatListItems: [
+    {"key": "#1",
+     "add": "BEGINNER",
+     "add2": "Pullover Technique Guide",
+     "add3": require('./thmb1.png'),
+     "image_type": 1,
+     "add4": require('./memlock.png'),
+    },
+    {"key": "#2",
+     "add": "BEGINNER",
+     "add2": "Handstand Technique Guide",
+     "add3": require('./thmb2.png'),
+     "image_type": 0,
+
+    },
+    {"key": "#3",
+     "add": "INTERMEDIATE",
+     "add2": "Muscle Up Technique Guide",
+     "add3": require('./thmb3.png'),
+     "image_type": 1,
+     "add4": require('./memlock.png'),
+    },
+    {"key": "#4",
+     "add": "INTERMEDIATE",
+     "add2": "Handstand Press",
+     "add3": require('./thmb4.png'),
+     "image_type": 0,
+
+    },
+
+
+
+  ],
 }
   }
 
-  componentDidMount() {
-    // alert(JSON.stringify(this.state.FlatListItems))
+
+
+  access = (item) =>{
+  //  alert(JSON.stringify(item))
+
+  var amount = parseInt(item.amount) * 100
+
+  var d = `Order_Package_${GLOBAL.user_id}_${item.id}`
+
+    var options = {
+        description: d,
+  image: item.image,
+        currency: 'INR',
+        key: 'rzp_test_9FNVaaXL2WKZMI',
+        amount:amount,
+
+
+        name: 'varun',
+        prefill: {
+            email: 'varun.singhal78@gmail.com',
+            contact: '9896904632',
+            name: 'varun'
+        },
+        theme: {color: 'black'}
+    }
+
+    RazorpayCheckout.open(options).then((data) => {
+        var a = data.razorpay_payment_id
+        this.props.navigation.navigate('Thankyou')
+      //  this.capture(a,b,id);
+
+
+
+    }).catch((error) => {
+        // handle failure
+       // this.myPayments(s,error.description,'')
+
+    });
+    RazorpayCheckout.onExternalWalletSelection(data => {
+
+
+
+    });
+
+
   }
 
-  navigate=(id, no_of_week)=> {
-  GLOBAL.weeks = no_of_week
-  GLOBAL.package_id = id
-   this.props.navigation.navigate('WeekScreen')
-  // console.log(GLOBAL.weeks)
-
-}
+  navigates=(no_of_week, id,item)=> {
+    GLOBAL.weeks = no_of_week
+    GLOBAL.package_id = id
+    GLOBAL.getPack = item
+    this.props.navigation.navigate('NewSubscription')
 
 
+  }
+  renderItem2=({item}) => {
+  return(
+
+  <>
+
+  <TouchableOpacity
+  onPress={()=>this.navigates(item.no_of_week,item.id,item)}>
+   <ImageBackground source={{uri:item.image,}}
+    style={{width:'96%',height:220,marginLeft:15}}
+    imageStyle={{borderRadius:12}}>
+
+    <View style={{flexDirection:'row',width:'82%',marginLeft:'9%',marginTop:17,alignItems:'center',justifyContent:'space-between'}}>
+
+    <Button
+      style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
+      containerStyle={{width:76,height:23,borderRadius:3,backgroundColor:'white',justifyContent:'center'}}>
+      {item.package_type}
+    </Button>
+
+
+
+    </View>
+
+    <Text style={{fontFamily:17,fontFamily:'Exo2-Medium',color:'white',marginTop:26,marginLeft:'9%',width:'75%'}}>{item.package_name}</Text>
+   </ImageBackground>
+
+  </TouchableOpacity>
+
+
+   </>
+
+  )
+  }
   renderItem=({item}) => {
-    console.log(item.no_of_week)
 return(
   <TouchableOpacity style={{width:'90%',marginTop:20,marginLeft:'5%'}}
-   onPress={()=>this.navigate(item.id, item.no_of_week)}>
+  onPress={()=>this.props.navigation.navigate('ExerciseScreen')}>
 
-    {item.payment_status=='Paid' && (
-     <ImageBackground source={{uri: item.image}}
+    {item.image_type==1 && (
+     <ImageBackground source={item.add3}
       style={{width:'100%',height:150}}
-      imageStyle={{ borderRadius: 10 }}>
+      imageStyle={{borderRadius:10}}>
 
 
       <View style={{flexDirection:'row',width:'90%',marginLeft:'5%',marginTop:20,alignItems:'center',justifyContent:'space-between'}}>
@@ -67,37 +172,36 @@ return(
       <Button
         style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
         containerStyle={{width:78,height:24,borderRadius:3,backgroundColor:'white',justifyContent:'center'}}>
-        {item.package_type}
+        {item.add}
       </Button>
 
-      <Image source={require('./memlock.png')}
+      <Image source={ item.add4}
        style={{width:19,height:25}}/>
       </View>
 
-      <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'white',marginLeft:'5.2%',marginTop:40}}>{item.package_name}</Text>
+      <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'white',marginLeft:'5%',marginTop:40}}>{item.add2}</Text>
 
      </ImageBackground>
 
      )}
 
-     {item.payment_status=='Free' && (
+     {item.image_type==0 && (
 
-       <ImageBackground source={{uri: item.image}}
-        style={{width:'100%',height:150,resizeMode:'contain'}}
-        imageStyle={{ borderRadius: 10 }}>
+       <ImageBackground source={item.add3}
+        style={{width:'100%',height:150,borderRadius:10}}>
 
 
 
         <Button
           style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
           containerStyle={{width:78,height:24,borderRadius:3,backgroundColor:'white',justifyContent:'center',marginLeft:'5%',marginTop:20}}>
-          {item.package_type}
+          {item.add}
         </Button>
 
 
 
 
-        <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'white',marginLeft:'5%',marginTop:40}}>{item.package_name}</Text>
+        <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'white',marginLeft:'5%',marginTop:40}}>{item.add2}</Text>
 
        </ImageBackground>
 
@@ -115,57 +219,57 @@ return(
 _keyExtractor=(item, index)=>item.key;
 
   render() {
+    
     return(
-          <SafeAreaProvider>
+      <SafeAreaProvider>
+                      <StatusBar backgroundColor="black" barStyle="light-content" />
 
-          <Header navigation={this.props.navigation}
-          showHeaderImage={false}
-          headerColor ={'#161718'}
-          backImagePath={require('./arrowlogo2.png')}
-          headerName={GLOBAL.maintitle}
-          headerTextStyle={{fontFamily:'Gilroy-Bold', color:'white',marginLeft:10}} />
-          
-            <View style={{flex:1,backgroundColor:'white'}}>
-
-            <View style={{flexDirection:'row',width:'90%',marginLeft:'5%',marginTop:29,alignItems:'center',justifyContent:'space-between'}}>
-
-               <View style={{flexDirection:'row',width:'83%',backgroundColor:'#8E8E931F',borderRadius:10,alignItems:'center',height:36}}>
-
-                  <Image style={{height:15,width:15,resizeMode:'contain',marginLeft:9}}
-                   source={require('./search.png')} />
-
-                   <TextInput
-                     style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#23222280',width:'84%',height:36,paddingBottom:8,marginLeft:2}}
-                     placeholder="Search"
-                     placeholderTextColor="#23222280"
-
-                     maxLength={100}
-                     onChangeText={(text) => this.setState({search: text})}
-                     value={this.state.search}
-                     />
+                      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                        <View>
+                        <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
+                            <Image
+                                source={require('./arrowlogo2.png')}
+                                style={{width: 18, height: 20,marginLeft:20,resizeMode:'contain'}}
 
 
-                    <TouchableOpacity style={{marginLeft:-2}}>
-                    <Image style={{height:17,width:17,resizeMode:'contain'}}
-                     source={require('./cross.png')} />
-                    </TouchableOpacity>
+                            />
+                        </TouchableOpacity>
+                        </View>
 
-            </View>
 
-            <Button
-              style={{fontSize: 17, color: '#161718',fontFamily:'Exo2-Regular'}}
-              containerStyle={{paddingBottom:2}}>
-              Cancel
-            </Button>
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                           {GLOBAL.maintitle}  
+                        </Text>
 
-           </View>
 
-           <FlatList
-            data={this.state.FlatListItems}
+                        
+
+                    </View>
+
+
+         <View style = {{flex:1,backgroundColor:'white'}} >
+
+         { GLOBAL.packageall== '' && (
+               
+            <Text style={{fontSize:25,fontFamily:'Exo2-Medium',color:'black',marginTop:'60%',alignSelf:'center'}}>No Data Found</Text>
+
+          )}
+
+
+          { GLOBAL.packageall != '' && (
+            
+
+           <FlatList style={{marginTop:10}}
+            data={GLOBAL.packageall}
 
             keyExtractor={this._keyExtractor}
-            renderItem={this.renderItem}
+            renderItem={this.renderItem2}
              />
+
+
+             )}
+
+
             </View>
           </SafeAreaProvider>
     );
@@ -173,3 +277,32 @@ _keyExtractor=(item, index)=>item.key;
 }
 
 export default LibraryScreen;
+const styles = StyleSheet.create({
+
+    container: {
+        flex:1,
+        backgroundColor :'white',
+
+    },
+    containers: {
+
+        backgroundColor :'white'
+    },
+    AndroidSafeArea: {
+       flex: 0,
+       backgroundColor:'black',
+       paddingTop: Platform.OS === "android" ? 0 : 0
+   },
+    loading: {
+        position: 'absolute',
+        left: window.width/2 - 30,
+
+        top: window.height/2,
+
+        opacity: 0.5,
+
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+})

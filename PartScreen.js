@@ -46,6 +46,11 @@ class PartScreen extends React.Component {
      }
    }
 
+
+   cancel=()=> {
+    this.setState({ search: '' });
+  }
+
    componentDidMount(){
      // alert(GLOBAL.category)
 
@@ -199,10 +204,10 @@ this.props.navigation.navigate('VideoScreen')
 {item.payment_status == "Free" && (
 
 
-          <View style = {{backgroundColor:'white',flexDirection:'row',borderBottomWidth: 1,
-  borderBottomColor: "#D3D3D3"}}>
-          <ImageBackground style={{height:90,width:90,borderRadius:8,marginBottom:10}}
-           source={{uri:item.image}}>
+          <View style = {{backgroundColor:'white',flexDirection:'row',height:90}}>
+          <ImageBackground style={{height:90,width:90}}
+           source={{uri:item.image}}
+           imageStyle={{borderRadius:10}}>
 
            <TouchableOpacity style={{marginLeft:70,marginTop:5}}
             onPress={()=>this.onChange(item,index)}>
@@ -228,12 +233,12 @@ this.props.navigation.navigate('VideoScreen')
 
 
           <View style={{flexDirection:'column',width:'98%'}}>
-           <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:12}}>{item.title}</Text>
+           <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:12,marginTop:5}}>{item.title}</Text>
 
-           <View style={{flexDirection:'row',marginTop:6,marginLeft:13,justifyContent:'space-between',width:'70%'}}>
+           <View style={{flexDirection:'row',marginTop:10,marginLeft:13,justifyContent:'space-between',width:'70%'}}>
 
             <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>{item.body_parts}</Text>
-            <View style = {{flexDirection:'row',width:'42%',alignItems:'center'}}>
+            <View style = {{flexDirection:'row',width:'46%',alignItems:'center'}}>
             <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>Level</Text>
 
             <View style={{margin:5}}>
@@ -345,7 +350,7 @@ this.props.navigation.navigate('VideoScreen')
    render() {
     return(
       <SafeAreaView style={styles.AndroidSafeArea}>
-                      <StatusBar backgroundColor="#639ced" barStyle="light-content" />
+                      <StatusBar backgroundColor="black" barStyle="light-content" />
 
                       <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',justifyContent:'space-between'}}>
                           <View>
@@ -372,7 +377,7 @@ this.props.navigation.navigate('VideoScreen')
                       </View>
 
 
-         <View style = {{backgroundColor:'white'}} >
+         <View style = {{height:window.height,backgroundColor:'white'}} >
 
 
 
@@ -385,7 +390,7 @@ this.props.navigation.navigate('VideoScreen')
                        source={require('./search.png')} />
 
                        <TextInput
-                         style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#23222280',width:'84%',height:36,marginLeft:2}}
+                         style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#23222280',width:'84%',height:36,marginLeft:2,paddingBottom:8}}
                          placeholder="Search"
                          placeholderTextColor="#23222280"
 
@@ -395,7 +400,8 @@ this.props.navigation.navigate('VideoScreen')
                          />
 
 
-                        <TouchableOpacity style={{marginLeft:-2}}>
+                        <TouchableOpacity style={{marginLeft:-2}}
+                        onPress={()=>this.cancel()}>
                         <Image style={{height:17,width:17,resizeMode:'contain'}}
                          source={require('./cross.png')} />
                         </TouchableOpacity>

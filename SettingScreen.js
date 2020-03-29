@@ -30,11 +30,12 @@ import React, {Component} from 'react';
 import Button from 'react-native-button';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Header from 'react-native-custom-headers';
+const GLOBAL = require('./Global');
 
 
 class SettingScreen extends React.Component {
 
-   navigateToScreen1 = (route) => () => {
+   navigateToScreen1 = (route) => {
 
         Alert.alert('Logout!','Are you sure you want to Logout?',
             [{text:"Cancel"},
@@ -49,19 +50,20 @@ class SettingScreen extends React.Component {
     _YesLogout=()=>{
 
       AsyncStorage.removeItem('userID');
+         
+       this.props.navigation.navigate('LoginScreen')   
+      // this.props
+      //       .navigation
+      //       .dispatch(StackActions.reset({
+      //           index: 0,
+      //           actions: [
+      //               NavigationActions.navigate({
+      //                   routeName: 'LoginScreen',
+      //                   params: { someParams: 'parameters goes here...' },
+      //               }),
+      //           ],
+      //       }))
 
-      this.props
-            .navigation
-            .dispatch(StackActions.reset({
-              
-                index: 0,
-                actions: [
-                    NavigationActions.navigate({
-                        routeName: 'LoginScreen',
-                        params: { someParams: 'parameters goes here...' },
-                    }),
-                ],
-            }))
     }
 
     chaloFacebook=()=> {
@@ -70,6 +72,10 @@ class SettingScreen extends React.Component {
 
     chaloInstagram=()=> {
         Linking.openURL(`@pumpfitnessapp`)
+    }
+
+    componentDidMount() {
+      console.log(GLOBAL.user_id)
     }
 
   render() {
@@ -144,7 +150,8 @@ class SettingScreen extends React.Component {
 
      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',width:'90%',marginTop:15,alignSelf:'center'}}>
 
-     <TouchableOpacity style={{flexDirection:'row',width:162,height:75,borderRadius:12,backgroundColor:'white',elevation:3,shadowColor: '#000000',shadowOpacity: 1.0,alignItems:'center'}}>
+     <TouchableOpacity style={{flexDirection:'row',width:162,height:75,borderRadius:12,backgroundColor:'white',elevation:3,shadowColor: '#000000',shadowOpacity: 1.0,alignItems:'center'}}
+     onPress={()=>this.props.navigation.navigate('Notification')}>
 
      <Image source={require('./notify.png')}
       style={{height:32,width:27,resizeMode:'contain',marginLeft:19}}/>
@@ -155,9 +162,7 @@ class SettingScreen extends React.Component {
 
 
      <TouchableOpacity style={{flexDirection:'row',width:162,height:75,borderRadius:12,backgroundColor:'white',elevation:3,shadowColor: '#000000',shadowOpacity: 1.0,alignItems:'center'}}
-     onPress={this.navigateToScreen1('LoginScreen')}
-
-     >
+     onPress={()=>this.navigateToScreen1()}>
 
      <Image source={require('./logout.png')}
       style={{height:30,width:30,resizeMode:'contain',marginLeft:18}}/>
@@ -168,7 +173,7 @@ class SettingScreen extends React.Component {
 
      </View>
 
-      <View style={{flexDirection:'row',marginTop:15,alignItems:'center',justifyContent:'space-between',width:'90%',marginTop:16,alignSelf:'center'}}>
+      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',width:'90%',marginTop:16,alignSelf:'center'}}>
 
 
       <TouchableOpacity style={{flexDirection:'row',width:162,height:75,borderRadius:12,backgroundColor:'white',elevation:3,shadowColor: '#000000',shadowOpacity: 1.0,alignItems:'center'}}
@@ -191,7 +196,24 @@ class SettingScreen extends React.Component {
 
      </TouchableOpacity>
 
+
+
       </View>
+
+      <TouchableOpacity style={{flexDirection:'row',width:162,height:75,borderRadius:12,backgroundColor:'white',elevation:3,shadowColor: '#000000',shadowOpacity: 1.0,alignItems:'center',marginTop:15,marginLeft:'5%'}}
+     onPress={()=>this.props.navigation.navigate('PasswordScreen')}>
+
+     <Image source={require('./passchanged.png')}
+      style={{height:30,width:28,resizeMode:'contain',marginLeft:17}}/>
+     
+     <View style={{flexDirection:'column',width:'60%',marginLeft:14,alignSelf:'center'}}>
+       <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#242B37'}}>Change</Text>
+       <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#242B37'}}>Password</Text>
+     </View>
+
+     </TouchableOpacity>
+
+
 
 
 

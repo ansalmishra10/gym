@@ -26,6 +26,7 @@ import React, {Component} from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'react-native-button';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
+var DeviceInfo = require('react-native-device-info');
 
 
 
@@ -78,19 +79,19 @@ class LoginScreen extends React.Component {
         body: JSON.stringify({
             mobile: this.state.phone,
             password:this.state.Password,
-            device_id: 'sdf',
+            device_id: DeviceInfo.getUniqueId(),
             device_type: Platform.OS,
-            device_token: 'dsfdsf',
-            model_name: 'sdf',
+            device_token: GLOBAL.firebaseToken,
+            model_name: 0,
 
         }),
     }).then((response) => response.json())
         .then((responseJson) => {
 
-               // alert(JSON.stringify(responseJson))
+                // alert(JSON.stringify(responseJson))
               this.hideLoading()
             if (responseJson.status == true) {
-                // this.setState({result: responseJson.user_detail })
+                 this.setState({result: responseJson.user_detail })
 
                 GLOBAL.user_id = responseJson.user_id
 
@@ -101,7 +102,7 @@ class LoginScreen extends React.Component {
                 // AsyncStorage.setItem('name', this.state.results.name);
                 // AsyncStorage.setItem('email', this.state.results.email);
                 // AsyncStorage.setItem('mobile', this.state.results.mobile);
-                this.props.navigation.navigate('Tab')
+                 this.props.navigation.navigate('Tab')
             }
             else{
                 alert('Invalid Credentials!')
@@ -206,18 +207,17 @@ class LoginScreen extends React.Component {
 
          <Button
            style={{fontSize: 16, color: 'white',fontFamily:'Exo2-SemiBold'}}
-           containerStyle={{alignSelf:'flex-end',marginTop:'14%',marginRight:'5%'}}
-           onPress={()=>this.props.navigation.navigate('SupportScreen')}>
+           containerStyle={{alignSelf:'flex-end',marginTop:'14%',marginRight:'5%'}}>
              SKIP
          </Button>
 
 
 
 
-           <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',textAlign:'center',marginTop:'33%'}}>Login to</Text>
+           <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',textAlign:'center',marginTop:'31%'}}>Login to</Text>
            <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',marginTop:-5}}>Your Account</Text>
 
-           <View style={{backgroundColor: 'rgba(0,0,0,0.4)',marginLeft:'5%',width:'90%',height:46,borderRadius:10,marginTop:31}}>
+           <View style={{backgroundColor: 'rgba(0,0,0,0.4)',marginLeft:'5%',width:'90%',height:46,borderRadius:10,marginTop:25}}>
            <TextInput
              style={{fontSize:17,fontFamily:'Exo2-Medium',color:'rgba(255, 255, 255, 0.6)',width:'80%',height:46,marginLeft:'3%'}}
              placeholder="Mobile No."
@@ -251,9 +251,14 @@ class LoginScreen extends React.Component {
                </TouchableOpacity>
            </View>
 
+           <TouchableOpacity style={{marginTop:3,marginRight:'5%'}}
+             onPress={()=>this.props.navigation.navigate('ForgetScreen')}>
+            <Text style={{fontSize:16,color:'rgba(255, 255, 255, 0.6)',fontFamily:'Exo2-Medium',alignSelf:'flex-end'}}>Forgot Password?</Text>
+           </TouchableOpacity>
+
            <Button
              style={{fontSize: 18, color: '#161718',fontFamily:'Exo2-SemiBold'}}
-             containerStyle={{height:50,width:'90%',alignSelf:'center',marginTop:40,borderRadius:10,backgroundColor:'white',justifyContent:'center'}}
+             containerStyle={{height:50,width:'90%',alignSelf:'center',marginTop:24,borderRadius:10,backgroundColor:'white',justifyContent:'center'}}
              onPress={()=>this.getRemoteData()}>
              LOG IN
            </Button>

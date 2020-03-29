@@ -51,33 +51,39 @@ class HomeScreen extends React.Component {
     this.setState({ is_rotated: 0 })
    }
 
+   componentDidMount() {
+        console.log(GLOBAL.user_id)
+    }
+
+
     render() {
     return(
 
       <SafeAreaProvider>
                       
 
-                      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',justifyContent:'space-between'}}>
+                      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                        <View>
+                        <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
+                            <Image
+                                source={require('./arrowlogo2.png')}
+                                style={{width: 18, height: 20,marginLeft:20,resizeMode:'contain'}}
 
 
-
-                          <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:'Exo2-Bold',fontSize: 18,marginLeft:30}}>
-                            Home
-                          </Text>
-
-
-                          <View>
-                          <TouchableOpacity onPress= {()=>this.props.navigation.navigate('PremiumScreen')}>
-                              <Image
-                                  source={require('./prem.png')}
-                                  style={{width: 120, height: 40,marginLeft:20,marginTop:12,resizeMode:'contain'}}
+                            />
+                        </TouchableOpacity>
+                        </View>
 
 
-                              />
-                          </TouchableOpacity>
-                          </View>
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                             Home
+                        </Text>
 
-                      </View>
+
+                        
+
+                    </View>
+
 
      { this.state.is_rotated == 0 && (
 
@@ -89,12 +95,12 @@ class HomeScreen extends React.Component {
             <Image style={{width:'80%',height:'80%',marginTop:'8%',marginLeft:'10%'}} source={require('./front.jpeg')}>
             </Image>
 
-            <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:'22%', left: '28%'}}/>
+            <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:'21%', left: '30%'}}/>
 
-            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'24%',borderRadius:1,position:'absolute',top:'23.6%',left: '6%'}}>
+            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:'26%',borderRadius:1,position:'absolute',top:'22.8%',left: '6%'}}>
             </View>
 
-            <TouchableOpacity style={{position:'absolute',top:'21.3%',left:'6%'}}
+            <TouchableOpacity style={{position:'absolute',top:'20.5%',left:'6%'}}
             onPress={()=> this.setValue('Shoulders')}>
             <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'#161718'}}>Shoulders</Text>
             </TouchableOpacity>
@@ -197,7 +203,7 @@ class HomeScreen extends React.Component {
 
            <View style={{backgroundColor:'white'}}>
 
-           <Image style={{width:'80%',height:'80%',marginTop:'7%',marginLeft:'10%'}} source={require('./back.jpeg')}>
+           <Image style={{width:'80%',height:'80%',marginTop:'8%',marginLeft:'10%',resizeMode:'contain'}} source={require('./back.jpeg')}>
            </Image>
 
            <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:'21.5%', left: '36%'}}/>
@@ -279,11 +285,11 @@ class HomeScreen extends React.Component {
 
 
 
-           <TouchableOpacity style={{alignSelf:'flex-end',marginTop:20,marginRight:32}}
-           onPress={()=>this.onChange2()}>
-            <Image source={require('./rotate.png')}
-            style={{width:70,height:70,resizeMode:'contain'}}/>
-           </TouchableOpacity>
+           <TouchableOpacity style={{alignSelf:'flex-end',marginRight:32}}
+            onPress={()=>this.onChange2()}>
+             <Image source={require('./rotate.png')}
+             style={{width:70,height:70,resizeMode:'contain'}}/>
+            </TouchableOpacity>
 
 
 
