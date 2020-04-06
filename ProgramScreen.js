@@ -20,6 +20,7 @@ import {
 
 
   } from 'react-native';
+  import Loader from './Loader.js';
 import RazorpayCheckout from 'react-native-razorpay';
 import React, {Component} from 'react';
 import Button from 'react-native-button';
@@ -56,7 +57,7 @@ return(
 
     <View>
 
-         <View style={{flexDirection:'row',width:'92%',marginTop:12,marginLeft:'4%',alignItems:'center',justifyContent:'space-between'}}>
+         <View style={{flexDirection:'row',width:'90%',marginTop:12,marginLeft:'5%',alignItems:'center',justifyContent:'space-between'}}>
 
             <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718'}}>{item.title}</Text>
 
@@ -72,7 +73,7 @@ return(
 
 
 
-            <View style={{marginLeft:'3%',marginTop:12}}>
+            <View style={{marginLeft:10,marginTop:5}}>
              <FlatList
               data={item.all_package}
               horizontal={true}
@@ -89,7 +90,7 @@ return(
 
 
 navigate2=(title, all_package)=> {
-  // alert(JSON.stringify(all_package))
+  //alert(JSON.stringify(all_package))
 
    GLOBAL.maintitle = title
    GLOBAL.packageall = all_package
@@ -107,9 +108,6 @@ navigate=(no_of_week, id,item)=> {
 
 }
 
-
-
-
 access = (item) =>{
 //  alert(JSON.stringify(item))
 
@@ -117,7 +115,6 @@ var amount = parseInt(item.amount) * 100
 
 var d = `Order_Package_${GLOBAL.user_id}_${item.id}`
 
-   console.log(d)
   var options = {
       description: d,
 image: item.image,
@@ -153,6 +150,7 @@ image: item.image,
 
   });
 
+
 }
 renderItem2=({item}) => {
 return(
@@ -162,8 +160,8 @@ return(
 <TouchableOpacity
 onPress={()=>this.navigate(item.no_of_week,item.id,item)}>
  <ImageBackground source={{uri:item.image}}
-  style={{width:220,height:120}}
-  imageStyle={{ borderRadius: 10 }}>
+ imageStyle={{ borderRadius: 12 }}
+  style={{width:220,height:120}}>
 
   <View style={{flexDirection:'row',width:'82%',marginLeft:'9%',marginTop:17,alignItems:'center',justifyContent:'space-between'}}>
 
@@ -209,12 +207,13 @@ componentDidMount() {
     }).then((response) => response.json())
         .then((responseJson) => {
 
-              //   alert(JSON.stringify(responseJson))
+                  // alert(JSON.stringify(responseJson))
+                
               this.hideLoading()
             if (responseJson.status == true) {
                 this.setState({FlatListItems: responseJson.workout })
                 this.setState({image:responseJson.image})
-
+                // alert(JSON.stringify(this.state.FlatListItems))
             }
             else{
               //  alert('Invalid Credentials!')
@@ -290,11 +289,21 @@ componentDidMount() {
 // _keyExtractor4=(item, index)=>item.key;
 
   render() {
+    if(this.state.loading){
+            return(
+                <Loader>
+
+                </Loader>
+
+            )
+        }
     return(
       <SafeAreaProvider>
                       <StatusBar backgroundColor="black" barStyle="light-content" />
 
-          <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+
+
+                       <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
                         <View>
                         <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
                             <Image
@@ -308,7 +317,7 @@ componentDidMount() {
 
 
                         <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
-                             Workout
+                            Workout
                         </Text>
 
 
@@ -318,11 +327,12 @@ componentDidMount() {
 
 
 
-           <KeyboardAwareScrollView style={{backgroundColor:'white'}}>
+
+           <View style={{flex:1,backgroundColor:'white'}}>
 
            <Image
                  source={{uri:this.state.image}}
-               style={{width: '94%', height: 200,marginTop:10,borderRadius:8,resizeMode:'cover',marginLeft:'3%'}}
+               style={{width: '100%', height: 200,marginTop:5,resizeMode:'contain'}}
 
 
            />
@@ -343,7 +353,7 @@ componentDidMount() {
 <Text style = {{height:10}}>
 </Text>
 
-           </KeyboardAwareScrollView>
+           </View>
          </SafeAreaProvider>
     );
   }

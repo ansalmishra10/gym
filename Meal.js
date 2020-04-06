@@ -20,7 +20,7 @@ import {
 
 
   } from 'react-native';
-
+    import Loader from './Loader.js';
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 const GLOBAL = require('./Global');
@@ -34,21 +34,23 @@ class Meal extends React.Component {
 
      this.state={
        FlatListItems: [],
+       loading:false,
 }
   }
 
 
 
-  transfer=(add)=> {
+  transfer=(title)=> {
 
-    //  GLOBAL.week = add
-      this.props.navigation.navigate('MealDetail',{name:add})
+   GLOBAL.mealtitle = title
+   this.props.navigation.navigate('Mealtype')
    }
 
 
 
 componentDidMount(){
   this._unsubscribe = this.props.navigation.addListener('focus', () => {
+    this.showLoading()
     fetch('http://pumpfit.in/admin/webservices/get_meal_category', {
       method: 'POST',
      headers: {
@@ -64,12 +66,12 @@ componentDidMount(){
    }).then((response) => response.json())
      .then((responseJson) => {
 
-
+this.hideLoading()
 
          if (responseJson.status == true) {
               this.setState({FlatListItems: responseJson.meal_category })
 
-
+              
 
          }
          else{
@@ -86,7 +88,7 @@ componentDidMount(){
   renderItem=({item,index}) => {
 //alert(index);
 
-
+  // alert(JSON.stringify(item))
 
 
 return(
@@ -99,7 +101,7 @@ return(
      <View style={{width:'100%'}}>
 
 
-        <Image style={{width:'90%',height:200,resizeMode:'cover',borderRadius:10,margin:'5%'}}
+        <Image style={{width:'90%',height:200,resizeMode:'cover',borderRadius:6,margin:'5%'}}
          source={{uri:item.image}}/>
 
 
@@ -125,16 +127,30 @@ return(
 }
 
 
+showLoading() {
+this.setState({loading: true})
+}
 
+hideLoading() {
+this.setState({loading: false})
+}
 
   _keyExtractor=(item, index)=>item.key;
 
   render() {
+    if(this.state.loading){
+            return(
+                <Loader>
+
+                </Loader>
+
+            )
+        }
   return(
     <SafeAreaProvider>
                     <StatusBar backgroundColor="black" barStyle="light-content" />
 
-                    <View style = {{height:65,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center',justifyContent:'space-between'}}>
+                     <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
                         <View>
                         <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
                             <Image
@@ -147,19 +163,17 @@ return(
                         </View>
 
 
-                        <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:'Exo2-Bold',fontSize: 20,paddingRight:30}}>
-                             Daily Meal
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                            Daily Meal
                         </Text>
 
 
-                        <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:GLOBAL.heavy,fontSize: 20,paddingRight: 10}}>
-
-                        </Text>
+                        
 
                     </View>
 
 
-       <View style = {{backgroundColor:'white'}} >
+       <View style = {{flex:1,backgroundColor:'white'}} >
 
 
             <FlatList style = {{height:'90%'}}
@@ -189,7 +203,11 @@ return(
 
           backgroundColor :'white'
       },
-      
+      AndroidSafeArea: {
+         flex: 0,
+         backgroundColor:'black',
+         paddingTop: Platform.OS === "android" ? 0 : 0
+     },
       loading: {
           position: 'absolute',
           left: window.width/2 - 30,
