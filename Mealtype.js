@@ -111,19 +111,17 @@ return(
 
 <View>
 
-   <TouchableOpacity
+   <TouchableOpacity style={{marginTop:10}}
     onPress={()=>this.transfer(item.image, item.fat, item.carbs, item.protein ,item.method ,item.ingredients)}>
 
-     <View style={{width:'100%'}}>
+     <View style={{flexDirection:'column',margin:10,alignItems:'center'}}>
 
 
-        <Image style={{width:'90%',height:200,resizeMode:'cover',borderRadius:6,margin:'5%'}}
+        <Image style={{width:170,height:150,resizeMode:'cover',borderRadius:10}}
          source={{uri:item.image}}/>
 
+        <Text style={{textAlign:'center',fontSize: 18, color: '#161718',fontFamily:'Exo2-Medium',width:160}}>{item.meal_name}</Text>
 
-<View style = {{position:'absolute',bottom:40,left:40,height:30,width:'80%',backgroundColor:'black',borderRadius:4}}>
-        <Text style={{textAlign:'center',fontSize: 12, color: '#161718',fontFamily:'Exo2-Medium',color:'white',marginTop:6}}>{item.meal_name}</Text>
-</View>
 
 
 
@@ -193,13 +191,15 @@ this.setState({loading: false})
 
        {this.state.packid == true && (
 
-      
-            <FlatList style = {{height:'90%'}}
+            <View style={{width:Dimensions.get('window').width}}>
+            <FlatList  contentContainerStyle={{width:'100%',alignItems:'center',justifyContent:'space-between'}}
              data={this.state.FlatListItems}
-
+             numColumns={2}
+             horizontal={false}
              keyExtractor={this._keyExtractor}
              renderItem={this.renderItem}
       />
+      </View>
 
       )}
 

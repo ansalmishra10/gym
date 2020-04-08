@@ -1,4 +1,4 @@
-  import {
+import {
   SafeAreaView,
   Platform,
   StyleSheet,
@@ -42,127 +42,31 @@ class MealDetail extends React.Component {
 
      this.state={
        FlatListItems: [],
-       image:'',
-       protein:'',
-       fat:'',
-       carbs:'',
-       method:'',
-       ingredients:'',
+       
        selectedIndex: 0,
+       mystaus:false,
 }
   }
 
 
 
-  transfer=(add)=> {
-      GLOBAL.week = add
-      this.props.navigation.navigate('WorkScreen')
-   }
+  
 
 
 
 componentDidMount(){
-  const { route } = this.props
-const { item } = route.params
-  console.log(this.props.route.params.name)
+  
   //const {state} = props.navigation;
   //console.log(this.props.navigation.route.params?.user ?? 'defaultValue')
 //console.log("PROPS " + state.params.user);
   // const {state} = this.props.navigation;
   //  var name = state.params ? state.params.name : "<undefined>";
   // alert(name)
-  this._unsubscribe = this.props.navigation.addListener('focus', () => {
-    fetch('http://pumpfit.in/admin/webservices/get_meal', {
-      method: 'POST',
-     headers: {
-         'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
-         'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({
 
-         user_id:GLOBAL.user_id,
-         category_name:this.props.route.params.name
+   
+  }
 
-
-     }),
-   }).then((response) => response.json())
-     .then((responseJson) => {
-
-
-
-         if (responseJson.status == true) {
-           console.log(responseJson.meal[0].method)
-
-
-this.setState({image: responseJson.meal[0].image })
-this.setState({protein: responseJson.meal[0].protein })
-this.setState({fat: responseJson.meal[0].fat })
-this.setState({carbs: responseJson.meal[0].carbs })
-this.setState({method: responseJson.meal[0].method })
-this.setState({ingredients: responseJson.meal[0].ingredients })
-
-
-            //  this.setState({FlatListItems: responseJson.meal_category })
-
-            // image:'',
-            // protein:'',
-            // fat:'',
-            // carbs:'',
-            // method:'',
-            // ingredients:'',
-
-         }
-         else{
-            this.setState({FlatListItems: [] })
-         }
-     })
-     .catch((error) => {
-         console.error(error);
-     });
-      });
-}
-
-
-  renderItem=({item,index}) => {
-//alert(index);
-
-
-
-
-return(
-
-<View>
-
-   <TouchableOpacity
-    onPress={()=>this.transfer(item.add)}>
-
-     <View style={{width:'100%'}}>
-
-
-        <Image style={{width:'90%',height:200,resizeMode:'cover',borderRadius:6,margin:'5%'}}
-         source={{uri:item.image}}/>
-
-
-<View style = {{position:'absolute', top :40,right:30,height:30,width:100,backgroundColor:'black',borderRadius:4}}>
-        <Text style={{fontSize:18,textAlign:'center',fontFamily:'Exo2-SemiBold',color:'white'}}>{item.title}</Text>
-</View>
-
-
-
-     </View>
-
-
-
-
-  </TouchableOpacity>
-
-
-  </View>
-
-
-
- );
-}
+  
 
 handleIndexChange = index => {
 
@@ -178,14 +82,14 @@ handleIndexChange = index => {
     };
 
 
-  _keyExtractor=(item, index)=>item.key;
+  
 
   render() {
   return(
     <SafeAreaProvider>
                     <StatusBar backgroundColor="black" barStyle="light-content" />
 
-                    <View style = {{height:65,backgroundColor:'black',alignItems:'center',flexDirection:'row',width:'100%',justifyContent:'space-between'}}>
+                     <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
                         <View>
                         <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
                             <Image
@@ -198,35 +102,35 @@ handleIndexChange = index => {
                         </View>
 
 
-                        <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:'Exo2-Bold',fontSize: 20,paddingRight:30}}>
-                              {this.props.route.params.name}
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                            {GLOBAL.mealtitle}
                         </Text>
 
 
-                        <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:GLOBAL.heavy,fontSize: 18,paddingRight: 10}}>
-
-                        </Text>
+                        
 
                     </View>
 
 
-       <View style = {{backgroundColor:'white'}} >
+       <View style = {{flex:1,backgroundColor:'white'}} >
+
+
 
        <KeyboardAwareScrollView>
 
 
-       <Image style={{width:'90%',height:200,resizeMode:'cover',borderRadius:10,marginLeft:'5%',marginTop:20}}
-        source={{uri:this.state.image}}/>
+       <Image style={{width:'90%',height:200,resizeMode:'cover',borderRadius:6,margin:'5%'}}
+        source={{uri: GLOBAL.mealimage}}/>
 
 
-        <View style ={{flexDirection:'row',marginLeft:'5%',justifyContent:'space-between',width:'90%',marginTop:20}}>
+        <View style ={{flexDirection:'row',margin:10,justifyContent:'space-between',width:'90%',marginLeft:'5%'}}>
 
                <View style = {{backgroundColor:'white',width:80,height:80,borderRadius:40,borderWidth:1,borderColor:'grey'}}>
                <Text style = {{color:'black',fontFamily:'Gilroy-Medium',fontSize: 18,alignSelf:'center',marginTop:16}}>
 Fat
       </Text>
                <Text style = {{color:'grey',fontFamily:'Gilroy-Medium',fontSize: 17,alignSelf:'center',marginTop:1}}>
-{this.state.fat}
+{GLOBAL.fat}
       </Text>
                </View>
 
@@ -237,7 +141,7 @@ Fat
              Carb
                </Text>
                <Text style = {{color:'grey',fontFamily:'Gilroy-Medium',fontSize: 17,alignSelf:'center',marginTop:1}}>
-             {this.state.carbs}
+             {GLOBAL.carb}
                </Text>
                         </View>
 
@@ -247,14 +151,14 @@ Fat
                       Protein
                         </Text>
                <Text style = {{color:'grey',fontFamily:'Gilroy-Medium',fontSize: 17,alignSelf:'center',marginTop:1}}>
-                      {this.state.protein}
+                      {GLOBAL.protein}
                         </Text>
                                  </View>
 
 
         </View>
 
-        <View style = {{width:360,alignSelf:'center',backgroundColor:'#f7f7f7',borderRadius:33,marginTop:20,marginBottom:15}}>
+        <View style = {{width:360,alignSelf:'center',backgroundColor:'#f7f7f7',borderRadius:33,marginTop:20}}>
                   <SegmentedControlTab
 
                       activeTabStyle= {{borderWidth:0,borderTopLeftRadius:33,borderBottomLeftRadius:33,backgroundColor:'#cdf6fc',borderTopRightRadius:22,borderBottomRightRadius:22,borderRadius:22,borderColor:'#f7f7f7'}}
@@ -268,18 +172,18 @@ Fat
                       onTabPress={this.handleIndexChange}
                   />
                   </View>
-<View style = {{margin:5,marginRight:15}}>
+<View style = {{marginTop:10,width:'90%',marginLeft:'5%'}}>
 {this.state.selectedIndex == 0 && (
 
-<HTML style = {{margin:10}} html={this.state.method} imagesMaxWidth={Dimensions.get('window').width} />
+<HTML  html={GLOBAL.mealMet} imagesMaxWidth={Dimensions.get('window').width} />
 
 )}
 </View>
-<View style = {{margin:5,marginRight:15}}>
+<View style = {{width:'90%',marginLeft:'5%'}}>
 {this.state.selectedIndex == 1 && (
 
 
-<HTML html={this.state.ingredients} imagesMaxWidth={Dimensions.get('window').width} />
+<HTML html={GLOBAL.mealIng} imagesMaxWidth={Dimensions.get('window').width} />
 
 
 
@@ -289,6 +193,7 @@ Fat
 <Text style = {{height:100}}>
 </Text>
        </KeyboardAwareScrollView>
+
 
 
             </View>

@@ -35,6 +35,7 @@ class Meal extends React.Component {
      this.state={
        FlatListItems: [],
        loading:false,
+       
 }
   }
 
@@ -50,6 +51,14 @@ class Meal extends React.Component {
 
 componentDidMount(){
   this._unsubscribe = this.props.navigation.addListener('focus', () => {
+       this.handleStateChange()
+
+       });
+ }
+
+
+  handleStateChange=()=> {
+        
     this.showLoading()
     fetch('http://pumpfit.in/admin/webservices/get_meal_category', {
       method: 'POST',
@@ -81,8 +90,8 @@ this.hideLoading()
      .catch((error) => {
          console.error(error);
      });
-      });
-}
+      
+  }
 
 
   renderItem=({item,index}) => {
