@@ -21,7 +21,11 @@ import {
 
 
   } from 'react-native';
-
+  import {
+  NavigationContainer,
+  CommonActions,
+} from '@react-navigation/native';
+  import Loader from './Loader.js';
 import React, {Component} from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'react-native-button';
@@ -53,21 +57,29 @@ class ChangedPassword extends React.Component {
      this.setState({ hidePassword1: !this.state.hidePassword1 });
       }
 
-   
-      
+
+
 
     managePasswordVisibility3 = () => {
      this.setState({ hidePassword3: !this.state.hidePassword3 });
-      }     
+      }
 
       buttonClickListener = () =>{
-      
 
-      
+
+
      if (this.state.password2 == ''){
        alert('Please Enter New Password')
      }
-      
+
+
+
+
+
+     else if (this.state.password2.length < 6){
+       alert('Password must be 6 chracter long')
+     }
+
      else if (this.state.password3 == ''){
        alert('Confirm Your Password')
      }
@@ -75,7 +87,7 @@ class ChangedPassword extends React.Component {
      else if (this.state.password3 != this.state.password2){
        alert('Confirm Password should match New Password')
      }
-     
+
      else {
 
        this.showLoading()
@@ -86,10 +98,10 @@ headers: {
   'Content-Type': 'application/json',
 },
 body: JSON.stringify({
-       
+
        user_id: GLOBAL.userID2,
-      
-       new_password:  this.state.password2, 
+
+       new_password:  this.state.password2,
        confirm_password:  this.state.password3,
 
 }),
@@ -101,12 +113,13 @@ body: JSON.stringify({
     this.hideLoading()
     if (responseJson.status == true ) {
 
-        
+
 
 
 
      alert('Password Successfully Changed')
-      this.props.navigation.navigate('LoginScreen')
+     
+     this.props.navigation.navigate('LoginScreen')
 
 
     }else {
@@ -123,6 +136,14 @@ body: JSON.stringify({
 
 
   render() {
+    if(this.state.loading){
+            return(
+                <Loader>
+
+                </Loader>
+
+            )
+        }
     return(
       <View style={{flex:1,backgroundColor:'transparent'}}>
       <ImageBackground style={{resizeMode:'contain',height:'100%',width:'100%'}} source={require('./signup.png')}>
@@ -140,7 +161,7 @@ body: JSON.stringify({
               secureTextEntry={this.state.hidePassword1}
               keyboardType="numeric"
               onChangeText={(text) => this.setState({password2: text})}
-              maxLength={50}
+              maxLength={30}
               value={this.state.password2}
               />
 
@@ -153,9 +174,9 @@ body: JSON.stringify({
           </TouchableOpacity>
       </View>
 
-      
 
-      
+
+
 
       <View style={{backgroundColor: 'rgba(0,0,0,0.3)',marginLeft:'5%',width:'90%',height:46,borderRadius:10,marginTop:10,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
             <TextInput
@@ -165,7 +186,7 @@ body: JSON.stringify({
               keyboardType="numeric"
               placeholderTextColor="rgba(255, 255, 255, 0.6)"
 
-              maxLength={30}
+              maxLength={16}
               onChangeText={(text) => this.setState({password3: text})}
               value={this.state.password3}
               />
@@ -188,7 +209,7 @@ body: JSON.stringify({
         CHANGE PASSWORD
       </Button>
 
-      
+
 
 
       </KeyboardAwareScrollView>

@@ -20,20 +20,39 @@ import {
 
 
   } from 'react-native';
-
+import Loader from './Loader.js';
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 const GLOBAL = require('./Global');
+import { WebView } from 'react-native-webview';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PulseIndicator } from 'react-native-indicators';
 import VideoPlayer from 'react-native-video-controls';
 
-class ExerciseScreen extends React.Component {
 
-  
+class ExerciseScreen extends React.Component {
+  constructor(props) {
+ super(props);
+
+      this.state={
+        loading:'',
+        
+ }
+   }
+
+
 
 
   render() {
+    if(this.state.loading){
+            return(
+                <Loader>
+
+                </Loader>
+
+            )
+        }
+
      var str = GLOBAL.worklevel
       var res = str.split(",");
 
@@ -43,7 +62,7 @@ class ExerciseScreen extends React.Component {
                 containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:12}}>
                 {b}
                 </Button>
-         
+
        })
 
 
@@ -56,30 +75,38 @@ class ExerciseScreen extends React.Component {
                 containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:12}}>
                 {a}
                 </Button>
-         
-       }) 
+
+       })
+
+
+       
 
     return(
-         <SafeAreaProvider>
-            <View style={{backgroundColor:'white'}}>
 
-              
+      <SafeAreaProvider>
+                      <StatusBar backgroundColor="black" barStyle="light-content" />
+            <ScrollView style={{flex:1,backgroundColor:'white'}}>
+
+
              <View  style={{width:'100%',height:Dimensions.get('window').height/2-80,resizeMode:'contain'}}>
-               <VideoPlayer
-                source={{ uri:GLOBAL.workvideo }}
-                navigator={ this.props.navigator }
-                onBack={()=>this.props.navigation.goBack()}
-                />
+               
+
+               <WebView source={{ uri: GLOBAL.workvideo }} />
+
+               
+                
+        
+      
              </View>
 
 
 
-               
 
 
-               
 
-              
+
+
+
 
               <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'#000000',marginTop:13,marginLeft:'5%'}}>{GLOBAL.workname2}</Text>
 
@@ -89,7 +116,7 @@ class ExerciseScreen extends React.Component {
 
               <View style={{flexDirection:'row',alignItems:'center',width:'80%',marginTop:16,marginLeft:7}}>
                {renderedButtons}
-              
+
 
               </View>
 
@@ -111,16 +138,45 @@ class ExerciseScreen extends React.Component {
 
               <Button
                 style={{fontSize: 18, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:'90%',height:50,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginTop:90,marginLeft:'5%'}}
+                containerStyle={{width:'90%',height:50,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginTop:85,marginLeft:'5%',marginBottom:20}}
                 onPress={()=>this.props.navigation.goBack()}>
                 Next Exercise
               </Button>
 
 
-            </View>
+            </ScrollView>
          </SafeAreaProvider>
     );
   }
 }
 
 export default ExerciseScreen;
+const styles = StyleSheet.create({
+
+    container: {
+        flex:1,
+        backgroundColor :'white',
+
+    },
+    containers: {
+
+        backgroundColor :'white'
+    },
+    AndroidSafeArea: {
+       flex: 0,
+       backgroundColor:'black',
+       paddingTop: Platform.OS === "android" ? 0 : 0
+   },
+    loading: {
+        position: 'absolute',
+        left: window.width/2 - 30,
+
+        top: window.height/2,
+
+        opacity: 0.5,
+
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+})

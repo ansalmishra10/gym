@@ -21,7 +21,10 @@ import {
 
 
   } from 'react-native';
+    import Loader from './Loader.js';
 var arrayholder = [];
+import Internet from './Internet.js';
+import NetInfo from "@react-native-community/netinfo";
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 const GLOBAL = require('./Global');
@@ -36,6 +39,7 @@ class Favourite extends React.Component {
      this.state={
          search:'',
          img1:require('./greylike.png'),
+           connected:true,
 
          FlatListItems: [
 
@@ -47,8 +51,13 @@ class Favourite extends React.Component {
 
    componentDidMount(){
 
+this.showLoading()
+ this._unsubscribe = this.props.navigation.addListener('focus', () => {
+   NetInfo.fetch().then(state => {
+     this.setState({connected:state.isConnected})
+     console.log(state.isConnected)
 
-
+     if (state.isConnected == true){
      fetch('http://pumpfit.in/admin/webservices/category_feb', {
        method: 'POST',
       headers: {
@@ -56,14 +65,15 @@ class Favourite extends React.Component {
           'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-          user_id:GLOBAL.user_id
+          user_id:GLOBAL.user_id,
+          search:'',
 
 
       }),
   }).then((response) => response.json())
       .then((responseJson) => {
 
-
+this.hideLoading()
 
 
           if (responseJson.status == true) {
@@ -78,6 +88,8 @@ arrayholder = responseJson.category
       .catch((error) => {
           console.error(error);
       });
+    }});
+    });
    }
 
 
@@ -135,7 +147,7 @@ this.props.navigation.navigate('VideoScreen')
 
 
 
-       fetch('http://139.59.76.223/gym/webservices/exerciseLike', {
+       fetch('http://pumpfit.in/admin/webservices/exerciseLike', {
          method: 'POST',
         headers: {
             'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
@@ -168,16 +180,16 @@ this.props.navigation.navigate('VideoScreen')
         });
 
 
+        var array = [...this.state.FlatListItems]; // make a separate copy of the array
+          var index = index
+          if (index !== -1) {
+            array.splice(index, 1);
+            this.setState({FlatListItems: array});
+          }
+        this.setState({ img1: require('./redheart.png')})
 
 
 
-     var array = [...this.state.FlatListItems]; // make a separate copy of the array
-       var index = index
-       if (index !== -1) {
-         array.splice(index, 1);
-         this.setState({FlatListItems: array});
-       }
-     this.setState({ img1: require('./redheart.png')})
    }
 
    renderItem =({item,index})=> {
@@ -186,20 +198,7 @@ this.props.navigation.navigate('VideoScreen')
 
 
        <View>
-       
-
-               <TouchableOpacity style={{flexDirection:'row',marginTop:20}}
-                 onPress={()=> this.naviga(item.video,item.image,item.description,item.body_parts,item.you_need,item)}>
-
-
-
-
-                 <View style = {{backgroundColor:'white',flexDirection:'row',justifyContent:'space-between'}}>
-                 <ImageBackground style={{height:60,width:80}}
-                  source={{uri:item.image}}
-                  imageStyle={{borderRadius:8}}>
-
-                  <View style = {{position:'absolute',top:2,right:6}}>
+       <View style = {{position:'absolute',top:2,right:10}}>
                              <TouchableOpacity style={{marginLeft:70,marginTop:5}}
                               onPress={()=>this.onChange(item,index)}>
                               {item.like == 0 && (
@@ -221,15 +220,26 @@ this.props.navigation.navigate('VideoScreen')
 
                              </TouchableOpacity>
                              </View>
-                  
-                  </ImageBackground>
+
+               <TouchableOpacity style={{flexDirection:'row',marginTop:20}}
+                 onPress={()=> this.naviga(item.video,item.image,item.description,item.body_parts,item.you_need,item)}>
+
+
+
+
+                 <View style = {{backgroundColor:'white',flexDirection:'row',borderBottomWidth: 1,
+         borderBottomColor: "#D3D3D3",justifyContent:'space-between'}}>
+                 <Image style={{height:49,width:49,borderRadius:8,marginBottom:10}}
+                  source={{uri:item.image}}>
+
+                  </Image>
                   <View style={{flexDirection:'column',width:'98%'}}>
                    <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:12}}>{item.title}</Text>
 
                    <View style={{flexDirection:'row',marginTop:6,marginLeft:13,justifyContent:'space-between',width:'60%'}}>
 
                     <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>{item.body_parts}</Text>
-                    <View style = {{flexDirection:'row',width:'40%',alignItems:'center'}}>
+                    <View style = {{flexDirection:'row',width:'42%',alignItems:'center'}}>
                     <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>Level</Text>
 
                     <View style={{margin:5}}>
@@ -264,22 +274,47 @@ this.props.navigation.navigate('VideoScreen')
    }
 
    SearchFilterFunction(text){
-        const newData = arrayholder.filter(function(item){
-            const mergetwo= item.title
-            const itemData = mergetwo.toUpperCase()
-            const textData = text.toUpperCase()
-            return itemData.indexOf(textData) > -1
-        })
+     this.setState({search:text})
+     fetch('http://pumpfit.in/admin/webservices/category_feb', {
+       method: 'POST',
+      headers: {
+          'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          user_id:GLOBAL.user_id,
+          search:text,
 
 
-        this.setState({
-            FlatListItems: newData,
-            search: text
+      }),
+  }).then((response) => response.json())
+      .then((responseJson) => {
 
 
-        })
+
+
+          if (responseJson.status == true) {
+               this.setState({FlatListItems: responseJson.category })
+
+arrayholder = responseJson.category
+          }
+          else{
+             this.setState({FlatListItems: [] })
+          }
+      })
+      .catch((error) => {
+          console.error(error);
+      });
 
     }
+    
+    showLoading() {
+    this.setState({loading: true})
+   }
+
+    hideLoading() {
+    this.setState({loading: false})
+   }
    _keyExtractor=(item, index)=>item.key;
 
 
@@ -287,11 +322,28 @@ this.props.navigation.navigate('VideoScreen')
 
 
    render() {
-    return(
-      <SafeAreaProvider>
-                     <StatusBar backgroundColor="black" barStyle="light-content" />
 
-                     <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+          if(this.state.connected == false){
+                  return(
+                      <Internet>
+
+                      </Internet>
+
+                  )
+              }
+     if(this.state.loading){
+             return(
+                 <Loader>
+
+                 </Loader>
+
+             )
+         }
+    return(
+     <SafeAreaProvider>
+                      <StatusBar backgroundColor="black" barStyle="light-content" />
+
+                      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
                         <View>
                         <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
                             <Image
@@ -305,13 +357,14 @@ this.props.navigation.navigate('VideoScreen')
 
 
                         <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
-                             Favourite
+                           Favourites
                         </Text>
 
 
                         
 
                     </View>
+
 
          <View style = {{flex:1,backgroundColor:'white'}} >
 
@@ -331,12 +384,12 @@ this.props.navigation.navigate('VideoScreen')
                          placeholderTextColor="#23222280"
 
                          maxLength={100}
-                         onChangeText={(text) => this.SearchFilterFunction(text)}
+                      onChangeText={(text) => this.SearchFilterFunction(text)}
                          value={this.state.search}
                          />
 
 
-                        <TouchableOpacity   onPress={()=>this.setState({search:''})}style={{marginLeft:-2}}>
+                        <TouchableOpacity   onPress={()=>this.call()}style={{marginLeft:-2}}>
                         <Image style={{height:17,width:17,resizeMode:'contain'}}
                          source={require('./cross.png')} />
                         </TouchableOpacity>
@@ -344,7 +397,7 @@ this.props.navigation.navigate('VideoScreen')
                 </View>
 
                 <Button
-                 onPress={()=>this.setState({search:''})}
+               onPress={()=>this.call()}
                   style={{fontSize: 17, color: '#161718',fontFamily:'Exo2-Regular'}}>
                   Cancel
                 </Button>
@@ -352,12 +405,22 @@ this.props.navigation.navigate('VideoScreen')
            </View>
 
               <View style={{height:'auto',width:'90%',alignSelf:'center'}}>
-                 <FlatList style= {{ height:'auto', flexGrow:0,borderTopColor:'#c0c0c0',width:'100%'}}
-                 data={this.state.FlatListItems}
-                 numColumns={1}
-                 keyExtractor={this._keyExtractor}
-                 renderItem={this.renderItem}
-                 />
+              {this.state.FlatListItems.length != 0 && (
+                <FlatList style= {{ height:'100%', flexGrow:0,borderTopColor:'#c0c0c0',width:'100%',backgroundColor:'white'}}
+                data={this.state.FlatListItems}
+                numColumns={1}
+                keyExtractor={this._keyExtractor}
+                renderItem={this.renderItem}
+                />
+              )}
+              {this.state.FlatListItems.length == 0 && (
+               <View style={{marginTop:'50%'}}>
+                <Image style={{height:100,width:100,resizeMode:'contain',borderRadius:8,alignSelf:'center'}}
+             source={require('./nodata.png')} />
+
+           <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'black',marginTop:10,alignSelf:'center'}}>No Data Found</Text>
+            </View>
+              )}
               </View>
 
 

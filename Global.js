@@ -64,6 +64,7 @@ module.exports = {
     dob: '',
     related:'',
     productid: '',
+    user_ids:'',
     cartId :'',
     myid :'',
     video:'',

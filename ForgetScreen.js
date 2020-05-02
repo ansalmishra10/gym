@@ -95,6 +95,7 @@ class ForgetScreen extends React.Component {
                 // // AsyncStorage.setItem('name', this.state.results.name);
                 // // AsyncStorage.setItem('email', this.state.results.email);
                 // // AsyncStorage.setItem('mobile', this.state.results.mobile);
+                  alert('otp has been sent to your registerd profile')
                   this.props.navigation.navigate('Otp2Screen')
             }
             else{
@@ -111,6 +112,24 @@ class ForgetScreen extends React.Component {
 }
 
   render() {
+    if(this.state.loading){
+      return(
+        <View style={{flex: 1}}>
+        <ActivityIndicator style = {{position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center'}}
+
+       size="large" color="#e41582" />
+        </View>
+      )
+      
+    }
+
     return(
 
           <SafeAreaProvider>
@@ -141,7 +160,7 @@ class ForgetScreen extends React.Component {
              style={{fontSize:17,fontFamily:'Exo2-Medium',color:'rgba(255, 255, 255, 0.6)',width:'80%',height:46,marginLeft:'3%'}}
              placeholder="Mobile No."
              keyboardType="numeric"
-             maxLength={12}
+             maxLength={10}
 
              placeholderTextColor="rgba(255, 255, 255, 0.6)"
              onChangeText={(text) => this.setState({mobile: text})}

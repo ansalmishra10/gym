@@ -15,6 +15,7 @@ import {
   FlatList,
   Dimensions,
   AsyncStorage,
+  ActivityIndicator,
 
 
 
@@ -24,6 +25,7 @@ import {
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 const GLOBAL = require('./Global');
+var DeviceInfo = require('react-native-device-info');
 
  class ChooseScreen extends React.Component {
    constructor(props){
@@ -63,31 +65,32 @@ const GLOBAL = require('./Global');
            mobile: GLOBAL.mobile,
            password: GLOBAL.password,
            gender: this.state.text,
-           device_id: 'sdf',
-           device_type: Platform.OS,
-           device_token: 'dsfdsf',
-           model_name: 'sdf',
-
+            device_id: 'lmg',
+            device_type: Platform.OS,
+            device_token: 'sgf',
+            model_name: 0,
+ 
        }),
    }).then((response) => response.json())
        .then((responseJson) => {
 
-              alert(JSON.stringify(responseJson))
+                // alert(JSON.stringify(responseJson))
               this.hideLoading()
-            if (responseJson.status == true) {
+             if (responseJson.status == true) {
+
+                
+                
+              GLOBAL.user_id = responseJson.user
 
 
 
 
 
-
-
-
-               this.props.navigation.navigate('HomeScreen')
-           }
-           else{
-               alert('Invalid Credentials!')
-           }
+             this.props.navigation.navigate('Tab')
+            }
+            else{
+                alert('Invalid Credentials!')
+            }
        })
        .catch((error) => {
            console.error(error);
@@ -97,6 +100,11 @@ const GLOBAL = require('./Global');
 
 
 }
+
+  // componentDidMount() {
+ //     alert(JSON.stringify(GLOBAL.email))
+ //   }
+
 
 
    firstChangeMale=()=> {
@@ -121,7 +129,26 @@ const GLOBAL = require('./Global');
    }
 
 
+   
+
+
    render() {
+     if(this.state.loading){
+      return(
+        <View style={{flex: 1}}>
+        <ActivityIndicator style = {{position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center'}}
+
+       size="large" color="#e41582" />
+        </View>
+      )
+    }
      return(
 
        <View style={{flex:1}}>
