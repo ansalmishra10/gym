@@ -20,7 +20,7 @@ import {
 
 
   } from 'react-native';
-
+import Loader from './Loader.js';
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 const GLOBAL = require('./Global');
@@ -66,13 +66,13 @@ class WeekScreen extends React.Component {
      "add": "8",
      "add2": "7 sessions"
     },
-    
+
 
   ],
 }
   }
 
-   
+
 
   transfer=(add)=> {
       GLOBAL.week = add
@@ -90,8 +90,8 @@ class WeekScreen extends React.Component {
     }
 
 
-   
-    
+
+
 
 return(
 
@@ -123,7 +123,7 @@ return(
     <View>
     </View>
   )}
-  
+
   </View>
 
 
@@ -131,24 +131,52 @@ return(
  );
 }
 
-  
+   componentDidMount() {
+   }
 
 
   _keyExtractor=(item, index)=>item.key;
 
   render() {
+    if(this.state.loading){
+            return(
+                <Loader>
+
+                </Loader>
+
+            )
+        }
   return(
-          <SafeAreaProvider>
-          <Header navigation={this.props.navigation}
-          showHeaderImage={false}
-          headerColor ={'#161718'}
-          backImagePath={require('./arrowlogo2.png')}
-          headerName={'No Equipment Home Beginner'}
-          headerTextStyle={{fontFamily:'Gilroy-Bold', color:'white',marginLeft:10}} />
+    <SafeAreaProvider>
+                    <StatusBar backgroundColor="black" barStyle="light-content" />
 
-            <View style={{flex:1,backgroundColor:'white'}}>
+                    <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                        <View>
+                        <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
+                            <Image
+                                source={require('./arrowlogo2.png')}
+                                style={{width: 18, height: 20,marginLeft:20,resizeMode:'contain'}}
 
-            <FlatList style={{flex:1}}
+
+                            />
+                        </TouchableOpacity>
+                        </View>
+
+
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                         {GLOBAL.getPack.package_name}
+                        </Text>
+
+
+                        
+
+                    </View>
+
+
+       <View style = {{flex:1,backgroundColor:'white'}} >
+
+
+            <FlatList 
              data={this.state.FlatListItems}
 
              keyExtractor={this._keyExtractor}
@@ -164,3 +192,32 @@ return(
   }
 
   export default WeekScreen;
+  const styles = StyleSheet.create({
+
+      container: {
+          flex:1,
+          backgroundColor :'white',
+
+      },
+      containers: {
+
+          backgroundColor :'white'
+      },
+      AndroidSafeArea: {
+         flex: 0,
+         backgroundColor:'black',
+         paddingTop: Platform.OS === "android" ? 0 : 0
+     },
+      loading: {
+          position: 'absolute',
+          left: window.width/2 - 30,
+
+          top: window.height/2,
+
+          opacity: 0.5,
+
+          justifyContent: 'center',
+          alignItems: 'center'
+      },
+
+  })

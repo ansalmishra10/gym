@@ -1,4 +1,3 @@
-
 import {
   SafeAreaView,
   Platform,
@@ -21,7 +20,7 @@ import {
 
 
   } from 'react-native';
-
+import Loader from './Loader.js';
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 const GLOBAL = require('./Global');
@@ -89,12 +88,12 @@ return(
 
  );
 }
-  
- 
+
+
  componentDidMount() {
 
-    
-    
+
+
     this.showLoading()
        fetch('http://pumpfit.in/admin/webservices/getworkout', {
          method: 'POST',
@@ -108,14 +107,14 @@ return(
     }).then((response) => response.json())
         .then((responseJson) => {
 
-                
+
               this.hideLoading()
              if (responseJson.status == true) {
                  this.setState({FlatListItems: responseJson.workout })
-                   alert(JSON.stringify(this.state.FlatListItems))
+                  // alert(JSON.stringify(this.state.FlatListItems))
              }
              else{
-                alert('Invalid Credentials!')
+              //  alert('Invalid Credentials!')
              }
         })
         .catch((error) => {
@@ -126,18 +125,43 @@ return(
 _keyExtractor=(item, index)=>item.key;
 
   render() {
+    if(this.state.loading){
+            return(
+                <Loader>
+
+                </Loader>
+
+            )
+        }
     return(
-          <SafeAreaProvider>
-          <Header navigation={this.props.navigation}
-          showHeaderImage={false}
-          headerColor ={'#161718'}
-          backImagePath={require('./arrowlogo2.png')}
-          headerName={'Week 1'}
-          headerTextStyle={{fontFamily:'Gilroy-Bold', color:'white',marginLeft:10}} />
+      <SafeAreaProvider>
+                      <StatusBar backgroundColor="black" barStyle="light-content" />
+
+                      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                        <View>
+                        <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
+                            <Image
+                                source={require('./arrowlogo2.png')}
+                                style={{width: 18, height: 20,marginLeft:20,resizeMode:'contain'}}
+
+
+                            />
+                        </TouchableOpacity>
+                        </View>
+
+
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                         Week {GLOBAL.week}
+                        </Text>
+
+
+                        
+
+                    </View>
 
            <View style={{flex:1,backgroundColor:'white'}}>
 
-           <FlatList style={{flex:1}}
+           <FlatList
             data={this.state.FlatListItems}
 
             keyExtractor={this._keyExtractor}
@@ -152,3 +176,32 @@ _keyExtractor=(item, index)=>item.key;
 }
 
 export default WorkScreen;
+const styles = StyleSheet.create({
+
+    container: {
+        flex:1,
+        backgroundColor :'white',
+
+    },
+    containers: {
+
+        backgroundColor :'white'
+    },
+    AndroidSafeArea: {
+       flex: 0,
+       backgroundColor:'black',
+       paddingTop: Platform.OS === "android" ? 0 : 0
+   },
+    loading: {
+        position: 'absolute',
+        left: window.width/2 - 30,
+
+        top: window.height/2,
+
+        opacity: 0.5,
+
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+})
