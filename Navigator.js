@@ -25,15 +25,26 @@ import LibraryScreen from './LibraryScreen.js';
 import ProgramScreen from './ProgramScreen.js';
 import MainScreen from './MainScreen.js';
 import SupportScreen from './SupportScreen.js';
-import FavouriteScreen from './FavouriteScreen.js';
 import Allexercises from './Allexercises.js';
-import PrivacyScreen from './PrivacyScreen.js';
-import AboutScreen from './AboutScreen.js';
+import Favourite from './Favourite.js';
+import Thankyou from './Thankyou.js';
+import NewSubscription from './NewSubscription.js';
+import Meal from './Meal.js';
+import MealDetail from './MealDetail.js';
+import ForgetScreen from './ForgetScreen.js';
 import TcScreen from './TcScreen.js';
+import PrivacyScreen from './PrivacyScreen';
+import AboutScreen from './AboutScreen';
+import Otp2Screen from './Otp2Screen.js';
+import ChangePassword from './ChangePassword';
+import PasswordScreen from './PasswordScreen';
+import Notification from './Notification.js';
+import NotifService from './NotifService';
+import Mealtype from './Mealtype.js';
 
 
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();     
 
 function Tabs() {
   return (
@@ -55,11 +66,17 @@ function Tabs() {
               iconName = focused
               ? require('./heart.png')
               : require('./heart1.png')
-            } else if(route.name === 'SETTINGS'){
+            }  else if(route.name === 'MEAL'){
+               iconName = focused
+               ? require('./lunch.png')
+               : require('./lunch1.png')
+             }
+ else if(route.name === 'SETTINGS'){
               iconName = focused
               ? require('./settings.png')
               : require('./settings1.png')
             }
+
 
 
             // You can return any component that you like here!
@@ -70,23 +87,17 @@ function Tabs() {
           },
         })}
         tabBarOptions={{
+          height: 70,
           activeTintColor: 'white',
           inactiveTintColor: 'gray',
           activeBackgroundColor :'black',
-          inactiveBackgroundColor :'black',
-          tabStyle: {
-              marginTop:-10
-          },
-          labelStyle: {
-             fontSize:10,paddingBottom:10,margin:-2,fontFamily:'Exo2-Medium'
-          },
-          
-
+          inactiveBackgroundColor :'black'
         }}
       >
         <Tab.Screen name="EXPLORE" component={HomeScreen} />
         <Tab.Screen name="WORKOUT" component={ProgramScreen} />
-        <Tab.Screen name="FAVOURITE" component={FavouriteScreen} />
+          <Tab.Screen name="MEAL" component={Meal} />
+        <Tab.Screen name="FAVOURITE" component={Favourite} />
         <Tab.Screen name="SETTINGS" component={SettingScreen} />
 
       </Tab.Navigator>
@@ -101,8 +112,6 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-
-
         <Stack.Screen
         name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="StyleScreen" component={StyleScreen} />
@@ -116,8 +125,8 @@ function App() {
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen name="EditScreen" component={EditScreen} />
         <Stack.Screen name="PartScreen" component={PartScreen} />
+          <Stack.Screen name="Favourite" component={Favourite} />
         <Stack.Screen name="VideoScreen" component={VideoScreen} />
-
         <Stack.Screen name="NoteScreen" component={NoteScreen} />
         <Stack.Screen name="WeekScreen" component={WeekScreen} />
         <Stack.Screen name="WorkScreen" component={WorkScreen} />
@@ -127,11 +136,24 @@ function App() {
         <Stack.Screen name="ProgramScreen" component={ProgramScreen} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="SupportScreen" component={SupportScreen} />
-        <Stack.Screen name="Allexercises" component={Allexercises} />
-        <Stack.Screen name="FavouriteScreen" component={FavouriteScreen} />
-        <Stack.Screen name="PrivacyScreen" component={PrivacyScreen} />
-        <Stack.Screen name="AboutScreen" component={AboutScreen} />
-        <Stack.Screen name="TcScreen" component={TcScreen} />
+            <Stack.Screen name="Allexercises" component={Allexercises} />
+              <Stack.Screen name="Thankyou" component={Thankyou} />
+<Stack.Screen name="NewSubscription" component={NewSubscription} />
+<Stack.Screen name="MealDetail" component={MealDetail} />
+<Stack.Screen name="ForgetScreen" component={ForgetScreen} />
+<Stack.Screen name="TcScreen" component={TcScreen} />
+<Stack.Screen name="AboutScreen" component={AboutScreen} />
+<Stack.Screen name="PrivacyScreen" component={PrivacyScreen} />
+<Stack.Screen name="Otp2Screen" component={Otp2Screen} />
+<Stack.Screen name="ChangePassword" component={ChangePassword} />
+<Stack.Screen name="PasswordScreen" component={PasswordScreen} />
+<Stack.Screen name="Notification" component={Notification} />
+<Stack.Screen name="NotifService" component={NotifService} />
+<Stack.Screen name="Mealtype" component={Mealtype} />
+
+
+
+
         <Stack.Screen name="Tab" component={Tabs} />
 
       </Stack.Navigator>

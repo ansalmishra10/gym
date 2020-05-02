@@ -20,7 +20,10 @@ import {
 
 
 
-  } from 'react-native';
+} from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
+  import Loader from './Loader.js';
+    import Internet from './Internet.js';
 import RazorpayCheckout from 'react-native-razorpay';
 import React, {Component} from 'react';
 import Button from 'react-native-button';
@@ -28,7 +31,7 @@ const GLOBAL = require('./Global');
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PulseIndicator } from 'react-native-indicators';
 import Stars from 'react-native-stars';
-import Header from 'react-native-custom-headers';
+
 var arrayholder = [];
 class PartScreen extends React.Component {
    constructor(props) {
@@ -36,8 +39,9 @@ class PartScreen extends React.Component {
 
      this.state={
          search:'',
-         img1:require('./greylike.png'),
-
+         img1:require('./fav.png'),
+loading:false,
+connected:true,
          FlatListItems: [
 
 
@@ -46,51 +50,81 @@ class PartScreen extends React.Component {
      }
    }
 
+   _handleStateChange = (state) => {
+     // alert('hi')
 
-   cancel=()=> {
-    this.setState({ search: '' });
-  }
 
+    }
    componentDidMount(){
-     // alert(GLOBAL.category)
 
 
-     fetch('http://pumpfit.in/admin/webservices/category', {
-       method: 'POST',
-      headers: {
-          'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-          category_id: GLOBAL.category,
-          user_id:GLOBAL.user_id
 
 
-      }),
-  }).then((response) => response.json())
-      .then((responseJson) => {
-
-              // alert(JSON.stringify(responseJson))
-
-          if (responseJson.status == true) {
-               this.setState({FlatListItems: responseJson.category })
-              arrayholder =   responseJson.category
+     this._unsubscribe = this.props.navigation.addListener('focus', () => {
 
 
-          }
-          else{
-             this.setState({FlatListItems: [] })
-          }
-      })
-      .catch((error) => {
-          console.error(error);
-      });
+       NetInfo.fetch().then(state => {
+         this.setState({connected:state.isConnected})
+         console.log(state.isConnected)
+
+         if (state.isConnected == true){
+
+
+         this.showLoading()
+         fetch('http://pumpfit.in/admin/webservices/category', {
+           method: 'POST',
+          headers: {
+              'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              category_id: GLOBAL.category,
+              user_id:GLOBAL.user_id,
+              search:'',
+
+
+          }),
+        }).then((response) => response.json())
+          .then((responseJson) => {
+      this.hideLoading()
+
+
+              if (responseJson.status == true) {
+                   this.setState({FlatListItems: responseJson.category })
+                  arrayholder =   responseJson.category
+
+
+              }
+              else{
+                 this.setState({FlatListItems: [] })
+              }
+          })
+          .catch((error) => {
+              console.error(error);
+          });
+        }
+
+       });
+
+         });
+
+
+
    }
 
 
 
 like = (type,id) =>{
 
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+
+    if (state.isConnected == false){
+      alert('No internet Connection')
+      return
+    }
+  });
   fetch('http://pumpfit.in/admin/webservices/exerciseLike', {
     method: 'POST',
    headers: {
@@ -108,7 +142,7 @@ like = (type,id) =>{
    .then((responseJson) => {
 
 
- // alert(JSON.stringify(responseJson))
+
        if (responseJson.status == true) {
 
 
@@ -139,49 +173,10 @@ like = (type,id) =>{
     //  this.setState({ img1: require('./redheart.png')})
    }
    naviga = (video,image,description,body_parts,you_need,item) => {
-
-
-// alert(JSON.stringify(item))
-
-if (item.payment_status != "Free"){
-  var amount = parseInt(item.amount) * 100
-
-  var d = `Order_Category_${GLOBAL.user_id}_${item.id}`
-
-    var options = {
-        description: d,
-  image: item.image,
-        currency: 'INR',
-        key: 'rzp_test_9FNVaaXL2WKZMI',
-        amount:amount,
-
-
-        name: 'varun',
-        prefill: {
-            email: 'varun.singhal78@gmail.com',
-            contact: '9896904632',
-            name: 'varun'
-        },
-        theme: {color: 'black'}
-    }
-
-    RazorpayCheckout.open(options).then((data) => {
-        var a = data.razorpay_payment_id
-      //  this.capture(a,b,id);
+console.log(video)
 
 
 
-    }).catch((error) => {
-        // handle failure
-       // this.myPayments(s,error.description,'')
-
-    });
-    RazorpayCheckout.onExternalWalletSelection(data => {
-
-
-
-    });
-}else{
 GLOBAL.video = video
 GLOBAL.image = image
 GLOBAL.description = description
@@ -189,156 +184,187 @@ GLOBAL.parts = body_parts
 GLOBAL.needs = you_need
 this.props.navigation.navigate('VideoScreen')
 }
-   }
+
 
    renderItem =({item,index})=> {
-     // alert(JSON.stringify(item.payment_status))
+
 
      return (
+<View>
+<View style = {{position:'absolute',top:2,right:10}}>
+                      <TouchableOpacity style={{marginLeft:70,marginTop:5}}
+                       onPress={()=>this.onChange(item,index)}>
+                       {item.like == 0 && (
+                         <Image source={this.state.img1}
+                          style={{height:13,width:14,resizeMode:'contain'}} />
+                       )}
 
 
+                      </TouchableOpacity>
+
+
+                      <TouchableOpacity style={{marginLeft:70,marginTop:0}}
+                       onPress={()=>this.onChange(item,index)}>
+                       {item.like == 1 && (
+                         <Image source={require('./redheart.png')}
+                          style={{height:13,width:14,resizeMode:'contain'}} />
+                       )}
+
+
+                      </TouchableOpacity>
+                      </View>
 
         <TouchableOpacity style={{flexDirection:'row',marginTop:20}}
           onPress={()=> this.naviga(item.video,item.image,item.description,item.body_parts,item.you_need,item)}>
 
-{item.payment_status == "Free" && (
 
 
-          <View style = {{backgroundColor:'white',flexDirection:'row',height:90}}>
-          <ImageBackground style={{height:90,width:90}}
-           source={{uri:item.image}}
-           imageStyle={{borderRadius:10}}>
 
-           <TouchableOpacity style={{marginLeft:70,marginTop:5}}
-            onPress={()=>this.onChange(item,index)}>
-            {item.like == 0 && (
-              <Image source={this.state.img1}
-               style={{height:13,width:14,resizeMode:'contain'}} />
-            )}
-
-
-           </TouchableOpacity>
-
-
-           <TouchableOpacity style={{marginLeft:70,marginTop:5}}
-            onPress={()=>this.onChange(item,index)}>
-            {item.like == 1 && (
-              <Image source={require('./redheart.png')}
-               style={{height:13,width:14,resizeMode:'contain'}} />
-            )}
-
-
-           </TouchableOpacity>
-           </ImageBackground>
-
-
-          <View style={{flexDirection:'column',width:'98%'}}>
-           <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:12,marginTop:5}}>{item.title}</Text>
-
-           <View style={{flexDirection:'row',marginTop:10,marginLeft:13,justifyContent:'space-between',width:'70%'}}>
-
-            <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>{item.body_parts}</Text>
-            <View style = {{flexDirection:'row',width:'46%',alignItems:'center'}}>
-            <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>Level</Text>
-
-            <View style={{margin:5}}>
-            <Stars
-              default={item.lavel}
-              count={5}
-              starSize={8}
-              spacing={2}
-              fullStar={require('./blackcircle.png')}
-              emptyStar={require('./greycircle.png')}
-               />
-            </View>
-
-           </View>
-   </View>
-
-
-          </View>
-</View>
-)}
-
-{item.payment_status != "Free" && (
-
-
-          <View style = {{backgroundColor:'rgba(211,211,211,0.1)',flexDirection:'row',borderBottomWidth: 1,
-  borderBottomColor: "#D3D3D3"}}>
-          <ImageBackground style={{height:90,width:90,borderRadius:8,marginBottom:10}}
+          <View style = {{backgroundColor:'white',flexDirection:'row',
+  justifyContent:'space-between'}}>
+          <Image style={{height:49,width:49,borderRadius:8,marginBottom:10}}
            source={{uri:item.image}}>
 
-           <TouchableOpacity style={{marginLeft:70,marginTop:5}}
-            onPress={()=>this.onChange(item,index)}>
-            {item.like == 0 && (
-              <Image source={this.state.img1}
-               style={{height:13,width:14,resizeMode:'contain'}} />
-            )}
+           </Image>
+           <View style={{flexDirection:'column',width:'98%'}}>
+            <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:12,width:'80%'}}>{item.title}</Text>
 
+            <View style={{flexDirection:'row',marginTop:6,marginLeft:13,justifyContent:'space-between',width:'60%'}}>
 
-           </TouchableOpacity>
+             <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>{item.body_parts}</Text>
+             <View style = {{flexDirection:'row',width:'42%',alignItems:'center'}}>
+             <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>Level</Text>
 
+             <View style={{margin:5}}>
+             <Stars
+               default={item.lavel}
+               count={5}
+               starSize={8}
+               spacing={2}
+               fullStar={require('./blackcircle.png')}
+               emptyStar={require('./greycircle.png')}
+                />
+             </View>
 
-           <TouchableOpacity style={{marginLeft:70,marginTop:5}}
-            onPress={()=>this.onChange(item,index)}>
-            {item.like == 1 && (
-              <Image source={require('./redheart.png')}
-               style={{height:13,width:14,resizeMode:'contain'}} />
-            )}
-
-
-           </TouchableOpacity>
-           </ImageBackground>
-
-
-          <View style={{flexDirection:'column',width:'98%'}}>
-           <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:12}}>{item.title}</Text>
-
-           <View style={{flexDirection:'row',marginTop:6,marginLeft:13,justifyContent:'space-between',width:'70%'}}>
-
-            <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>{item.body_parts}</Text>
-            <View style = {{flexDirection:'row',width:'42%',alignItems:'center'}}>
-            <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>Level</Text>
-
-            <View style={{margin:5}}>
-            <Stars
-              default={item.lavel}
-              count={5}
-              starSize={8}
-              spacing={2}
-              fullStar={require('./blackcircle.png')}
-              emptyStar={require('./greycircle.png')}
-               />
             </View>
+         </View>
+
 
            </View>
-   </View>
 
 
-          </View>
 </View>
-)}
+
+
+
+
+
+
+
         </TouchableOpacity>
+        <View style={{height:1,backgroundColor:'#D3D3D3',width:'100%',marginBottom:5,marginTop:5}}>
+ </View>
+        </View>
 
      )
    }
 
+   showLoading() {
+   this.setState({loading: true})
+  }
+
+   hideLoading() {
+   this.setState({loading: false})
+  }
+  call = () =>{
+    this.setState({search:''})
+    this.showLoading()
+    fetch('http://pumpfit.in/admin/webservices/category', {
+      method: 'POST',
+     headers: {
+         'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
+         'Content-Type': 'application/json'
+     },
+     body: JSON.stringify({
+         category_id: GLOBAL.category,
+         user_id:GLOBAL.user_id
+
+
+     }),
+   }).then((response) => response.json())
+     .then((responseJson) => {
+this.hideLoading()
+
+
+         if (responseJson.status == true) {
+              this.setState({FlatListItems: responseJson.category })
+             arrayholder =   responseJson.category
+
+
+         }
+         else{
+            this.setState({FlatListItems: [] })
+         }
+     })
+     .catch((error) => {
+         console.error(error);
+     });
+
+
+
+
+
+  }
+
 
    SearchFilterFunction(text){
-        const newData = arrayholder.filter(function(item){
-            const mergetwo= item.title
-            const itemData = mergetwo.toUpperCase()
-            const textData = text.toUpperCase()
-            return itemData.indexOf(textData) > -1
-        })
+
+this.setState({search:text})
+     fetch('http://pumpfit.in/admin/webservices/category', {
+       method: 'POST',
+      headers: {
+          'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          category_id: GLOBAL.category,
+          user_id:GLOBAL.user_id,
+          search:text,
 
 
-        this.setState({
-            FlatListItems: newData,
-            search: text
+      }),
+    }).then((response) => response.json())
+      .then((responseJson) => {
 
 
-        })
+
+          if (responseJson.status == true) {
+               this.setState({FlatListItems: responseJson.category })
+              arrayholder =   responseJson.category
+
+
+          }
+          else{
+             this.setState({FlatListItems: [] })
+          }
+      })
+      .catch((error) => {
+          console.error(error);
+      });
+        // const newData = arrayholder.filter(function(item){
+        //     const mergetwo= item.title
+        //     const itemData = mergetwo.toUpperCase()
+        //     const textData = text.toUpperCase()
+        //     return itemData.indexOf(textData) > -1
+        // })
+        //
+        //
+        // this.setState({
+        //     FlatListItems: newData,
+        //     search: text
+        //
+        //
+        // })
 
     }
    _keyExtractor=(item, index)=>item.key;
@@ -348,36 +374,53 @@ this.props.navigation.navigate('VideoScreen')
 
 
    render() {
+
+
+     if(this.state.connected == false){
+             return(
+                 <Internet>
+
+                 </Internet>
+
+             )
+         }
+
+     if(this.state.loading){
+             return(
+                 <Loader>
+
+                 </Loader>
+
+             )
+         }
     return(
-      <SafeAreaView style={styles.AndroidSafeArea}>
+      <SafeAreaProvider>
                       <StatusBar backgroundColor="black" barStyle="light-content" />
 
-                      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',justifyContent:'space-between'}}>
-                          <View>
-                          <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
-                              <Image
-                                  source={require('./arrowlogo2.png')}
-                                  style={{width: 18, height: 20,marginLeft:20,marginTop:25,resizeMode:'contain'}}
+                      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                        <View>
+                        <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
+                            <Image
+                                source={require('./arrowlogo2.png')}
+                                style={{width: 18, height: 20,marginLeft:20,resizeMode:'contain'}}
 
 
-                              />
-                          </TouchableOpacity>
-                          </View>
+                            />
+                        </TouchableOpacity>
+                        </View>
 
 
-                          <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:'Exo2-Bold',fontSize: 18,paddingRight:30}}>
-                              {GLOBAL.category}
-                          </Text>
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                           {GLOBAL.category}
+                        </Text>
 
 
-                          <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:GLOBAL.heavy,fontSize: 18,paddingRight: 10}}>
+                        
 
-                          </Text>
-
-                      </View>
+                    </View>
 
 
-         <View style = {{height:window.height,backgroundColor:'white'}} >
+         <View style = {{flex:1,backgroundColor:'white'}} >
 
 
 
@@ -390,7 +433,7 @@ this.props.navigation.navigate('VideoScreen')
                        source={require('./search.png')} />
 
                        <TextInput
-                         style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#23222280',width:'84%',height:36,marginLeft:2,paddingBottom:8}}
+                         style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#23222280',width:'84%',height:36,marginLeft:2,marginTop:4,height:40}}
                          placeholder="Search"
                          placeholderTextColor="#23222280"
 
@@ -400,8 +443,10 @@ this.props.navigation.navigate('VideoScreen')
                          />
 
 
-                        <TouchableOpacity style={{marginLeft:-2}}
-                        onPress={()=>this.cancel()}>
+                        <TouchableOpacity
+
+     onPress={()=>this.call()}
+                        style={{marginLeft:-2}}>
                         <Image style={{height:17,width:17,resizeMode:'contain'}}
                          source={require('./cross.png')} />
                         </TouchableOpacity>
@@ -409,19 +454,32 @@ this.props.navigation.navigate('VideoScreen')
                 </View>
 
                 <Button
+                       onPress={()=>this.call()}
                   style={{fontSize: 17, color: '#161718',fontFamily:'Exo2-Regular'}}>
                   Cancel
                 </Button>
 
            </View>
 
-              <View style={{height:'auto',width:'90%',alignSelf:'center'}}>
-                 <FlatList style= {{ height:'auto', flexGrow:0,borderTopColor:'#c0c0c0',width:'100%',height:'90%',backgroundColor:'white'}}
-                 data={this.state.FlatListItems}
-                 numColumns={1}
-                 keyExtractor={this._keyExtractor}
-                 renderItem={this.renderItem}
-                 />
+              <View style={{height:Dimensions.get('window').height,width:'90%',alignSelf:'center',marginTop:5}}>
+              {this.state.FlatListItems.length != 0 && (
+                <FlatList style= {{ height:'auto', flexGrow:0,borderTopColor:'#c0c0c0',width:'100%',height:'90%',backgroundColor:'white'}}
+                data={this.state.FlatListItems}
+                numColumns={1}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={this._keyExtractor}
+                renderItem={this.renderItem}
+                />
+              )}
+              {this.state.FlatListItems.length == 0 && (
+                <View style={{marginTop:'50%'}}>
+                <Image style={{height:100,width:100,resizeMode:'contain',borderRadius:8,alignSelf:'center'}}
+             source={require('./nodata.png')} />
+
+           <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'black',marginTop:10,alignSelf:'center'}}>No Data Found</Text>
+            </View>
+
+              )}
               </View>
 
 
@@ -431,7 +489,7 @@ this.props.navigation.navigate('VideoScreen')
 
 
          </View>
-       </SafeAreaView>
+       </SafeAreaProvider>
     );
   }
 }

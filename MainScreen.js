@@ -38,15 +38,34 @@ class MainScreen extends React.Component {
 
   render() {
   return(
-          <SafeAreaProvider>
-          <Header navigation={this.props.navigation}
-          showHeaderImage={false}
-          headerColor ={'#161718'}
-          backImagePath={require('./arrowlogo2.png')}
-          headerName={'Exercises Library'}
-          headerTextStyle={{fontFamily:'Gilroy-Bold', color:'white',marginLeft:10}} />
+    <SafeAreaView style={styles.AndroidSafeArea}>
+                    <StatusBar backgroundColor="#639ced" barStyle="light-content" />
 
-           <View style={{flex:1,backgroundColor:'white'}}>
+                    <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',justifyContent:'space-between'}}>
+                        <View>
+                        <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
+                            <Image
+                                source={require('./arrowlogo2.png')}
+                                style={{width: 18, height: 20,marginLeft:20,marginTop:25,resizeMode:'contain'}}
+
+
+                            />
+                        </TouchableOpacity>
+                        </View>
+
+
+                        <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:'Exo2-Bold',fontSize: 18,paddingRight:30}}>
+                          Exercise Library
+                        </Text>
+
+
+                        <Text style = {{alignSelf:'center',textAlign:'center',color:'white',fontFamily:GLOBAL.heavy,fontSize: 18,paddingRight: 10}}>
+
+                        </Text>
+
+                    </View>
+
+           <View style={{backgroundColor:'white'}}>
 
               <TouchableOpacity style={{marginTop:20,width:Dimensions.get('window').width-36,alignSelf:'center'}}
               onPress={()=>this.setValue('Gym')}>
@@ -82,9 +101,38 @@ class MainScreen extends React.Component {
               </ImageBackground>
               </TouchableOpacity>
            </View>
-          </SafeAreaProvider>
+          </SafeAreaView>
     ) ;
   }
 }
 
  export default MainScreen;
+ const styles = StyleSheet.create({
+
+     container: {
+         flex:1,
+         backgroundColor :'white',
+
+     },
+     containers: {
+
+         backgroundColor :'white'
+     },
+     AndroidSafeArea: {
+        flex: 0,
+        backgroundColor:'black',
+        paddingTop: Platform.OS === "android" ? 0 : 0
+    },
+     loading: {
+         position: 'absolute',
+         left: window.width/2 - 30,
+
+         top: window.height/2,
+
+         opacity: 0.5,
+
+         justifyContent: 'center',
+         alignItems: 'center'
+     },
+
+ })

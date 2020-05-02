@@ -42,7 +42,7 @@ class PremiumScreen extends React.Component {
         this.setState({loading: false})
        }
        access = (item,t) =>{
-         alert(JSON.stringify(item))
+         // alert(JSON.stringify(item))
          if (t == ''){
            return
          }
@@ -130,7 +130,7 @@ body: JSON.stringify({
      if (sum==0) {
        item.price = 'Free'
      }
-    alert(sum)
+    // alert(sum)
 var t = ""
 if (isNaN(sum)) {
   t = ""

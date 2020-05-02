@@ -1,3 +1,4 @@
+
 import {
   SafeAreaView,
   Platform,
@@ -26,6 +27,7 @@ import React, {Component} from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'react-native-button';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
+const GLOBAL = require('./Global');
 var DeviceInfo = require('react-native-device-info');
 
 
@@ -55,15 +57,14 @@ class LoginScreen extends React.Component {
     this.setState({loading: false})
    }
 
+    
+
+
+
     getRemoteData = () => {
 
 
-
-
-
-
-
-       if (this.state.phone == '') {
+      if (this.state.phone == '') {
          alert('Please Enter Mobile No.')
        } else if (this.state.Password == '') {
          alert('Please Enter Password')
@@ -74,26 +75,27 @@ class LoginScreen extends React.Component {
          method: 'POST',
         headers: {
             'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             mobile: this.state.phone,
-            password:this.state.Password,
-            device_id: DeviceInfo.getUniqueId(),
-            device_type: Platform.OS,
-            device_token: GLOBAL.firebaseToken,
-            model_name: 0,
+            password:this.state.Password, 
+            device_id: 'abc',          
+             device_type: Platform.OS,
+            device_token: 'bcd',
+            model_name: 0
 
         }),
     }).then((response) => response.json())
         .then((responseJson) => {
 
-                // alert(JSON.stringify(responseJson))
+                   // alert(JSON.stringify(responseJson))
               this.hideLoading()
             if (responseJson.status == true) {
-                 this.setState({result: responseJson.user_detail })
+                 // this.setState({result: responseJson.user_detail })
 
-                GLOBAL.user_id = responseJson.user_id
+                  GLOBAL.user_id = responseJson.user_id
+                    // alert(JSON.stringify(GLOBAL.user_id))
 
 
                  AsyncStorage.setItem('userID', responseJson.user_id);
@@ -102,7 +104,7 @@ class LoginScreen extends React.Component {
                 // AsyncStorage.setItem('name', this.state.results.name);
                 // AsyncStorage.setItem('email', this.state.results.email);
                 // AsyncStorage.setItem('mobile', this.state.results.mobile);
-                 this.props.navigation.navigate('Tab')
+                     this.props.navigation.navigate('Tab')
             }
             else{
                 alert('Invalid Credentials!')
@@ -118,6 +120,8 @@ class LoginScreen extends React.Component {
 }
 
  componentDidMount() {
+    // alert(JSON.stringify(GLOBAL.user_id))
+
   GoogleSignin.configure({
           //It is mandatory to call this method before attempting to call signIn()
           scopes: ['https://www.googleapis.com/auth/drive.readonly'],
@@ -208,6 +212,7 @@ class LoginScreen extends React.Component {
          <Button
            style={{fontSize: 16, color: 'white',fontFamily:'Exo2-SemiBold'}}
            containerStyle={{alignSelf:'flex-end',marginTop:'14%',marginRight:'5%'}}>
+           
              SKIP
          </Button>
 
@@ -224,7 +229,7 @@ class LoginScreen extends React.Component {
 
              placeholderTextColor="rgba(255, 255, 255, 0.6)"
              keyboardType="numeric"
-             maxLength={12}
+             maxLength={10}
              onChangeText={(text) => this.setState({phone: text})}
              value={this.state.phone}
              />
@@ -236,8 +241,8 @@ class LoginScreen extends React.Component {
                    placeholder="Password"
                    secureTextEntry={this.state.hidePassword}
                    placeholderTextColor="rgba(255, 255, 255, 0.6)"
-
-                   maxLength={20}
+                   
+                   maxLength={16}
                    onChangeText={(text) => this.setState({Password: text})}
                    value={this.state.Password}
                    />
@@ -281,7 +286,8 @@ class LoginScreen extends React.Component {
 
           <Text style={{fontSize:15,fontFamily:'Exo2-SemiBold',color:'white',marginTop:'26%',alignSelf:'center'}}>or log in with</Text>
 
-          <View style={{flexDirection:'row',marginTop:17,width:'90%',marginLeft:'5%',alignItems:'center',justifyContent:'space-between'}}>
+          <View style={{flexDirection:'row',marginTop:17,width:'90%',marginLeft:'5%',alignItems:'center',justifyContent:'space-between',marginBottom:20
+        }}>
 
             <TouchableOpacity style={{backgroundColor:'rgba(255, 255, 255, 0.3)',height:50,width:'50%',borderTopLeftRadius:10,borderBottomLeftRadius:10,justifyContent:'center',borderRightWidth:1,borderColor:'rgba(255, 255, 255, 0.4)'}}
              onPress= {()=>this.google()}>

@@ -23,8 +23,8 @@ import {
 
   } from 'react-native';
 
-
-
+import Loader from './Loader.js';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import React, {Component} from 'react';
 import Button from 'react-native-button';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -37,15 +37,15 @@ class ProfileScreen extends React.Component {
        loading:'',
        flag: 0,
        data:[],
-       
 
-       
+
+
      }
-    
+
   }
 
 
-  
+
 
   showLoading() {
 this.setState({loading: true})
@@ -57,12 +57,14 @@ this.setState({loading: false})
 
 
   componentDidMount() {
-    
+  this._unsubscribe = this.props.navigation.addListener('focus', () => {
      this.handleStateChange()
+   })
 }
 
 
   handleStateChange=()=> {
+
       this.showLoading()
   fetch('http://pumpfit.in/admin/webservices/getprofile', {
     method: 'POST',
@@ -77,15 +79,15 @@ this.setState({loading: false})
 }).then((response) => response.json())
    .then((responseJson) => {
 
-          
+
          this.hideLoading()
        if (responseJson.status == true) {
              // GLOBAL.userdet = responseJson.user
              this.setState({data:responseJson.user[0]})
-             
-              
+
+
        //     GLOBAL.user_id = responseJson.user_id
-       //
+           // alert(JSON.stringify(this.state.data[0].profile_pic))
        //      AsyncStorage.setItem('userID', responseJson.user_id);
        //
        //     // AsyncStorage.setItem('image', this.state.results.image);
@@ -93,10 +95,10 @@ this.setState({loading: false})
        //     // AsyncStorage.setItem('email', this.state.results.email);
        //     // AsyncStorage.setItem('mobile', this.state.results.mobile);
        //     this.props.navigation.navigate('HomeScreen')
-        
+
         }
        else{
-           alert('Invalid Credentials!')
+
        }
    })
    .catch((error) => {
@@ -107,18 +109,48 @@ this.setState({loading: false})
   }
 
   render() {
-    
+
+    if(this.state.loading){
+            return(
+                <Loader>
+
+                </Loader>
+
+            )
+        }
+
 //      alert(JSON.stringify(this.state.data[0].profile_pic))
   var yeah= this.state.data
     return(
-      <View style={{flex:1,backgroundColor:'white'}}>
       <SafeAreaProvider>
+                      <StatusBar backgroundColor="black" barStyle="light-content" />
 
-      <ScrollView>
+                      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                        <View>
+                        <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
+                            <Image
+                                source={require('./arrowlogo2.png')}
+                                style={{width: 18, height: 20,marginLeft:20,resizeMode:'contain'}}
+
+
+                            />
+                        </TouchableOpacity>
+                        </View>
+
+
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                           Profile
+                        </Text>
+
+
+                        
+
+                    </View>
+                      <ScrollView style={{flex:1, backgroundColor: 'white'}} >
 
       <View style={{flexDirection:'row',marginTop:26}}>
        <Image source={{uri: yeah.profile_pic}}
-        style={{height:100,width:100,resizeMode:'contain',marginLeft:38}}/>
+        style={{height:100,width:100,marginLeft:38,borderRadius:50}}/>
 
         <TouchableOpacity style={{width:30,borderRadius:15,marginTop:60,height:30,marginLeft:-18}}
         onPress={()=>this.props.navigation.navigate('EditScreen')}>
@@ -142,14 +174,7 @@ this.setState({loading: false})
 
         </ImageBackground>
 
-        <ImageBackground source={require('./box.png')}
-
-          style={{width:'100%',height:150,resizeMode:'contain',marginTop:-40,shadowColor: '#00000012',shadowOffset: { width: 2, height: 2 },elevation:1}}>
-
-          <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#00000050',marginTop:40,marginLeft:38}}>Gender</Text>
-          <Text style={{fontSize:21,fontFamily:'Exo2-Regular',color:'#161718',marginTop:3,marginLeft:38}}>{yeah.gender}</Text>
-
-        </ImageBackground>
+    
 
         <ImageBackground source={require('./box.png')}
 
@@ -180,10 +205,40 @@ this.setState({loading: false})
 
 
       </ScrollView>
-      </SafeAreaProvider>
-      </View>
+      </SafeAreaProvider
+      >
+
     );
   }
 }
 
 export default ProfileScreen;
+const styles = StyleSheet.create({
+
+    container: {
+        flex:1,
+        backgroundColor :'white',
+
+    },
+    containers: {
+
+        backgroundColor :'white'
+    },
+    AndroidSafeArea: {
+       flex: 0,
+       backgroundColor:'black',
+       paddingTop: Platform.OS === "android" ? 0 : 0
+   },
+    loading: {
+        position: 'absolute',
+        left: window.width/2 - 30,
+
+        top: window.height/2,
+
+        opacity: 0.5,
+
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+})

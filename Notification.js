@@ -1,7 +1,7 @@
 
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet,AsyncStorage, Text, View,FlatList,ActivityIndicator,StatusBar,Image,TouchableOpacity ,Alert,Container,Linking ,TextInput , Dimensions} from 'react-native';
+import {Platform, StyleSheet,AsyncStorage, Text, View,FlatList,ActivityIndicator,StatusBar,Image,TouchableOpacity,ScrollView ,Alert,Container,Linking ,TextInput , Dimensions} from 'react-native';
 
 
 
@@ -13,6 +13,7 @@ const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 
 const window = Dimensions.get('window');
 const GLOBAL = require('./Global');
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 type Props = {};
 class Notification extends Component<Props> {
@@ -40,7 +41,7 @@ class Notification extends Component<Props> {
   renderRowItem = (item) => {
 
     return (
-      <View style={{flexDirection: 'row',flex : 1, backgroundColor:'white',borderRadius:5,  width : window.width-20 ,marginLeft : 10,marginRight:10,marginTop:10,marginBottom:5}}>
+      <View style={{flexDirection: 'row',flex : 1, backgroundColor:'white',borderRadius:5,  width : window.width-20 ,marginLeft : 10,marginRight:10,marginTop:10,marginBottom:5,elevation:2}}>
     <Image style={{width:30, height:30, resizeMode:'contain', margin:12}} source={require('./blackbell.png')}/>
     <View style={{flexDirection:'column', margin:10, width: '82%'}}>
      <Text style={{fontSize:16, color:'#21262C', fontFamily: 'Poppins-Medium'}}>{item.item.title}</Text>
@@ -114,32 +115,40 @@ componentDidMount(){
 
     return (
 
-      <View style={styles.container}>
+      <SafeAreaProvider>
 
-      <View style={styles.appBar} >
+      
 
-      <View style = {{flex:1,flexDirection:'row', width:window.width, marginTop:5}}>
-     <TouchableOpacity style={{height :20,width :20,marginTop :12 ,marginLeft: 15}}
-     onPress={() => this.props.navigation.goBack()}>
-      <Image style={{height :18,width :18}}
-            source={require('./h_back.png')} />
-      </TouchableOpacity >
-
-      <Text style = {{color:'white',width : 200 ,height:40,marginLeft :30 ,marginTop :10,fontSize: 15 }}>
-      Notifications
-      </Text>
-       </View>
-         </View>
+      <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                        <View>
+                        <TouchableOpacity onPress= {()=>this.props.navigation.goBack()}>
+                            <Image
+                                source={require('./arrowlogo2.png')}
+                                style={{width: 18, height: 20,marginLeft:20,resizeMode:'contain'}}
 
 
-    <KeyboardAwareScrollView style={styles.container2}
-    keyboardShouldPersistTaps='always'>
+                            />
+                        </TouchableOpacity>
+                        </View>
+
+
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                             Notifications
+                        </Text>
+
+
+                        
+
+                    </View>
+
+
+    <ScrollView style={{flex:1,backgroundColor:'white'}}>
 {this.state.notificationslist.length == 0 &&(
     <Text style={{fontSize:20, margin:10,alignSelf:'center', fontFamily: 'Poppins-Medium'}}>No new notifications!</Text>
   )}
 
   {this.state.notificationslist.length !=0 &&(
-      <FlatList style= {{backgroundColor:'#e3e3e3',flexGrow:0, marginBottom:20}}
+      <FlatList style= {{backgroundColor:'white',flexGrow:0, marginBottom:20}}
           data={this.state.notificationslist}
           numColumns={1}
           keyExtractor = { this.keyExtractor}
@@ -150,8 +159,8 @@ componentDidMount(){
 
 
 
-     </KeyboardAwareScrollView>
-     </View>
+     </ScrollView>
+     </SafeAreaProvider>
     );
   }
 }

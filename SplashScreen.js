@@ -20,11 +20,20 @@ import {
 
 
   } from 'react-native';
+  const GLOBAL = require('./Global');
 
 import React, {Component} from 'react';
-const GLOBAL = require('./Global');
+
+
+
+
+
 
 class SplashScreen extends React.Component {
+
+
+
+  
 
 
   getData = async () => {
@@ -33,7 +42,7 @@ class SplashScreen extends React.Component {
       if(value !== null) {
         // value previously stored
         GLOBAL.user_id = value
-         this.props.navigation.navigate('Tab')
+          this.props.navigation.navigate('Tab')
       }else{
           this.props.navigation.navigate('StyleScreen')
 
@@ -49,26 +58,33 @@ class SplashScreen extends React.Component {
        this.getData()
     //   this.props.navigation.navigate('StyleScreen')
 
-  }, 1000);
+  },1000);
+  
+
 
    }
 
+
+
+
+
    render() {
+    
    return (
 
 
-       <View style={{flex:1}}>
+       <View style={{backgroundColor:'transparent'}}>
 
-             <ImageBackground
-                  source={require('./Splash.png')}
-                  style={{height:'100%',width:'100%',resizeMode:'contain'}}>
+        <ImageBackground style={{resizeMode:'cover',height:'100%',width:'100%'}} source={require('./Splash.jpeg')}>
 
-                  <Text style={{fontSize:30,fontFamily:'Exo2-SemiBold',color:'white',position:'absolute',bottom:'23%',width:'90%',left:'5.5%'}}>Welcome to iwantfitness</Text>
-                  <Text style={{fontSize:32,fontFamily:'Exo2-SemiBold',color:'white',position:'absolute',bottom:'18%',width:'70%',left:'5.5%'}}>Let's Go</Text>
+                                            
+                            
+              
+
+        </ImageBackground>          
 
 
-            </ImageBackground>
-
+            
        </View>
 
 

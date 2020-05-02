@@ -17,7 +17,7 @@ export default class NotifService {
       onNotification: onNotification, //this._onNotification,
 
       // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-      senderID: '197048053260',
+      senderID: '152935515966',
 
       // IOS ONLY (optional): default: all - Permissions to register.
       permissions: {

@@ -15,6 +15,7 @@ import {
   FlatList,
   Dimensions,
   AsyncStorage,
+  RefreshControl,
 
 
 
@@ -37,10 +38,20 @@ class ProgramScreen extends React.Component {
        FlatListItems: [],
        loading:'',
        image:'',
+       refreshing: false,
+       items: [],
 
 
 }
   }
+
+   genItems = () => [0, 1, 2, 3, 4, 5];
+
+  refresh = () => {
+    this.setState({ refreshing: true, items: [] });
+    setTimeout(() => this.setState({ refreshing: false, items: this.genItems() }), 1500);
+  };
+
 
     showLoading() {
     this.setState({loading: true})
@@ -73,7 +84,7 @@ return(
 
 
 
-            <View style={{marginLeft:10,marginTop:5}}>
+          
              <FlatList
               data={item.all_package}
               horizontal={true}
@@ -81,7 +92,7 @@ return(
               keyExtractor={this._keyExtractor2}
               renderItem={this.renderItem2}
               />
-             </View>
+             
    </View>
 </>
 
@@ -161,7 +172,7 @@ return(
 onPress={()=>this.navigate(item.no_of_week,item.id,item)}>
  <ImageBackground source={{uri:item.image}}
  imageStyle={{ borderRadius: 12 }}
-  style={{width:220,height:120}}>
+  style={{width:220,height:120,margin:10}}>
 
   <View style={{flexDirection:'row',width:'82%',marginLeft:'9%',marginTop:17,alignItems:'center',justifyContent:'space-between'}}>
 
@@ -187,13 +198,19 @@ onPress={()=>this.navigate(item.no_of_week,item.id,item)}>
 
 )
 }
+
 componentDidMount() {
+      // alert(JSON.stringify(GLOBAL.user_id))
+       this._unsubscribe = this.props.navigation.addListener('focus', () => {
+         this.handleStateChange()
+
+          }
+     )
+     }
 
 
-
-
-
-     this._unsubscribe = this.props.navigation.addListener('focus', () => {
+  handleStateChange=()=> {
+       
     this.showLoading()
        fetch('http://pumpfit.in/admin/webservices/getpackage', {
          method: 'POST',
@@ -222,71 +239,12 @@ componentDidMount() {
         .catch((error) => {
             console.error(error);
         });
-      }
-    )
-}
+      
+  }
 
   _keyExtractor2=(item, index)=>item.key;
 
-// renderItem3=({item}) => {
-// return(
 
-// <TouchableOpacity>
-//  <ImageBackground source={item.add3}
-//   style={{width:220,height:120}}>
-
-//   <View style={{flexDirection:'row',width:'82%',marginLeft:'9%',marginTop:17,alignItems:'center',justifyContent:'space-between'}}>
-
-//   <Button
-//     style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
-//     containerStyle={{width:75,height:23,borderRadius:3,backgroundColor:'white',justifyContent:'center'}}>
-//     {item.add}
-//   </Button>
-
-//   <Image source={ item.add4}
-//    style={{width:16,height:20}}/>
-//   </View>
-
-//   <Text style={{fontFamily:17,fontFamily:'Exo2-Medium',color:'white',marginTop:26,marginLeft:'9%',width:'75%'}}>No Equipment Home Beginner</Text>
-//  </ImageBackground>
-
-// </TouchableOpacity>
-
-
-// )
-// }
-
-// _keyExtractor3=(item, index)=>item.key;
-
-// renderItem4=({item}) => {
-// return(
-
-// <TouchableOpacity>
-//  <ImageBackground source={item.add3}
-//   style={{width:220,height:120}}>
-
-//   <View style={{flexDirection:'row',width:'82%',marginLeft:'9%',marginTop:17,alignItems:'center',justifyContent:'space-between'}}>
-
-//   <Button
-//     style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
-//     containerStyle={{width:75,height:23,borderRadius:3,backgroundColor:'white',justifyContent:'center'}}>
-//     {item.add}
-//   </Button>
-
-//   <Image source={ item.add4}
-//    style={{width:16,height:20}}/>
-//   </View>
-
-//   <Text style={{fontFamily:17,fontFamily:'Exo2-Medium',color:'white',marginTop:26,marginLeft:'9%',width:'75%'}}>No Equipment Home Beginner</Text>
-//  </ImageBackground>
-
-// </TouchableOpacity>
-
-
-// )
-// }
-
-// _keyExtractor4=(item, index)=>item.key;
 
   render() {
     if(this.state.loading){
@@ -332,16 +290,24 @@ componentDidMount() {
 
            <Image
                  source={{uri:this.state.image}}
-               style={{width: '100%', height: 200,marginTop:5,resizeMode:'contain'}}
+               style={{width: Dimensions.get('window').width-20,alignSelf:'center', height: 200,marginTop:5,resizeMode:'cover',borderRadius:6}}
 
 
            />
-            <FlatList
+            <FlatList 
              data={this.state.FlatListItems}
              horizontal={false}
              showsHorizontalScrollIndicator={false}
              keyExtractor={this._keyExtractor}
              renderItem={this.renderItem}
+             refreshControl={
+             <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.refresh}
+            />
+          }
+            
+             
              />
 
 
@@ -350,8 +316,7 @@ componentDidMount() {
 
 
 
-<Text style = {{height:10}}>
-</Text>
+
 
            </View>
          </SafeAreaProvider>

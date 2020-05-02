@@ -55,6 +55,7 @@ class HomeScreen extends React.Component {
      this.setState({ is_rotated: 1 })
    }
    componentDidMount(){
+     // alert(JSON.stringify(GLOBAL.user_id))
        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   this._unsubscribe = this.props.navigation.addListener('focus', () => {
 b = 0;
@@ -79,7 +80,7 @@ b = 0;
     return(
 
       <SafeAreaProvider>
-                    
+                   <StatusBar backgroundColor="black" barStyle="light-content" />
 
             <View style = {{height:70,backgroundColor:'black',flexDirection:'row',width:'100%',alignItems:'center'}}>
                         <View>
@@ -147,9 +148,9 @@ b = 0;
             </TouchableOpacity>
 
 
-            <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:252, left: 110}}/>
+            <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:252, left: 115}}/>
 
-            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:95,borderRadius:1,position:'absolute',top:266,left: 22}}>
+            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:100,borderRadius:1,position:'absolute',top:266,left: 22}}>
             </View>
 
             <TouchableOpacity style={{position:'absolute',top:249.4,left:22}}
@@ -192,9 +193,9 @@ b = 0;
 
 
 
-            <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:372, right: 170}}/>
+            <PulseIndicator color='#F9C057' size={30} style={{position: 'absolute' , top:372, right: 156}}/>
 
-            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:154,borderRadius:1,position:'absolute',top:386.5,right: 22}}>
+            <View style={{borderWidth:1,borderColor:'#242B37',borderStyle:'dotted',width:141,borderRadius:1,position:'absolute',top:386.5,right: 22}}>
             </View>
 
             <TouchableOpacity style={{position:'absolute',top:370,right:22}}
@@ -211,8 +212,11 @@ b = 0;
             </TouchableOpacity>
 
 
+            <TouchableOpacity style={{position:'absolute',bottom:50,left:22}}
+                    onPress={()=> this.setValue('Hiit/cardio')}>
 
-
+            <Text style={{fontSize:20,fontFamily:'Exo2-Bold',color:'#161718',borderBottomWidth:2}}>HIIT/CARDIO</Text>
+            </TouchableOpacity>
 
 
 

@@ -21,7 +21,8 @@ import {
 
 
   } from 'react-native';
-
+    import NetInfo from "@react-native-community/netinfo";
+  import Loader from './Loader.js';
 import React, {Component} from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'react-native-button';
@@ -55,6 +56,13 @@ class SignupScreen extends React.Component {
       }
 
       buttonClickListener = () =>{
+
+        NetInfo.fetch().then(state => {
+     if (state.isConnected == false){
+       alert('Please connect to internet')
+       return
+     }
+        })
       let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
 
 
@@ -72,12 +80,14 @@ class SignupScreen extends React.Component {
      }
      else if (this.state.password == ''){
        alert('Please Enter password')
+     }else if (this.state.password.length < 6){
+       alert('Password must be 6 chracter long')
      }
-
+//password
      else {
 
        this.showLoading()
-   fetch('http://pumpfit.in/admin/webservices/otp', {
+   fetch('http://pumpfit.in/admin/webservices/register_otp', {
 method: 'POST',
 headers: {
   'x-api-key': 'c3a3cf7c211b7c07b2495d8aef9761fc',
@@ -86,6 +96,7 @@ headers: {
 body: JSON.stringify({
 
        mobile: this.state.phone,
+       email:this.state.email
 
 
 }),
@@ -102,13 +113,14 @@ body: JSON.stringify({
         GLOBAL.password = this.state.password
         GLOBAL.mobile = this.state.phone
         GLOBAL.otp = responseJson.otp
-
-
+          
+         // alert(JSON.stringify(GLOBAL.email))
 
      alert('OTP Sent To Your Registered Mobile Number.')
-     this.props.navigation.navigate('OtpScreen')
+      this.props.navigation.navigate('OtpScreen')
     }else {
-        alert('Your Mobile Number Is Already Registered.')
+    
+        alert(responseJson.message)
     }
  })
  .catch((error) => {
@@ -121,13 +133,29 @@ body: JSON.stringify({
 
 
   render() {
+    if(this.state.loading){
+      return(
+        <View style={{flex: 1}}>
+        <ActivityIndicator style = {{position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center'}}
+
+       size="large" color="#e41582" />
+        </View>
+      )
+    }
     return(
       <View style={{flex:1,backgroundColor:'transparent'}}>
       <ImageBackground style={{resizeMode:'contain',height:'100%',width:'100%'}} source={require('./signup.png')}>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
 
 
-      <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',textAlign:'center',marginTop:'41%'}}>Create New</Text>
+      <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',textAlign:'center',marginTop:'31%'}}>Create New</Text>
       <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',textAlign:'center',marginTop:-8}}>Account</Text>
 
       <View style={{backgroundColor: 'rgba(0,0,0,0.3)',marginLeft:'5%',width:'90%',height:46,borderRadius:10,marginTop:26}}>
@@ -160,7 +188,7 @@ body: JSON.stringify({
               placeholder="Mobile No."
               placeholderTextColor="rgba(255, 255, 255, 0.6)"
               keyboardType="numeric"
-              maxLength={12}
+              maxLength={10}
               onChangeText={(text) => this.setState({phone: text})}
               value={this.state.phone}
               />
@@ -201,36 +229,14 @@ body: JSON.stringify({
 
         <Button
           style={{fontSize: 18, color: 'white',fontFamily:'Exo2-Medium'}}
-          onPress={()=>this.props.navigation.navigate('LoginScreen')}>
+          onPress={()=>this.props.navigation.goBack()}>
 
             Log In
         </Button>
 
       </View>
 
-      <Text style={{fontSize:15,fontFamily:'Exo2-SemiBold',color:'white',marginTop:'15%',alignSelf:'center'}}>or sign up with</Text>
 
-      <View style={{flexDirection:'row',marginTop:17,width:'90%',marginLeft:'5%',alignItems:'center',justifyContent:'space-between'}}>
-
-        <TouchableOpacity style={{backgroundColor:'rgba(255, 255, 255, 0.3)',height:50,width:'50%',borderTopLeftRadius:10,borderBottomLeftRadius:10,justifyContent:'center',borderRightWidth:1,borderColor:'rgba(255, 255, 255, 0.4)'}}>
-         <View style={{flexDirection:'row',width:'57%',alignItems:'center',justifyContent:'space-between',alignSelf:'center',}}>
-          <Image source={require('./google.png')}
-            style={{height:18,width:18,resizeMode:'contain'}}/>
-          <Text style={{fontSize:18,fontFamily:'Exo2-SemiBold',color:'white'}}>Google</Text>
-         </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={{backgroundColor:'rgba(255, 255, 255, 0.3)',height:50,width:'50%',borderBottomRightRadius:10,borderTopRightRadius:10,justifyContent:'center',borderLeftWidth:1,borderColor:'rgba(255, 255, 255, 0.4)'}}>
-
-        <View style={{flexDirection:'row',width:'70%',alignItems:'center',justifyContent:'space-between',alignSelf:'center'}}>
-         <Image source={require('./facebook.png')}
-           style={{height:18,width:18,resizeMode:'contain'}}/>
-         <Text style={{fontSize:18,fontFamily:'Exo2-SemiBold',color:'white'}}>Facebook</Text>
-        </View>
-
-        </TouchableOpacity>
-
-
-      </View>
 
 
       </KeyboardAwareScrollView>

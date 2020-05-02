@@ -102,6 +102,23 @@ body: JSON.stringify({
    }
 
   render() {
+    if(this.state.loading){
+      return(
+        <View style={{flex: 1}}>
+        <ActivityIndicator style = {{position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center'}}
+
+       size="large" color="#e41582" />
+        </View>
+      )
+    }
+
     return(
       <View style={{flex:1}}>
       <ImageBackground style={{resizeMode:'contain',height:'100%',width:'100%'}} source={require('./otp.png')}>
@@ -116,7 +133,7 @@ body: JSON.stringify({
               placeholder="Enter Otp"
               placeholderTextColor="rgba(255, 255, 255, 0.6)"
               keyboardType="numeric"
-              maxLength={6}
+              maxLength={4}
               onChangeText={(text) => this.setState({otp2: text})}
               value={this.state.otp2}
               />
