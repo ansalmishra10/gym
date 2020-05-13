@@ -92,6 +92,7 @@ connected:true,
               if (responseJson.status == true) {
                    this.setState({FlatListItems: responseJson.category })
                   arrayholder =   responseJson.category
+                    // alert(JSON.stringify(this.state.FlatListItems))
 
 
               }
@@ -172,11 +173,14 @@ like = (type,id) =>{
      this.setState({FlatListItems:this.state.FlatListItems})
     //  this.setState({ img1: require('./redheart.png')})
    }
-   naviga = (video,image,description,body_parts,you_need,item) => {
-console.log(video)
+   
+
+   naviga = (video,image,description,body_parts,you_need,item, title) => {
+ 
+ // console.log(image)
 
 
-
+GLOBAL.partname= title
 GLOBAL.video = video
 GLOBAL.image = image
 GLOBAL.description = description
@@ -215,25 +219,24 @@ this.props.navigation.navigate('VideoScreen')
                       </View>
 
         <TouchableOpacity style={{flexDirection:'row',marginTop:20}}
-          onPress={()=> this.naviga(item.video,item.image,item.description,item.body_parts,item.you_need,item)}>
+          onPress={()=> this.naviga(item.video,item.image,item.description,item.body_parts,item.you_need,item,item.title)}>
 
 
 
 
-          <View style = {{backgroundColor:'white',flexDirection:'row',
-  justifyContent:'space-between'}}>
+          <View style = {{backgroundColor:'white',flexDirection:'row',justifyContent:'space-between',marginTop:5}}>
           <Image style={{height:49,width:49,borderRadius:8,marginBottom:10}}
-           source={{uri:item.image}}>
+           source={{ uri: item.image_thumb}}>
 
            </Image>
            <View style={{flexDirection:'column',width:'98%'}}>
-            <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:12,width:'80%'}}>{item.title}</Text>
+            <Text style={{fontSize:18,fontFamily:'Gilroy-Bold',color:'#161718',marginLeft:12,width:'75%'}}>{item.title}</Text>
 
             <View style={{flexDirection:'row',marginTop:6,marginLeft:13,justifyContent:'space-between',width:'60%'}}>
 
-             <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>{item.body_parts}</Text>
+             <Text style={{fontSize:12,fontFamily:'Gilroy-Bold',color:'#00000066'}}>{item.body_parts}</Text>
              <View style = {{flexDirection:'row',width:'42%',alignItems:'center'}}>
-             <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>Level</Text>
+             <Text style={{fontSize:12,fontFamily:'Gilroy-Bold',color:'#00000066'}}>Level</Text>
 
              <View style={{margin:5}}>
              <Stars
@@ -243,6 +246,7 @@ this.props.navigation.navigate('VideoScreen')
                spacing={2}
                fullStar={require('./blackcircle.png')}
                emptyStar={require('./greycircle.png')}
+               disabled={true}
                 />
              </View>
 
@@ -276,6 +280,11 @@ this.props.navigation.navigate('VideoScreen')
    hideLoading() {
    this.setState({loading: false})
   }
+
+  call2=()=> {
+        this.setState({search: ''});
+  }
+  
   call = () =>{
     this.setState({search:''})
     this.showLoading()
@@ -433,7 +442,7 @@ this.setState({search:text})
                        source={require('./search.png')} />
 
                        <TextInput
-                         style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#23222280',width:'84%',height:36,marginLeft:2,marginTop:4,height:40}}
+                         style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#23222280',width:'84%',height:36,marginLeft:2,marginTop:4,height:40}}
                          placeholder="Search"
                          placeholderTextColor="#23222280"
 
@@ -445,7 +454,7 @@ this.setState({search:text})
 
                         <TouchableOpacity
 
-     onPress={()=>this.call()}
+     onPress={()=>this.call2()}
                         style={{marginLeft:-2}}>
                         <Image style={{height:17,width:17,resizeMode:'contain'}}
                          source={require('./cross.png')} />
@@ -455,7 +464,7 @@ this.setState({search:text})
 
                 <Button
                        onPress={()=>this.call()}
-                  style={{fontSize: 17, color: '#161718',fontFamily:'Exo2-Regular'}}>
+                  style={{fontSize: 17, color: '#161718',fontFamily:'Gilroy-Bold'}}>
                   Cancel
                 </Button>
 

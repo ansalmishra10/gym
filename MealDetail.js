@@ -102,8 +102,8 @@ handleIndexChange = index => {
                         </View>
 
 
-                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
-                            {GLOBAL.mealtitle}
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20,width:'80%'}}>
+                            {GLOBAL.mealname}
                         </Text>
 
 
@@ -123,13 +123,19 @@ handleIndexChange = index => {
         source={{uri: GLOBAL.mealimage}}/>
 
 
+        <View style={{position:'absolute',width:110,height:30,borderRadius:4,backgroundColor:'white',top:35,right:36,elevation:3,justifyContent:'center'}}>
+         <Text style={{fontSize:14,fontFamily:'Gilroy-Bold',color:'black',alignSelf:'center'}}>{GLOBAL.calories} calories</Text>
+
+        </View>
+
+
         <View style ={{flexDirection:'row',margin:10,justifyContent:'space-between',width:'90%',marginLeft:'5%'}}>
 
                <View style = {{backgroundColor:'white',width:80,height:80,borderRadius:40,borderWidth:1,borderColor:'grey'}}>
-               <Text style = {{color:'black',fontFamily:'Gilroy-Medium',fontSize: 18,alignSelf:'center',marginTop:16}}>
+               <Text style = {{color:'black',fontFamily:'Gilroy-Bold',fontSize: 18,alignSelf:'center',marginTop:16}}>
 Fat
       </Text>
-               <Text style = {{color:'grey',fontFamily:'Gilroy-Medium',fontSize: 17,alignSelf:'center',marginTop:1}}>
+               <Text style = {{color:'grey',fontFamily:'Gilroy-Bold',fontSize: 17,alignSelf:'center',marginTop:1}}>
 {GLOBAL.fat}
       </Text>
                </View>
@@ -137,20 +143,20 @@ Fat
 
 
                <View style = {{backgroundColor:'white',width:80,height:80,borderRadius:40,borderWidth:1,borderColor:'grey'}}>
-               <Text style = {{color:'black',fontFamily:'Gilroy-Medium',fontSize: 18,alignSelf:'center',marginTop:16}}>
+               <Text style = {{color:'black',fontFamily:'Gilroy-Bold',fontSize: 18,alignSelf:'center',marginTop:16}}>
              Carb
                </Text>
-               <Text style = {{color:'grey',fontFamily:'Gilroy-Medium',fontSize: 17,alignSelf:'center',marginTop:1}}>
-             {GLOBAL.carb}
+               <Text style = {{color:'grey',fontFamily:'Gilroy-Bold',fontSize: 17,alignSelf:'center',marginTop:1}}>
+             {GLOBAL.carbs}
                </Text>
-                        </View>
+            </View>
 
 
                <View style = {{backgroundColor:'white',width:80,height:80,borderRadius:40,borderWidth:1,borderColor:'grey'}}>
-               <Text style = {{color:'black',fontFamily:'Gilroy-Medium',fontSize: 18,alignSelf:'center',marginTop:16}}>
+               <Text style = {{color:'black',fontFamily:'Gilroy-Bold',fontSize: 18,alignSelf:'center',marginTop:16}}>
                       Protein
                         </Text>
-               <Text style = {{color:'grey',fontFamily:'Gilroy-Medium',fontSize: 17,alignSelf:'center',marginTop:1}}>
+               <Text style = {{color:'grey',fontFamily:'Gilroy-Bold',fontSize: 17,alignSelf:'center',marginTop:1}}>
                       {GLOBAL.protein}
                         </Text>
                                  </View>
@@ -163,8 +169,8 @@ Fat
 
                       activeTabStyle= {{borderWidth:0,borderTopLeftRadius:33,borderBottomLeftRadius:33,backgroundColor:'#cdf6fc',borderTopRightRadius:22,borderBottomRightRadius:22,borderRadius:22,borderColor:'#f7f7f7'}}
                       tabStyle = {{height:33,borderRadius:33,borderWidth:0,backgroundColor:'#f7f7f7',borderColor:'#f7f7f7'}}
-                      tabTextStyle = {{color:'#acb1c0',fontFamily:'Gilroy-Medium',fontSize:15,paddingTop:4}}
-                      activeTabTextStyle = {{color:'#43454a',fontFamily:'Gilroy-Medium',fontSize:15}}
+                      tabTextStyle = {{color:'#acb1c0',fontFamily:'Gilroy-Bold',fontSize:15,paddingTop:4}}
+                      activeTabTextStyle = {{color:'#43454a',fontFamily:'Gilroy-Bold',fontSize:15}}
                       firstTabStyle = {{borderBottomLeftRadius:33,borderTopLeftRadius:33}}
                       lastTabStyle={{borderTopRightRadius:33,borderBottomRightRadius:33}}
                       values={["Method", "Ingredients",]}

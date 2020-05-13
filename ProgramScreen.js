@@ -68,12 +68,15 @@ return(
 
     <View>
 
-         <View style={{flexDirection:'row',width:'90%',marginTop:12,marginLeft:'5%',alignItems:'center',justifyContent:'space-between'}}>
+         <View style={{flexDirection:'row',width:'94%',marginTop:5,marginLeft:'3%',alignItems:'center',justifyContent:'space-between'}}>
 
-            <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718'}}>{item.title}</Text>
+            <Text style={{fontSize:20,fontFamily:'Gilroy-Bold',color:'#161718',width:'70%'}}>{item.title}</Text>
+            
+
 
             <Button
-             style={{fontSize: 12, color: '#161718',fontFamily:'Exo2-Medium'}}
+             style={{fontSize: 12, color: '#161718',fontFamily:'Gilroy-Bold'}}
+             containerStyle={{backgroundColor:'#e3e3e3',width:80,height:24,borderRadius:4,justifyContent:'center',elevation:3}}
              onPress={()=>this.navigate2(item.title, item.all_package)}>
              View All
            </Button>
@@ -171,22 +174,22 @@ return(
 <TouchableOpacity
 onPress={()=>this.navigate(item.no_of_week,item.id,item)}>
  <ImageBackground source={{uri:item.image}}
- imageStyle={{ borderRadius: 12 }}
-  style={{width:220,height:120,margin:10}}>
+ imageStyle={{ borderRadius: 10 }}
+  style={{width:280,height:150,margin:10,resizeMode:'cover'}}>
 
-  <View style={{flexDirection:'row',width:'82%',marginLeft:'9%',marginTop:17,alignItems:'center',justifyContent:'space-between'}}>
+  <View style={{flexDirection:'row',width:'90%',marginLeft:'6.5%',marginTop:17,alignItems:'center',justifyContent:'space-between'}}>
 
-  <Button
-    style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
-    containerStyle={{width:76,height:23,borderRadius:3,backgroundColor:'white',justifyContent:'center'}}>
-    {item.package_type}
-  </Button>
+
+  <View style={{width:80,height:24,borderRadius:4,backgroundColor:'white',justifyContent:'center'}}>
+  <Text style={{fontSize: 10, color: '#242B37',fontFamily:'Gilroy-Bold',alignSelf:'center'}}>{item.package_type}</Text>
+  
+  </View>
 
 
 
   </View>
 
-  <Text style={{fontFamily:17,fontFamily:'Exo2-Medium',color:'white',marginTop:26,marginLeft:'9%',width:'75%'}}>{item.package_name}</Text>
+  <Text style={{fontSize:20,fontFamily:'Gilroy-Bold',color:'white',marginTop:38,marginLeft:'7%',width:'75%'}}>{item.package_name}</Text>
  </ImageBackground>
 
 </TouchableOpacity>
@@ -288,16 +291,18 @@ componentDidMount() {
 
            <View style={{flex:1,backgroundColor:'white'}}>
 
+
+
            <Image
                  source={{uri:this.state.image}}
-               style={{width: Dimensions.get('window').width-20,alignSelf:'center', height: 200,marginTop:5,resizeMode:'cover',borderRadius:6}}
+               style={{width: Dimensions.get('window').width-20,alignSelf:'center', height: 200,marginTop:5,marginBottom:5,resizeMode:'cover',borderRadius:6}}
 
 
            />
             <FlatList 
              data={this.state.FlatListItems}
              horizontal={false}
-             showsHorizontalScrollIndicator={false}
+             showsVerticalScrollIndicator={false}
              keyExtractor={this._keyExtractor}
              renderItem={this.renderItem}
              refreshControl={

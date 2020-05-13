@@ -161,16 +161,16 @@ this.setState({loading: false})
       </View>
 
 
-        <Text style={{fontSize:26,fontFamily:'Exo2-Regular',color:'black',marginLeft:38,marginTop:10}}>{yeah.name}</Text>
+        <Text style={{fontSize:26,fontFamily:'Gilroy-Bold',color:'black',marginLeft:38,marginTop:10}}>{yeah.name}</Text>
 
-        <Text style={{fontSize:19,fontFamily:'Exo2-Regular',color:'black',marginLeft:38,marginTop:7}}>{yeah.mobile}</Text>
+        <Text style={{fontSize:19,fontFamily:'Gilroy-Bold',color:'black',marginLeft:38,marginTop:7}}>{yeah.mobile}</Text>
 
         <ImageBackground source={require('./box.png')}
 
           style={{width:'100%',height:150,resizeMode:'contain',marginTop:19,shadowColor: '#00000012',shadowOffset: { width: 2, height: 2 },elevation:1}}>
 
-          <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#00000050',marginTop:40,marginLeft:38}}>Name</Text>
-          <Text style={{fontSize:21,fontFamily:'Exo2-Regular',color:'#161718',marginTop:3,marginLeft:38}}>{yeah.name}</Text>
+          <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#00000050',marginTop:40,marginLeft:38}}>Name</Text>
+          <Text style={{fontSize:21,fontFamily:'Gilroy-Bold',color:'#161718',marginTop:3,marginLeft:38}}>{yeah.name}</Text>
 
         </ImageBackground>
 
@@ -180,8 +180,8 @@ this.setState({loading: false})
 
           style={{width:'100%',height:150,resizeMode:'contain',marginTop:-40,shadowColor: '#00000012',shadowOffset: { width: 2, height: 2 },elevation:1}}>
 
-          <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#00000050',marginTop:40,marginLeft:38}}>Age</Text>
-          <Text style={{fontSize:21,fontFamily:'Exo2-Regular',color:'#161718',marginTop:3,marginLeft:38}}>{yeah.age}</Text>
+          <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#00000050',marginTop:40,marginLeft:38}}>Age</Text>
+          <Text style={{fontSize:21,fontFamily:'Gilroy-Bold',color:'#161718',marginTop:3,marginLeft:38}}>{yeah.age}</Text>
 
         </ImageBackground>
 
@@ -189,8 +189,8 @@ this.setState({loading: false})
 
           style={{width:'100%',height:150,resizeMode:'contain',marginTop:-40,shadowColor: '#00000012',shadowOffset: { width: 2, height: 2 },elevation:1}}>
 
-          <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#00000050',marginTop:40,marginLeft:38}}>Weight</Text>
-          <Text style={{fontSize:21,fontFamily:'Exo2-Regular',color:'#161718',marginTop:3,marginLeft:38}}>{yeah.weight}</Text>
+          <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#00000050',marginTop:40,marginLeft:38}}>Weight</Text>
+          <Text style={{fontSize:21,fontFamily:'Gilroy-Bold',color:'#161718',marginTop:3,marginLeft:38}}>{yeah.weight}</Text>
 
         </ImageBackground>
 
@@ -198,8 +198,8 @@ this.setState({loading: false})
 
           style={{width:'100%',height:150,resizeMode:'contain',marginTop:-40,shadowColor: '#00000012',shadowOffset: { width: 2, height: 2 },elevation:1}}>
 
-          <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#00000050',marginTop:40,marginLeft:38}}>Height</Text>
-          <Text style={{fontSize:21,fontFamily:'Exo2-Regular',color:'#161718',marginTop:3,marginLeft:38}}>{yeah.height}</Text>
+          <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#00000050',marginTop:40,marginLeft:38}}>Height</Text>
+          <Text style={{fontSize:21,fontFamily:'Gilroy-Bold',color:'#161718',marginTop:3,marginLeft:38}}>{yeah.height}</Text>
 
         </ImageBackground>
 

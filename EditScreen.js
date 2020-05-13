@@ -217,12 +217,12 @@ this.showLoading()
                         )}
                       </TouchableOpacity>
 
-       <Text style={{fontSize:20,fontFamily:'Exo2-Regular',color:'#161718',alignSelf:'center',marginTop:13}}>Change Photo</Text>
+       <Text style={{fontSize:20,fontFamily:'Gilroy-Bold',color:'#161718',alignSelf:'center',marginTop:13}}>Change Photo</Text>
 
-       <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#00000050',marginTop:48,marginLeft:'8%'}}>Name</Text>
+       <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#00000050',marginTop:48,marginLeft:'8%'}}>Name</Text>
 
        <TextInput
-         style={{fontSize:21,fontFamily:'Exo2-Regular',color:'#000000',width:'86%',height:46,marginLeft:'7.2%',marginTop:3}}
+         style={{fontSize:21,fontFamily:'Gilroy-Bold',color:'#000000',width:'86%',height:46,marginLeft:'7.2%',marginTop:3}}
          placeholder="name"
          placeholderTextColor="#000000"
          maxLength={40}
@@ -236,10 +236,10 @@ this.showLoading()
            </View>
 
 
-           <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#00000050',marginTop:20,marginLeft:'8%'}}>Age</Text>
+           <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#00000050',marginTop:20,marginLeft:'8%'}}>Age</Text>
 
            <TextInput
-             style={{fontSize:21,fontFamily:'Exo2-Regular',color:'#000000',width:'86%',height:46,marginLeft:'7.2%',marginTop:3}}
+             style={{fontSize:21,fontFamily:'Gilroy-Bold',color:'#000000',width:'86%',height:46,marginLeft:'7.2%',marginTop:3}}
              placeholder="years"
              placeholderTextColor="#000000"
              keyboardType="numeric"
@@ -251,10 +251,10 @@ this.showLoading()
              <View style={{height:2,width:'88%',alignSelf:'center',backgroundColor:'#0000001A'}}>
              </View>
 
-             <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#00000050',marginTop:20,marginLeft:'8%'}}>Weight</Text>
+             <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#00000050',marginTop:20,marginLeft:'8%'}}>Weight</Text>
 
              <TextInput
-               style={{fontSize:21,fontFamily:'Exo2-Regular',color:'#000000',width:'86%',height:46,marginLeft:'7.2%',marginTop:3}}
+               style={{fontSize:21,fontFamily:'Gilroy-Bold',color:'#000000',width:'86%',height:46,marginLeft:'7.2%',marginTop:3}}
                placeholder="kgs"
                placeholderTextColor="#000000"
                keyboardType="numeric"
@@ -267,10 +267,10 @@ this.showLoading()
                </View>
 
 
-               <Text style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#00000050',marginTop:20,marginLeft:'8%'}}>Height</Text>
+               <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#00000050',marginTop:20,marginLeft:'8%'}}>Height</Text>
 
                <TextInput
-                 style={{fontSize:21,fontFamily:'Exo2-Regular',color:'#000000',width:'86%',height:46,marginLeft:'7.2%',marginTop:3}}
+                 style={{fontSize:21,fontFamily:'Gilroy-Bold',color:'#000000',width:'86%',height:46,marginLeft:'7.2%',marginTop:3}}
                  placeholder="cm"
                  placeholderTextColor="#000000"
                  keyboardType="numeric"

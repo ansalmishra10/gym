@@ -78,6 +78,7 @@ this.hideLoading()
 
           if (responseJson.status == true) {
                this.setState({FlatListItems: responseJson.category })
+               // alert(JSON.stringify(this.state.FlatListItems))
 
 arrayholder = responseJson.category
           }
@@ -234,13 +235,13 @@ this.props.navigation.navigate('VideoScreen')
 
                   </Image>
                   <View style={{flexDirection:'column',width:'98%'}}>
-                   <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:12}}>{item.title}</Text>
+                   <Text style={{fontSize:18,fontFamily:'Gilroy-Bold',color:'#161718',marginLeft:12,width:'70%'}}>{item.title}</Text>
 
                    <View style={{flexDirection:'row',marginTop:6,marginLeft:13,justifyContent:'space-between',width:'60%'}}>
 
-                    <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>{item.body_parts}</Text>
+                    <Text style={{fontSize:12,fontFamily:'Gilroy-Bold',color:'#00000066'}}>{item.body_parts}</Text>
                     <View style = {{flexDirection:'row',width:'42%',alignItems:'center'}}>
-                    <Text style={{fontSize:12,fontFamily:'Exo2-Regular',color:'#00000066'}}>Level</Text>
+                    <Text style={{fontSize:12,fontFamily:'Gilroy-Bold',color:'#00000066'}}>Level</Text>
 
                     <View style={{margin:5}}>
                     <Stars
@@ -250,6 +251,7 @@ this.props.navigation.navigate('VideoScreen')
                       spacing={2}
                       fullStar={require('./blackcircle.png')}
                       emptyStar={require('./greycircle.png')}
+                      disabled={true}
                        />
                     </View>
 
@@ -379,7 +381,7 @@ arrayholder = responseJson.category
                        source={require('./search.png')} />
 
                        <TextInput
-                         style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#23222280',width:'84%',height:36,paddingBottom:8,marginLeft:2}}
+                         style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#23222280',width:'84%',height:36,paddingBottom:8,marginLeft:2}}
                          placeholder="Search"
                          placeholderTextColor="#23222280"
 
@@ -398,7 +400,7 @@ arrayholder = responseJson.category
 
                 <Button
                onPress={()=>this.call()}
-                  style={{fontSize: 17, color: '#161718',fontFamily:'Exo2-Regular'}}>
+                  style={{fontSize: 17, color: '#161718',fontFamily:'Gilroy-Bold'}}>
                   Cancel
                 </Button>
 

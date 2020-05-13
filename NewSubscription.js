@@ -30,6 +30,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PulseIndicator } from 'react-native-indicators';
 import { WebView } from 'react-native-webview';
 import Header from 'react-native-custom-headers';
+import VideoPlayer from 'react-native-video-controls';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -69,7 +70,7 @@ var amount = parseFloat(item.amount) * 100
 
 var d = `Order_Package_${GLOBAL.user_id}_${item.id}`
 
-  alert(JSON.stringify(amount))
+  // alert(JSON.stringify(amount))
 
   var options = {
       description: d,
@@ -217,8 +218,14 @@ componentDidMount() {
            <View style={{width:'100%',height:300}}>
 
   
-
-          <WebView source={{ uri: this.state.image.video }} />
+           <VideoPlayer
+             source={{ uri: this.state.image.video }}
+             navigator={ this.props.na00vigator }
+             repeat
+             controlTimeout={1000}
+             onBack={()=>this.props.navigation.goBack()}
+             />
+          
 
              
 
@@ -226,22 +233,25 @@ componentDidMount() {
 
 
            </View>
-            <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',margin:10}}>Amount : Rs {GLOBAL.getPack.amount}</Text>
+            <Text style={{fontSize:18,fontFamily:'Gilroy-Bold',color:'#161718',marginTop:10,marginLeft:15}}>Amount : Rs {GLOBAL.getPack.amount}</Text>
            <View style = {{margin:5}}>
-
-
-           <HTML style = {{margin:10}} html={this.state.image.title} imagesMaxWidth={Dimensions.get('window').width} />
+            
+           <View  style={{marginLeft:'5%',width:'90%'}}>
+           <HTML  html={this.state.image.title} imagesMaxWidth={Dimensions.get('window').width} />
+           </View>
  
 
 {this.state.image.payment_status == "Paid" && (
   <Button onPress={()=> this.access(GLOBAL.getPack)}
-   style={{fontSize:17,paddingTop:10,marginTop:10,backgroundColor:'black',fontFamily:'Exo2-Medium',color:'white',width:'90%',alignSelf:'center',height:40}}>
+   style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'white',alignSelf:'center'}}
+   containerStyle={{marginTop:10,backgroundColor:'black',borderRadius:6,width:'90%',height:44,justifyContent:'center',marginLeft:'5%'}}>
    PAY
   </Button>
 )}
 {this.state.image.payment_status != "Paid" && (
   <Button onPress={()=> this.props.navigation.navigate('WeekScreen')}
-   style={{fontSize:17,marginTop:10,paddingTop:10,backgroundColor:'black',fontFamily:'Exo2-Medium',color:'white',width:'90%',alignSelf:'center',height:40}}>
+   style={{fontSize:18,fontFamily:'Gilroy-Bold',color:'white',alignSelf:'center'}}
+   containerStyle={{marginTop:10,backgroundColor:'black',borderRadius:6,width:'90%',height:44,justifyContent:'center',marginLeft:'5%'}}>
    PROCEED
   </Button>
 )}

@@ -153,13 +153,13 @@ navigate=(video, level, muscle_group, equipment_required, work_out_name, duratio
 
 
 
-          <View style={{flexDirection:'column',marginLeft:15}}>
+          <View style={{flexDirection:'column',marginLeft:15,width:'70%'}}>
 
 
 
-          <Text style={{fontSize:20,fontFamily:'Exo2-Medium',color:'#161718',marginTop:10}}>{item.work_out_name}</Text>
+          <Text style={{fontSize:20,fontFamily:'Gilroy-Bold',color:'#161718',marginTop:12,width:'100%'}}>{item.work_out_name}</Text>
 
-          <Text style={{fontSize:12,fontFamily:'Exo2-Medium',color:'#00000066',marginTop:4}}>{item.duration} Sec</Text>
+          <Text style={{fontSize:12,fontFamily:'Gilroy-Bold',color:'#00000066',marginTop:5}}>{item.duration}</Text>
 
 
 

@@ -102,19 +102,19 @@ class LibraryScreen extends React.Component {
     style={{width:'100%',height:220,resizeMode:'stretch',marginTop:15}}
     imageStyle={{borderRadius:12}}>
 
-    <View style={{flexDirection:'row',width:'82%',marginLeft:'9%',marginTop:17,alignItems:'center',justifyContent:'space-between'}}>
-
-    <Button
-      style={{fontSize: 10, color: '#242B37',fontFamily:'Exo2-Medium'}}
-      containerStyle={{width:76,height:23,borderRadius:3,backgroundColor:'white',justifyContent:'center'}}>
-      {item.package_type}
-    </Button>
+    <View style={{flexDirection:'row',width:'90%',marginLeft:'6%',marginTop:25,alignItems:'center',justifyContent:'space-between'}}>
+    
+    <View style={{width:90,height:28,borderRadius:4,backgroundColor:'white',justifyContent:'center'}}>
+      <Text style={{fontSize: 11, color: '#242B37',fontFamily:'Gilroy-Bold',alignSelf:'center'}}>{item.package_type}</Text>
+  
+    </View>
+    
 
 
 
     </View>
 
-    <Text style={{fontFamily:17,fontFamily:'Exo2-Medium',color:'white',marginTop:26,marginLeft:'9%',width:'75%'}}>{item.package_name}</Text>
+    <Text style={{fontSize:22,fontFamily:'Gilroy-Bold',color:'white',marginTop:80,marginLeft:'6.5%',width:'75%'}}>{item.package_name}</Text>
    </ImageBackground>
 
   </TouchableOpacity>
@@ -154,7 +154,7 @@ _keyExtractor=(item, index)=>item.key;
                         </View>
 
 
-                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20}}>
+                        <Text style = {{color:'white',fontFamily:'Exo2-Bold',fontSize: 20,marginLeft:20,width:'80%'}}>
                             {GLOBAL.maintitle}
                         </Text>
 

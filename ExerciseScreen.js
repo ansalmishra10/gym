@@ -40,7 +40,9 @@ class ExerciseScreen extends React.Component {
  }
    }
 
-
+    componentDidMount () {
+      // alert(JSON.stringify(GLOBAL.worklevel))
+    }
 
 
   render() {
@@ -57,11 +59,11 @@ class ExerciseScreen extends React.Component {
       var res = str.split(",");
 
       const renderedButtons =  res.map((b, index) => {
-         return <Button
-                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:12}}>
-                {b}
-                </Button>
+         return <View style={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:12}}>
+            <Text style={{fontSize: 12, color: 'white',fontFamily:'Gilroy-Bold',alignSelf:'center'}}>{b}</Text>
+          </View>
+
+         
 
        })
 
@@ -70,11 +72,20 @@ class ExerciseScreen extends React.Component {
       var news = str2.split(",");
 
       const renderedButton1 =  news.map((a, index) => {
-         return <Button
-                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:12}}>
-                {a}
-                </Button>
+         return <View style={{width:92,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:12}}>
+                      <Text style={{fontSize: 12, color: 'white',fontFamily:'Gilroy-Bold',alignSelf:'center'}}>{a}</Text>
+                </View>
+
+       })
+
+
+       var str3 = GLOBAL.workequip
+      var weigh = str3.split(",");
+
+      const renderedButton2 =  weigh.map((c, index) => {
+         return <View style={{width:128,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:12}}>
+                      <Text style={{fontSize: 12, color: 'white',fontFamily:'Gilroy-Bold',alignSelf:'center'}}>{c}</Text>
+                </View>
 
        })
 
@@ -88,11 +99,17 @@ class ExerciseScreen extends React.Component {
             <ScrollView style={{flex:1,backgroundColor:'white'}}>
 
 
-             <View  style={{width:'100%',height:Dimensions.get('window').height/2-80,resizeMode:'contain'}}>
+             <View  style={{width:'100%',height:Dimensions.get('window').height/2-20,resizeMode:'contain'}}>
                
 
-               <WebView source={{ uri: GLOBAL.workvideo }} />
-
+               
+               
+               <VideoPlayer
+             source={{ uri: GLOBAL.workvideo }}
+             navigator={ this.props.navigator }
+             repeat
+             onBack={()=>this.props.navigation.goBack()}
+             />
                
                 
         
@@ -108,40 +125,35 @@ class ExerciseScreen extends React.Component {
 
 
 
-              <Text style={{fontSize:22,fontFamily:'Exo2-Medium',color:'#000000',marginTop:13,marginLeft:'5%'}}>{GLOBAL.workname2}</Text>
+              <Text style={{fontSize:22,fontFamily:'Gilroy-Bold',color:'#000000',marginTop:12,marginLeft:'5%',width:'90%'}}>{GLOBAL.workname2}</Text>
 
-              <Text style={{fontSize:16,fontFamily:'Exo2-Medium',color:'#00000066',marginTop:5,marginLeft:'5%'}}>{GLOBAL.worktime} seconds</Text>
+              <Text style={{fontSize:14,fontFamily:'Gilroy-Bold',color:'#00000066',marginTop:5,marginLeft:'5%',width:'90%'}}>{GLOBAL.worktime}</Text>
 
-              <Text style={{fontSize:20,fontFamily:'Exo2-Medium',color:'#0000004D',marginTop:18,marginLeft:'5%'}}>Level</Text>
+              <Text style={{fontSize:20,fontFamily:'Exo2-Medium',color:'#0000004D',marginTop:15,marginLeft:'5%'}}>Level</Text>
 
-              <View style={{flexDirection:'row',alignItems:'center',width:'80%',marginTop:16,marginLeft:7}}>
+              <View style={{flexDirection:'row',alignItems:'center',width:'80%',marginTop:12,marginLeft:7}}>
                {renderedButtons}
 
 
               </View>
 
-              <Text style={{fontSize:20,fontFamily:'Exo2-Medium',color:'#0000004D',marginTop:20,marginLeft:'5%'}}>Muscle groups</Text>
+              <Text style={{fontSize:20,fontFamily:'Exo2-Medium',color:'#0000004D',marginTop:15,marginLeft:'5%'}}>Muscle groups</Text>
 
-              <View style={{flexDirection:'row',alignItems:'center',width:'90%',marginTop:16,marginLeft:7}}>
+              <View style={{flexDirection:'row',alignItems:'center',width:'90%',marginTop:12,marginLeft:7}}>
 
                 {renderedButton1}
 
               </View>
 
-              <Text style={{fontSize:20,fontFamily:'Exo2-Medium',color:'#0000004D',marginTop:20,marginLeft:'5%'}}>Equipment Required</Text>
+              <Text style={{fontSize:20,fontFamily:'Exo2-Medium',color:'#0000004D',marginTop:15,marginLeft:'5%'}}>Equipment Required</Text>
 
-              <Button
-                style={{fontSize: 12, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:128,height:28,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginLeft:'5%',marginTop:16}}>
-                {GLOBAL.workequip}
-              </Button>
+              <View style={{flexDirection:'row',alignItems:'center',width:'90%',marginTop:12,marginLeft:7}}>
 
-              <Button
-                style={{fontSize: 18, color: 'white',fontFamily:'Exo2-Medium'}}
-                containerStyle={{width:'90%',height:50,borderRadius:3,backgroundColor:'#161718',justifyContent:'center',marginTop:85,marginLeft:'5%',marginBottom:20}}
-                onPress={()=>this.props.navigation.goBack()}>
-                Next Exercise
-              </Button>
+                {renderedButton2}
+
+              </View>
+
+              
 
 
             </ScrollView>

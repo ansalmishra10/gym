@@ -263,7 +263,7 @@ this.props.navigation.navigate('VideoScreen')
 
                   </Image>
                   <View style={{flexDirection:'column',width:'98%'}}>
-                   <Text style={{fontSize:18,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:12}}>{item.title}</Text>
+                   <Text style={{fontSize:18,fontFamily:'Gilroy-Bold',color:'#161718',marginLeft:12}}>{item.title}</Text>
 
                    <View style={{flexDirection:'row',marginTop:6,marginLeft:13,justifyContent:'space-between',width:'60%'}}>
 
@@ -388,7 +388,7 @@ this.props.navigation.navigate('VideoScreen')
 
 
 
-           <View style={{flexDirection:'row',width:'90%',marginLeft:'5%',marginTop:15,alignItems:'center',justifyContent:'space-between'}}>
+           <View style={{flexDirection:'row',width:'90%',marginLeft:'5%',marginTop:15,alignItems:'center',justifyContent:'space-between',backgroundColor:'yellow'}}>
 
                 <View style={{flexDirection:'row',width:'83%',backgroundColor:'#8E8E931F',borderRadius:10,alignItems:'center',height:36}}>
 
@@ -396,7 +396,7 @@ this.props.navigation.navigate('VideoScreen')
                        source={require('./search.png')} />
 
                        <TextInput
-                         style={{fontSize:17,fontFamily:'Exo2-Regular',color:'#23222280',width:'84%',height:36,paddingBottom:8,marginLeft:2}}
+                         style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#23222280',width:'84%',height:36,paddingBottom:8,marginLeft:2}}
                          placeholder="Search"
                          placeholderTextColor="#23222280"
 

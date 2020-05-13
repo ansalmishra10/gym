@@ -146,9 +146,9 @@ class ForgetScreen extends React.Component {
                 source={require('./close.png')}/>
                </TouchableOpacity>
 
-               <View style={{flexDirection:'column',alignItems:'center',alignSelf:'center',marginTop:'34%'}}>
-               <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',}}>Forget</Text>
-               <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',marginTop:-10}}>Password?</Text>
+               <View style={{flexDirection:'column',alignItems:'center',alignSelf:'center',marginTop:'34%',width:'90%'}}>
+               <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'100%',textAlign:'center'}}>Forget</Text>
+               <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'100%',textAlign:'center',marginTop:-10}}>Password?</Text>
                </View>
 
                <Text style={{fontSize:14,fontFamily:'Exo2-Medium',color:'rgba(255, 255, 255, 0.6)',marginTop:'5%',alignSelf:'center'}}>Don't Worry Just Enter Your Mobile No, And We</Text>

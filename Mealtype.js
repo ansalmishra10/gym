@@ -41,14 +41,17 @@ class Meal extends React.Component {
 
 
 
-  transfer=(image, fat, carbs, protein, method, ingredients)=> {
-
+  transfer=(image, fat, carbs, protein, method, ingredients, meal_name, calories)=> {
+      
+      // alert(JSON.stringify(calories))
+     GLOBAL.calories = calories
      GLOBAL.mealimage = image
      GLOBAL.fat = fat
      GLOBAL.carbs = carbs
      GLOBAL.protein = protein
      GLOBAL.mealMet = method
      GLOBAL.mealIng = ingredients
+     GLOBAL.mealname = meal_name
 
      // alert(JSON.stringify(GLOBAL.mealimage))
        this.props.navigation.navigate('MealDetail')
@@ -87,6 +90,7 @@ this.hideLoading()
             
              this.setState({FlatListItems: responseJson.meal })
               this.setState({packid : responseJson.status })
+               // alert(JSON.stringify(this.state.FlatListItems))
 
                 
          }
@@ -112,7 +116,7 @@ return(
 <View>
 
    <TouchableOpacity style={{marginTop:10}}
-    onPress={()=>this.transfer(item.image, item.fat, item.carbs, item.protein ,item.method ,item.ingredients)}>
+    onPress={()=>this.transfer(item.image, item.fat, item.carbs, item.protein ,item.method ,item.ingredients,item.meal_name,item.calories)}>
 
      <View style={{flexDirection:'column',margin:10,alignItems:'center'}}>
 
@@ -120,7 +124,7 @@ return(
         <Image style={{width:170,height:150,resizeMode:'cover',borderRadius:10}}
          source={{uri:item.image}}/>
 
-        <Text style={{textAlign:'center',fontSize: 18, color: '#161718',fontFamily:'Exo2-Medium',width:160}}>{item.meal_name}</Text>
+        <Text style={{textAlign:'center',fontSize: 18, color: '#161718',fontFamily:'Gilroy-Bold',width:160,marginTop:5}}>{item.meal_name}</Text>
 
 
 

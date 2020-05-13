@@ -219,8 +219,8 @@ class LoginScreen extends React.Component {
 
 
 
-           <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',textAlign:'center',marginTop:'31%'}}>Login to</Text>
-           <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',marginTop:-5}}>Your Account</Text>
+           <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'90%',alignSelf:'center',textAlign:'center',marginTop:'31%'}}>Login to</Text>
+           <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'90%',alignSelf:'center',marginTop:-5,textAlign:'center'}}>Your Account</Text>
 
            <View style={{backgroundColor: 'rgba(0,0,0,0.4)',marginLeft:'5%',width:'90%',height:46,borderRadius:10,marginTop:25}}>
            <TextInput

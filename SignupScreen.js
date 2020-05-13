@@ -151,12 +151,12 @@ body: JSON.stringify({
     }
     return(
       <View style={{flex:1,backgroundColor:'transparent'}}>
-      <ImageBackground style={{resizeMode:'contain',height:'100%',width:'100%'}} source={require('./signup.png')}>
+      <ImageBackground style={{resizeMode:'contain',height:'100%',width:'100%'}} source={require('./login.png')}>
       <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
 
 
-      <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',textAlign:'center',marginTop:'31%'}}>Create New</Text>
-      <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',textAlign:'center',marginTop:-8}}>Account</Text>
+      <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'90%',alignSelf:'center',textAlign:'center',marginTop:'31%'}}>Create New</Text>
+      <Text style={{fontSize:42,fontFamily:'Exo2-Medium',color:'white',width:'90%',alignSelf:'center',textAlign:'center',marginTop:-8}}>Account</Text>
 
       <View style={{backgroundColor: 'rgba(0,0,0,0.3)',marginLeft:'5%',width:'90%',height:46,borderRadius:10,marginTop:26}}>
             <TextInput

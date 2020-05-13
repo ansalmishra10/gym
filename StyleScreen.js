@@ -23,7 +23,8 @@ import {
 
 import React, {Component} from 'react';
 import Swiper from 'react-native-swiper';
-import Video from 'react-native-video';
+
+import { WebView } from 'react-native-webview';
 
 
  class StyleScreen extends React.Component {
@@ -44,47 +45,39 @@ import Video from 'react-native-video';
             paginationStyle={{position:'absolute',bottom:76,left:'73.5%',width:'20%'}} loop>
 
            <View style={{flex:1,backgroundColor: 'transparent'}}>
-            <Video
-            source={require('./splashvideo.mp4')}
-            autoplay
-            resizeMode="cover"
-            style={{position: 'absolute',top: 0, left: 0, bottom: 0, right: 0}}
-            repeat = {true}
-            />
+
+
+            <ImageBackground style={{resizeMode:'cover',height:'100%',width:'100%'}} source={require('./style1.png')}>
             
 
             
-            <Text style={{fontSize:32,fontFamily:'Exo2-SemiBold',color:'white',width:'70%',position:'absolute',left:'7%',bottom:230}}>HANDPICKED WORKOUTS</Text>
-            <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'white',width:'84%',position:'absolute',left:'7%',bottom:159}}>Workout anywhere! Home, Gym or Travel, get the most effective Workout suited to your level of training.</Text>
+            <Text style={{fontSize:32,fontFamily:'Gilroy-Bold',color:'white',width:'70%',position:'absolute',left:'7%',bottom:230}}>HANDPICKED WORKOUTS</Text>
+            <Text style={{fontSize:15,fontFamily:'Gilroy-Bold',color:'white',width:'84%',position:'absolute',left:'7%',bottom:159}}>Workout anywhere! Home, Gym or Travel, get the most effective Workout suited to your level of training.</Text>
             <TouchableOpacity style={{height:60,width:150,backgroundColor:'white',borderRadius:10,position:'absolute',left:'7%',bottom:53,justifyContent:'center'}}
             onPress={()=> this.props.navigation.navigate('LoginScreen')}>
-            <Text style={{fontSize:17,fontFamily:'Exo2-SemiBold',color:'#161718',alignSelf:'center'}}>Get Started</Text>
+            <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#161718',alignSelf:'center'}}>Get Started</Text>
             </TouchableOpacity>
             
+            </ImageBackground>
             
             </View>
 
            <View style={{flex:1,backgroundColor: 'transparent'}}>
-            <Video
-               source={require('./nutrition.mp4')}
-               resizeMode="cover"
-               autoplay
-               style={{position: 'absolute',top: 0, left: 0, bottom: 0, right: 0}}
-               repeat = {true}
-               />
+            <ImageBackground style={{resizeMode:'cover',height:'100%',width:'100%'}} source={require('./style2.png')}>
+            
 
 
             
             
-            <Text style={{fontSize:32,fontFamily:'Exo2-SemiBold',color:'white',width:'70%',position:'absolute',left:'7%',bottom:230}}>NUTRITION</Text>
-            <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'white',width:'84%',position:'absolute',left:'7%',bottom:159}}>Get Personalised meal plans and Recipes suited to your need, all created by our in-house certified nutritionists and dieticians.</Text>
+            <Text style={{fontSize:32,fontFamily:'Gilroy-Bold',color:'white',width:'70%',position:'absolute',left:'7%',bottom:230}}>NUTRITION</Text>
+            <Text style={{fontSize:15,fontFamily:'Gilroy-Bold',color:'white',width:'84%',position:'absolute',left:'7%',bottom:159}}>Get Personalised meal plans and Recipes suited to your need, all created by our in-house certified nutritionists and dieticians.</Text>
             <TouchableOpacity style={{height:60,width:150,backgroundColor:'white',borderRadius:10,position:'absolute',left:'7%',bottom:53,justifyContent:'center'}}
             onPress={()=> this.props.navigation.navigate('LoginScreen')}>
 
-            <Text style={{fontSize:17,fontFamily:'Exo2-SemiBold',color:'#161718',alignSelf:'center'}}>Get Started</Text>
+            <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#161718',alignSelf:'center'}}>Get Started</Text>
             </TouchableOpacity>
 
-
+             </ImageBackground>
 
             
            </View>
@@ -94,11 +87,11 @@ import Video from 'react-native-video';
             <ImageBackground style={{resizeMode:'cover',height:'100%',width:'100%'}} source={require('./style3.jpeg')}>
 
              
-            <Text style={{fontSize:32,fontFamily:'Exo2-SemiBold',color:'white',width:'70%',position:'absolute',left:'7%',bottom:230}}>RELAX AND REPAIR</Text>
-            <Text style={{fontSize:15,fontFamily:'Exo2-Medium',color:'white',width:'84%',position:'absolute',left:'7%',bottom:159}}>Dive into your strongest soul and the freshest mind with our Relaxation Techniques and Yoga Programmes.</Text>
+            <Text style={{fontSize:32,fontFamily:'Gilroy-Bold',color:'white',width:'70%',position:'absolute',left:'7%',bottom:230}}>RELAX AND REPAIR</Text>
+            <Text style={{fontSize:15,fontFamily:'Gilroy-Bold',color:'white',width:'84%',position:'absolute',left:'7%',bottom:159}}>Dive into your strongest soul and the freshest mind with our Relaxation Techniques and Yoga Programmes.</Text>
             <TouchableOpacity style={{height:60,width:150,backgroundColor:'white',borderRadius:10,position:'absolute',left:'7%',bottom:53,justifyContent:'center'}}
             onPress={()=> this.props.navigation.navigate('LoginScreen')}>
-            <Text style={{fontSize:17,fontFamily:'Exo2-SemiBold',color:'#161718',alignSelf:'center'}}>Get Started</Text>
+            <Text style={{fontSize:17,fontFamily:'Gilroy-Bold',color:'#161718',alignSelf:'center'}}>Get Started</Text>
             </TouchableOpacity>
             
 

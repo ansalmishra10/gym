@@ -83,15 +83,15 @@ class SupportScreen extends React.Component {
             <TouchableOpacity style={{height:90,width:'90%',marginLeft:'5%',borderRadius:12,elevation:2,backgroundColor:'white',marginTop:20,shadowOffset: {width: 2,height: 2},shadowColor: '#00000014'}}
              onPress={()=>this.onEmail()}>
 
-              <Text style={{fontSize:16,fontFamily:'Exo2-Regular',color:'#242B3780',marginLeft:22,marginTop:20}}>Email</Text>
-              <Text style={{fontSize:20,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:22,marginTop:2}}>support@gym.in</Text>
+              <Text style={{fontSize:16,fontFamily:'Gilroy-Bold',color:'#242B3780',marginLeft:22,marginTop:20}}>Email</Text>
+              <Text style={{fontSize:20,fontFamily:'Gilroy-Bold',color:'#161718',marginLeft:22,marginTop:2}}>support@gym.in</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={{height:90,width:'90%',marginLeft:'5%',borderRadius:12,elevation:2,backgroundColor:'white',marginTop:20,shadowOffset: {width: 2,height: 2},shadowColor: '#00000014'}}
             onPress={()=>this.onCall()}>
 
-              <Text style={{fontSize:16,fontFamily:'Exo2-Regular',color:'#242B3780',marginLeft:22,marginTop:20}}>Phone</Text>
-              <Text style={{fontSize:20,fontFamily:'Exo2-Regular',color:'#161718',marginLeft:22,marginTop:2}}>+91 987654321</Text>
+              <Text style={{fontSize:16,fontFamily:'Gilroy-Bold',color:'#242B3780',marginLeft:22,marginTop:20}}>Phone</Text>
+              <Text style={{fontSize:20,fontFamily:'Gilroy-Bold',color:'#161718',marginLeft:22,marginTop:2}}>+91 987654321</Text>
             </TouchableOpacity>
 
 

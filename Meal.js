@@ -79,7 +79,7 @@ this.hideLoading()
 
          if (responseJson.status == true) {
               this.setState({FlatListItems: responseJson.meal_category })
-
+              // alert(JSON.stringify(this.state.FlatListItems))
               
 
          }
@@ -115,7 +115,7 @@ return(
 
 
 <View style = {{position:'absolute', top :40,right:30,height:30,width:100,backgroundColor:'black',borderRadius:4}}>
-        <Text style={{textAlign:'center',fontSize: 12, color: '#161718',fontFamily:'Exo2-Medium',color:'white',marginTop:6}}>{item.title}</Text>
+        <Text style={{textAlign:'center',fontSize: 12, color: '#161718',fontFamily:'Gilroy-Bold',color:'white',marginTop:6}}>{item.title}</Text>
 </View>
 
 
