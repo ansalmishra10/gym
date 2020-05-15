@@ -44,11 +44,11 @@ class Notification extends Component<Props> {
       <View style={{flexDirection: 'row',flex : 1, backgroundColor:'white',borderRadius:5,  width : window.width-20 ,marginLeft : 10,marginRight:10,marginTop:10,marginBottom:5,elevation:2}}>
     <Image style={{width:30, height:30, resizeMode:'contain', margin:12}} source={require('./blackbell.png')}/>
     <View style={{flexDirection:'column', margin:10, width: '82%'}}>
-     <Text style={{fontSize:16, color:'#21262C', fontFamily: 'Poppins-Medium'}}>{item.item.title}</Text>
-     <Text style={{fontSize:13, marginRight:10,fontFamily: 'Poppins-Regular'}}>{item.item.message}</Text>
+     <Text style={{fontSize:16, color:'#21262C', fontFamily: 'Gilroy-Bold'}}>{item.item.title}</Text>
+     <Text style={{fontSize:13, marginRight:10,fontFamily: 'Gilroy-Bold'}}>{item.item.message}</Text>
      <View style={{flexDirection:'row', width: '100%', alignItems:'flex-end', justifyContent: 'flex-end'}}>
       <Image style={{width: 18, height: 18, resizeMode: 'contain'}} source={require('./clocklogo.png')}/>
-      <Text style={{fontSize:13,marginTop: 10,marginLeft: 10,marginRight:10,  color:'#7E7E7E'}}>{item.item.created_at}</Text>
+      <Text style={{fontSize:13,fontFamily:'Gilroy-Bold',marginTop: 10,marginLeft: 10,marginRight:10,  color:'#7E7E7E'}}>{item.item.created_at}</Text>
          </View>
 
 </View>
@@ -144,7 +144,7 @@ componentDidMount(){
 
     <ScrollView style={{flex:1,backgroundColor:'white'}}>
 {this.state.notificationslist.length == 0 &&(
-    <Text style={{fontSize:20, margin:10,alignSelf:'center', fontFamily: 'Poppins-Medium'}}>No new notifications!</Text>
+    <Text style={{fontSize:20, margin:10,alignSelf:'center', fontFamily: 'Gilroy-Bold'}}>No new notifications!</Text>
   )}
 
   {this.state.notificationslist.length !=0 &&(

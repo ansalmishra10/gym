@@ -121,7 +121,7 @@ body: JSON.stringify({
 
     return(
       <View style={{flex:1}}>
-      <ImageBackground style={{resizeMode:'contain',height:'100%',width:'100%'}} source={require('./otp.png')}>
+      <ImageBackground style={{resizeMode:'contain',height:'100%',width:'100%'}} source={require('./login.png')}>
       <KeyboardAwareScrollView>
 
       <Text style={{fontSize:41,fontFamily:'Exo2-Medium',color:'white',width:'65%',alignSelf:'center',textAlign:'center',marginTop:'52%'}}>Verify your</Text>

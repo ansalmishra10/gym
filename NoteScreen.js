@@ -178,6 +178,70 @@ class NoteScreen extends React.Component {
 
              </View>
 
+             <Modal
+                         animationType="slide"
+                         transparent={true}
+                         visible={this.state.modalVisible}
+                         onRequestClose={() => {
+              //             Alert.alert('Modal has been closed.');
+                           this.setModalVisible(!this.state.modalVisible)
+                         }}>
+                         <TouchableOpacity
+                          style={{
+                                   flex: 1,
+                                   flexDirection: 'column',
+                                   justifyContent: 'center',backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                   alignItems: 'center'}}
+                          activeOpacity={1}
+                          onPressOut={() => {this.setModalVisible(false)}}
+                        >
+                         <View style={{
+
+                                   flexDirection: 'column',
+                                   justifyContent: 'center',backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                   alignItems: 'center'}}>
+                             <View style={{
+                                     width: 300,backgroundColor: 'white',
+                                     height: 300}}>
+                                     <View style={{width: '95%', margin: 10}}>
+
+                                     <TextInput
+                                       style={{fontSize:17,fontFamily:'Exo2-Medium',color:'#242B3766',width:'98%',height:'auto'}}
+                                       placeholder="Your text here…"
+                                       placeholderTextColor="#242B3766"
+                                       keyboardType="numeric"
+                                       maxLength={12}
+                                       onChangeText={(text) => this.setState({phone: text})}
+                                       value={this.state.phone}
+                                       />
+
+
+                                    <View style={{borderBottomWidth:2,borderColor:'#0000004D',width:'98%',marginTop:'63%'}}>
+                                    </View>
+
+                                    <View style={{flexDirection:'row',width:'55%',alignItems:'center',justifyContent:'space-between',marginTop:17,alignSelf:'flex-end',marginRight:6}}>
+
+                                     <Button
+                                      style={{fontSize:17,fontFamily:'Exo2-Medium',color:'#242B37'}}>
+                                      CANCEL
+                                     </Button>
+
+                                     <Button
+                                      style={{fontSize:17,fontFamily:'Exo2-Medium',color:'#242B37'}}>
+                                      CONFIRM
+                                     </Button>
+
+                                     </View>
+
+                                    </View>
+
+
+                             </View>
+
+                         </View>
+                         </TouchableOpacity>
+                       </Modal>
+
 
 
 
