@@ -61,17 +61,7 @@ class SettingScreen extends React.Component {
          
        this.props.navigation.navigate('LoginScreen') 
 
-      // this.props
-      //       .navigation
-      //       .dispatch(StackActions.reset({
-      //           index: 0,
-      //           actions: [
-      //               NavigationActions.navigate({
-      //                   routeName: 'LoginScreen',
-      //                   params: { someParams: 'parameters goes here...' },
-      //               }),
-      //           ],
-      //       }))
+      
 
     }
 
